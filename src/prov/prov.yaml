@@ -1,0 +1,13 @@
+id: http://www.w3.org/ns/prov#
+name: Provenance
+prefixes:
+  prov: http://www.w3.org/ns/prov#
+
+# This is deliberately a subset
+
+default_prefix: prov
+classes:
+  Activity:
+    class_uri: prov:Activity
+  Entity:
+    class_uri: prov:Entity

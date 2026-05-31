@@ -1,0 +1,25 @@
+[project]
+name = "MIRA"
+version = "0.1"
+description = "Schema for mira.science and discoursegraphs.com"
+requires-python = ">=3.14"
+authors = [{ name = "Marc-Antoine Parent", email = "maparent@conversence.com" }]
+license = "Apache-2.0"
+dependencies = [
+    "linkml",
+    "mkdocs<2",
+    "mkdocs_mermaid2_plugin",
+    "mknotebooks",
+    "mkdocs_pymdownx_material_extras",
+    "sphinxcontrib-mermaid"
+]
+
+[build-system]
+requires = ["uv_build<0.11"]
+build-backend = "uv_build"
+
+[project.scripts]
+build = "mira:main"
+
+[tool.uv.sources]
+linkml = { git = "https://github.com/maparent/linkml", subdirectory = "packages/linkml", branch="local_jsonld" }

@@ -1,0 +1,67 @@
+id: https://mira.science/schema/mira
+name: mira
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  owl: http://www.w3.org/2002/07/owl#
+  dg: https://discoursegraphs.com/schema/dg_core#
+  mira: https://mira.science/schema/mira
+
+default_prefix: mira
+# language: en
+default_range: string
+imports:
+  - ../discoursegraphs/discoursegraphs
+
+classes:
+  Question:
+    class_uri: mira:Question
+    is_a: dg_Question
+    description: Scientific unknowns that we want to make known, and are addressable by the systematic application of research methods
+
+  Claim:
+    class_uri: mira:Claim
+    is_a: dg_Claim
+    description: Atomic, generalized assertions about the world that (propose to) answer research questions
+
+  Evidence:
+    class_uri: mira:Evidence
+    is_a: dg_Evidence
+    description: A specific empirical observation from a particular application of a research method
+
+  Study:
+    class_uri: mira:Study
+    is_a: Activity
+    mixins:
+      - NodeSchema
+
+  Request:
+    class_uri: mira:Request
+    mixins:
+      - NodeSchema
+
+  Protocol:
+    class_uri: mira:Protocol
+    is_a: Activity
+    mixins:
+      - NodeSchema
+
+slots:
+  follows:
+    domain: Study
+    range: Protocol
+    multivalued: true
+  grounds:
+    domain: Study
+    range: Evidence
+    inverse: is_grounded_in
+    multivalued: true
+  is_grounded_in:
+    domain: Evidence
+    range: Study
+  request_for:
+    domain: Request
+    range: Study
+  request_target:
+    domain: Request
+    range: Claim

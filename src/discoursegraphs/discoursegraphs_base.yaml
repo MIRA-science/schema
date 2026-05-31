@@ -1,0 +1,43 @@
+id: https://discoursegraphs.com/schema/dg_base
+name: discoursegraphs_base
+prefixes:
+  linkml: https://w3id.org/linkml/
+  dgb: https://discoursegraphs.com/schema/dg_base#
+
+default_prefix: dgb
+imports:
+  - ../sioc/sioc
+
+classes:
+  Any:
+    class_uri: linkml:Any
+
+  NodeSchema:
+    abstract: true
+    mixin: true
+    class_uri: dgb:NodeSchema
+    is_a: Item
+    slots:
+      - created
+      - modified
+      - creator
+
+slots:
+  RelationDef:
+    slot_uri: dgb:RelationDef
+    abstract: true
+    mixin: true
+    range: Any
+    any_of:
+      - range: NodeSchema
+      - range: RelationDef
+    # subproperty_of: owl:ObjectProperty
+    # slots:
+    #   - domain
+    #   - range
+  textRefersToNode:
+    slot_uri: dgb:textRefersToNode
+    range: Any
+    any_of:
+      - range: NodeSchema
+      - range: RelationDef

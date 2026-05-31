@@ -1,0 +1,171 @@
+id: https://discoursegraphs.com/schema/dg_core
+name: discoursegraphs
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  owl: http://www.w3.org/2002/07/owl#
+  vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
+  dgb: https://discoursegraphs.com/schema/dg_base#
+  dg: https://discoursegraphs.com/schema/dg_core#
+
+default_prefix: dg
+# language: en
+default_range: string
+imports:
+  - ../prov/prov
+  - ../schemaorg/schemaorg
+  - ./discoursegraphs_base
+
+classes:
+  Argument:
+    class_uri: dg:Argument
+    mixin: true
+    description: A node that can support or oppose another node
+    slots:
+      - supports
+      - opposes
+
+  # Arguable:
+  #   class_uri: dg:Arguable
+  #   mixin: true
+  #   description: A node that can be supported or opposed by another node
+
+  dg_Question:
+    class_uri: dg:Question
+    mixins:
+      - NodeSchema
+    description: Scientific unknowns that we want to make known, and are addressable by the systematic application of research methods
+
+  dg_Claim:
+    class_uri: dg:Claim
+    description: Atomic, generalized assertions about the world that (propose to) answer research questions
+    mixins:
+      - Argument
+      # - Arguable
+      - NodeSchema
+    slots:
+      - addresses
+
+  dg_Evidence:
+    class_uri: dg:Evidence
+    is_a: Entity
+    description: A specific empirical observation from a particular application of a research method
+    mixins:
+      - Argument
+      # - Arguable
+      - NodeSchema
+    # owl:subClassOf [rdf:type owl:Restriction ; owl:onProperty observationStatement ; owl:cardinality 1],
+    #   [rdf:type owl:Restriction ; owl:onProperty observationBase ; owl:cardinality 1].
+    # # Ideally also observationOriginActivity, but maybe not a hard constraint.
+    slots:
+      - observationStatement
+      - observationOriginActivity
+      - observationBase
+      - sourceDocument
+
+  SourceDocument:
+    class_uri: dg:SourceDocument
+    is_a: CreativeWork
+    mixins:
+      - NodeSchema
+      # [rdf:type owl:Restriction ; owl:onProperty describesActivity ; owl:minCardinality 1].
+    title: Source document
+    description: Some research source document that reports/generates evidence, like a book, conference paper, or journal article
+
+slots:
+  describesActivity:
+    slot_uri: dg:describesActivity
+    title: Describes activity
+    subproperty_of: subject
+    domain: CreativeWork
+    range: Activity
+
+  observationStatement:
+    slot_uri: dg:observationStatement
+    subproperty_of: RelationDef
+    title: Observation statement
+    domain: dg_Evidence
+    range: dg_Claim
+
+  observationOriginActivity:
+    slot_uri: dg:observationOriginActivity
+    subproperty_of: RelationDef
+    title: Observation origin process
+    description: An experiment or study at the origin of the data on which the observation is based
+    domain: dg_Evidence
+    range: Activity
+  # I would like to add:
+  #  owl:propertyChainAxiom (sourceDocument describesActivity).
+  # But it is not strictly accurate; the document may describe many activities
+  # HOWEVER it is true that, if sourceDocument is defined, the observationOriginActivity should should follow one of these chains.
+
+  observationBase:
+    slot_uri: dg:observationBase
+    subproperty_of: RelationDef
+    title: Observation base
+    description: The data on which the observation is based
+    range: Entity
+    # That range is very, very provisional. could also involve schema:DigitalDocument , schema:Dataset
+    domain: dg_Evidence
+  # The Entity should be prov:wasGeneratedBy the Activity that is either the Source, or one subject of the Source.
+  # I would like to add:
+  #  owl:propertyChainAxiom (observationOriginActivity prov:generated).
+  # But it is not strictly accurate; the activity may generate many entities.
+  # HOWEVER it is true that the observationBase should follow one of these chains, which should exist.
+
+  sourceDocument:
+    slot_uri: dg:sourceDocument
+    subproperty_of: RelationDef
+    title: Source document
+    description: A document that described the activity which led to the data on which the observation is based
+    domain: dg_Evidence
+    range: SourceDocument
+
+  opposes:
+    slot_uri: dg:opposes
+    subproperty_of: RelationDef
+    title: Opposes
+    range: dg_Claim
+    # Or Arguable?
+    domain: Argument
+  opposedBy:
+    slot_uri: dg:opposedBy
+    subproperty_of: RelationDef
+    title: Opposed by
+    inverse: opposes
+    domain: dg_Claim
+    # Or Arguable?
+    range: Argument
+    multivalued: true
+  supports:
+    slot_uri: dg:supports
+    subproperty_of: RelationDef
+    title: Supports
+    range: dg_Claim
+    # Or Arguable?
+    domain: Argument
+  supportedBy:
+    slot_uri: dg:supportedBy
+    subproperty_of: RelationDef
+    title: Supported by
+    inverse: supports
+    domain: dg_Claim
+    # Or Arguable?
+    range: Argument
+    multivalued: true
+
+  addresses:
+    slot_uri: dg:addresses
+    subproperty_of: RelationDef
+    title: Addresses
+    range: dg_Question
+    domain: dg_Claim
+
+  addressedBy:
+    slot_uri: dg:addressedBy
+    subproperty_of: RelationDef
+    title: Addressed by
+    inverse: addresses
+    range: dg_Claim
+    domain: dg_Question
+    multivalued: true

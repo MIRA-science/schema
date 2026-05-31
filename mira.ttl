@@ -1,0 +1,64 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dgb: <https://discoursegraphs.com/schema/dg_base#> .
+@prefix dg: <https://discoursegraphs.com/schema/dg_core#> .
+@prefix schema: <http://schema.org/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix status: <http://purl.org/ontology/bibo/status/> .
+@prefix mira: <https://mira.science/schema/mira> .
+
+<https://mira.science/schema/mira#> a owl:Ontology;
+  dct:created "2026-05-31" ;
+  dct:modified "2026-05-31" ;
+  rdfs:comment "MIRA core vocabulary"@en ;
+  rdfs:label "MIRA core vocabulary"@en ;
+  bibo:status status:draft;
+  owl:versionInfo "0.1 (tentative)".
+
+mira:Question owl:subClassOf dg:Question.
+mira:Claim owl:subClassOf dg:Claim.
+mira:Evidence owl:subClassOf dg:Evidence.
+mira:Study a dgb:NodeSchema, prov:Activity;
+  rdfs:label "Study"@en;
+  rdfs:comment "A scientific study that leads to evidence"@en.
+
+mira:Request a dgb:NodeSchema;
+    rdfs:label "Request"@en;
+    rdfs:comment "A request for a Study that may elucidate a Claim"@en.
+
+mira:Protocol a dgb:NodeSchema, prov:Activity;
+  rdfs:label "Request"@en;
+  rdfs:comment "A Protocol that a Study follows."@en.
+
+mira:follows a dgb:RelationDef;
+  rdfs:label "follows"@en;
+  rdfs:domain mira:Study;
+  rdfs:range mira:Protocol.
+
+mira:grounds a dgb:RelationDef;
+  rdfs:label "grounds"@en;
+  rdfs:domain mira:Study;
+  rdfs:range mira:Evidence.
+
+mira:is_grounded_in a dgb:RelationDef;
+  rdfs:label "is_grounded_in"@en;
+  rdfs:domain mira:Evidence;
+  rdfs:range mira:Study;
+  owl:inverseOf mira:grounds.
+
+mira:request_for a dgb:RelationDef;
+  rdfs:label "request_for"@en;
+  rdfs:domain mira:Request;
+  rdfs:range mira:Study.
+
+mira:request_target a dgb:RelationDef;
+  rdfs:label "request_target"@en;
+  rdfs:domain mira:Request;
+  rdfs:range mira:Claim.
