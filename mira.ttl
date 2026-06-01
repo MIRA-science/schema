@@ -12,9 +12,9 @@
 @prefix schema: <http://schema.org/> .
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix status: <http://purl.org/ontology/bibo/status/> .
-@prefix mira: <https://mira.science/schema/mira> .
+@prefix mira: <http://purl.org/mira-science/mira#> .
 
-<https://mira.science/schema/mira#> a owl:Ontology;
+<http://purl.org/mira-science/mira#> a owl:Ontology;
   dct:created "2026-05-31" ;
   dct:modified "2026-05-31" ;
   rdfs:comment "MIRA core vocabulary"@en ;
