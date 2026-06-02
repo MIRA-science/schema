@@ -62,7 +62,7 @@ markdown_extensions:
   #       - gen_pages.py  # or any other name or path
 
 watch:
-  - src/mira/mira.yaml
+  - mira.yaml
 
 nav:
   - Home: index.md

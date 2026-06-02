@@ -1,9 +1,9 @@
 
-yaml_deps = src/dc/dc.yaml src/discoursegraphs/discoursegraphs_base.yaml src/prov/prov.yaml src/schemaorg/schemaorg.yaml src/sioc/sioc.yaml
-dg_yaml = src/discoursegraphs/discoursegraphs.yaml
-dg_ctxj = src/discoursegraphs/discoursegraphs.context.jsonld
-mira_yaml = src/mira/mira.yaml
-mira_ctxj = src/mira/mira.context.jsonld
+yaml_deps = dc.yaml discoursegraphs_base.yaml prov.yaml schemaorg.yaml sioc.yaml
+dg_yaml = discoursegraphs.yaml
+dg_ctxj = discoursegraphs.context.jsonld
+mira_yaml = mira.yaml
+mira_ctxj = mira.context.jsonld
 svgfiles = discoursegraphs.svg mira.svg
 linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
 
@@ -13,10 +13,10 @@ validate:
 	linkml validate $(mira_yaml)
 
 clean:
-	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml src/*/*.jsonld docs site
+	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.jsonld docs site
 
 docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps)
-	gen-doc -d docs --no-hierarchical-class-view --no-render-imports  --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram src/mira/mira.yaml --include-top-level-diagram
+	gen-doc -d docs --no-hierarchical-class-view --no-render-imports  --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram mira.yaml --include-top-level-diagram
 
 site/index.html: docs/index.md
 	mkdocs build -f mkdocs_mira.yaml
@@ -40,6 +40,6 @@ linkml_mira.ttl: $(mira_ctxj)
 	gen-rdf -f ttl --context $(mira_ctxj) $(mira_yaml) > $@
 
 $(mira_ctxj): $(dg_ctxj)
-$(dg_ctxj): src/discoursegraphs/discoursegraphs_base.context.jsonld src/prov/prov.context.jsonld src/schemaorg/schemaorg.context.jsonld
-src/discoursegraphs/discoursegraphs_base.context.jsonld: src/sioc/sioc.context.jsonld
-src/sioc/sioc.context.jsonld: src/dc/dc.context.jsonld
+$(dg_ctxj): discoursegraphs_base.context.jsonld prov.context.jsonld schemaorg.context.jsonld
+discoursegraphs_base.context.jsonld: sioc.context.jsonld
+sioc.context.jsonld: dc.context.jsonld

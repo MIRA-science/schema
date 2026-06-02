@@ -11,7 +11,7 @@ default_prefix: mira
 # language: en
 default_range: string
 imports:
-  - ../discoursegraphs/discoursegraphs
+  - discoursegraphs
 
 classes:
   Question:

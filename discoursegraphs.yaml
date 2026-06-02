@@ -12,9 +12,9 @@ default_prefix: dg
 # language: en
 default_range: string
 imports:
-  - ../prov/prov
-  - ../schemaorg/schemaorg
-  - ./discoursegraphs_base
+  - prov
+  - schemaorg
+  - discoursegraphs_base
 
 classes:
   Argument:
