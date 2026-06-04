@@ -23,6 +23,10 @@ classes:
       - creator
 
 slots:
+  AbstractRelationDef:
+    abstract: true
+    mixin: true
+
   RelationDef:
     slot_uri: dgb:RelationDef
     abstract: true
@@ -31,6 +35,8 @@ slots:
     any_of:
       - range: NodeSchema
       - range: RelationDef
+    mixins:
+      - AbstractRelationDef
     # subproperty_of: owl:ObjectProperty
     # slots:
     #   - domain
