@@ -1,6 +1,6 @@
 # MIRA-science schema
 
-This is a DRAFT version of the preliminary schema we have begun sketching at the [MIRA](https://mira.science) workshop, inspired by our work on tldraw.
+This is a DRAFT version of the preliminary schema we have begun sketching at the [MIRA](https://www.mira.science) workshop, inspired by our work on tldraw.
 
 We invite participants to submit pull requests to the [repository](https://github.com/mira-science/schema) for proposed improvements. 
 
