@@ -2,7 +2,7 @@
 
 This is a DRAFT version of the preliminary schema we have begun sketching at the [MIRA](https://mira.science) workshop, inspired by our work on tldraw.
 
-We invite participants to submit pull requests to the [repository](https://github.com/mira-science/schema) for propsoed improvements. 
+We invite participants to submit pull requests to the [repository](https://github.com/mira-science/schema) for proposed improvements. 
 
 Note that the current version builds upon and refers to schema work done for [Discourse Graphs](https://discoursegraphs.com), especially around the notion of Evidence.
 
