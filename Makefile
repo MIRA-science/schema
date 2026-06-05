@@ -15,7 +15,9 @@ validate:
 clean:
 	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.jsonld docs site
 
-docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps)
+docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md
+	mkdir -p docs
+	cp README.md docs/about.md
 	gen-doc -d docs --no-hierarchical-class-view --no-render-imports  --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram mira.yaml --include-top-level-diagram
 
 site/index.html: docs/index.md
