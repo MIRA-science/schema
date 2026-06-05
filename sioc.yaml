@@ -7,10 +7,10 @@ prefixes:
 
 default_prefix: sioc
 imports:
-  - dc
+  - dct
 emit_prefixes:
   - sioc
-  - dc
+  - dct
 
 classes:
   Container:

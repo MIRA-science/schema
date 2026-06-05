@@ -4,6 +4,7 @@ prefixes:
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   owl: http://www.w3.org/2002/07/owl#
+  dct: http://purl.org/dc/terms/
   vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
   dgb: https://discoursegraphs.com/schema/dg_base#
   dg: https://discoursegraphs.com/schema/dg_core#

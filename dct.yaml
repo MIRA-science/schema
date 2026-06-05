@@ -1,14 +1,14 @@
-id: http://purl.org/dc/elements/1.1/
+id: http://purl.org/dc/terms/
 name: DublinCoreElements
 prefixes:
   linkml: https://w3id.org/linkml/
-  dc: http://purl.org/dc/elements/1.1/
+  dc: http://purl.org/dc/terms/
   dct: http://purl.org/dc/terms/
   xsd: http://www.w3.org/2001/XMLSchema#
 
-default_prefix: dc
+default_prefix: dct
 emit_prefixes:
-  - dc
+  - dct
 default_range: string
 
 # This is deliberately a subset
@@ -23,19 +23,19 @@ types:
 
 slots:
   created:
-    slot_uri: dc:created
+    slot_uri: dct:created
     range: datetime
   modified:
-    slot_uri: dc:modified
+    slot_uri: dct:modified
     range: datetime
 
   title:
-    slot_uri: dc:title
+    slot_uri: dct:title
   format:
-    slot_uri: dc:format
+    slot_uri: dct:format
   description:
-    slot_uri: dc:description
+    slot_uri: dct:description
   creator:
-    slot_uri: dc:creator
+    slot_uri: dct:creator
   subject:
-    slot_uri: dc:subject
+    slot_uri: dct:subject

@@ -1,5 +1,5 @@
 
-yaml_deps = dc.yaml discoursegraphs_base.yaml prov.yaml schemaorg.yaml sioc.yaml
+yaml_deps = dct.yaml discoursegraphs_base.yaml prov.yaml schemaorg.yaml sioc.yaml
 dg_yaml = discoursegraphs.yaml
 dg_ctxj = discoursegraphs.context.jsonld
 mira_yaml = mira.yaml
@@ -42,4 +42,4 @@ linkml_mira.ttl: $(mira_ctxj)
 $(mira_ctxj): $(dg_ctxj)
 $(dg_ctxj): discoursegraphs_base.context.jsonld prov.context.jsonld schemaorg.context.jsonld
 discoursegraphs_base.context.jsonld: sioc.context.jsonld
-sioc.context.jsonld: dc.context.jsonld
+sioc.context.jsonld: dct.context.jsonld
