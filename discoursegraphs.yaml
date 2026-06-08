@@ -129,6 +129,7 @@ slots:
     range: dg_Claim
     # Or Arguable?
     domain: Argument
+    multivalued: true
   opposedBy:
     slot_uri: dg:opposedBy
     subproperty_of: RelationDef
@@ -145,6 +146,7 @@ slots:
     range: dg_Claim
     # Or Arguable?
     domain: Argument
+    multivalued: true
   supportedBy:
     slot_uri: dg:supportedBy
     subproperty_of: RelationDef
@@ -161,6 +163,7 @@ slots:
     title: Addresses
     range: dg_Question
     domain: dg_Claim
+    multivalued: true
 
   addressedBy:
     slot_uri: dg:addressedBy

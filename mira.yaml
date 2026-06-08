@@ -62,6 +62,8 @@ slots:
   request_for:
     domain: Request
     range: Study
+    multivalued: true
   request_target:
     domain: Request
     range: Claim
+    multivalued: true
