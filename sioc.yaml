@@ -59,6 +59,7 @@ slots:
   creator:
     slot_uri: dct:creator
     range: UserAccount
+    multivalued: true
   account:
     slot_uri: foaf:account
     domain: FoafAgent

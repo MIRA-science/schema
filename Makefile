@@ -3,11 +3,12 @@ yaml_deps = dct.yaml discoursegraphs_base.yaml prov.yaml schemaorg.yaml sioc.yam
 dg_yaml = discoursegraphs.yaml
 dg_ctxj = discoursegraphs.context.jsonld
 mira_yaml = mira.yaml
+mira_shacl = mira.yaml
 mira_ctxj = mira.context.jsonld
 svgfiles = discoursegraphs.svg mira.svg
 linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
 
-all: site/index.html $(svgfiles) $(linkml_ttl_files)
+all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
 validate:
 	linkml validate $(mira_yaml)
@@ -36,6 +37,9 @@ discoursegraphs.puml: $(dg_yaml) $(yaml_deps)
 
 mira.puml: $(mira_yaml) $(dg_yaml) $(yaml_deps)
 	gen-plantuml $(mira_yaml) --no-mergeimports > $@
+
+mira.shacl: $(mira_yaml) $(dg_yaml) $(yaml_deps)
+	gen-shacl $(mira_yaml) > $@
 
 linkml_discoursegraphs.ttl: $(dg_ctxj)
 	gen-rdf -f ttl --context $(dg_ctxj) $(dg_yaml) > $@
