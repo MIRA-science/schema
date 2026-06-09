@@ -10,7 +10,7 @@ linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
 
 all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
-generate: generate-python generate-typescript
+generate: generate-python generate-typescript mira.shacl
 
 generate-python:
 	uv run gen-pydantic $(mira_yaml) > src/mira/_generated.py
