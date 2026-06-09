@@ -15,15 +15,15 @@ validate:
 clean:
 	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.context.jsonld docs site
 
-docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md mira.svg
-	mkdir -p docs
+docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md
+	mkdir -p docs/elements
 	cp README.md docs/about.md
 	cp elements.md docs/
 	gen-doc -d docs --no-hierarchical-class-view --no-render-imports  --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram mira.yaml --include-top-level-diagram
-	cp mira.svg site/elements/
 
-site/index.html: docs/index.md
+site/index.html: docs/index.md mira.svg
 	mkdocs build -f mkdocs_mira.yaml
+	cp mira.svg site/elements/
 
 $(svgfiles):%.svg: %.puml
 	plantuml -f svg $<
