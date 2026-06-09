@@ -22,12 +22,30 @@
   bibo:status status:draft;
   owl:versionInfo "0.1 (tentative)".
 
-mira:Question rdfs:subClassOf dg:Question;
+mira:Argument a owl:Class;
+  rdfs:label "Argument"@en;
+  rdfs:comment "A marker class for nodes that can serve as arguments".
+
+mira:Question a dgb:NodeSchema;
+  rdfs:label "Question"@en;
   rdfs:comment "A scientific question. May be exploratory or precise."@en.
-mira:Claim rdfs:subClassOf dg:Claim.
+
+mira:Claim a dgb:NodeSchema;
+  rdfs:subClassOf mira:Argument;
+  rdfs:label "Claim"@en;
+  rdfs:comment "Atomic, generalized assertions about the world that (propose to) answer research questions"@en.
+
 # We may want to say that engineering goals are a variant of scientific questions,
 # and engineering proposals are a variant of claims.
-mira:Evidence rdfs:subClassOf dg:Evidence.
+mira:Evidence a dgb:NodeSchema;
+  rdfs:subClassOf mira:Argument;
+  rdfs:label "Evidence"@en;
+  rdfs:comment "A specific empirical observation from a particular application of a research method"@en;
+  owl:subClassOf [rdf:type owl:Restriction ; owl:onProperty mira:observationStatement ; owl:cardinality 1],
+    [rdf:type owl:Restriction ; owl:onProperty mira:observationBase ; owl:cardinality 1].
+    # Ideally also mira:observationOriginActivity, but maybe not a hard constraint.
+
+
 mira:Study a dgb:NodeSchema;
   rdfs:subClassOf prov:Activity;
   rdfs:label "Study"@en;
@@ -68,26 +86,22 @@ mira:request_target a dgb:RelationDef;
   rdfs:range mira:Claim.
 
 mira:describesActivity a dgb:RelationDef;
-  owl:subPropertyOf dg::describesActivity;
   rdfs:label "Describes activity"@en;
   rdfs:subPropertyOf dct:subject;
   rdfs:domain schema:CreativeWork;
   rdfs:range prov:Activity.
 
 mira:SourceDocument a dgb:NodeSchema;
-  owl:subPropertyOf dg::SourceDocument;
   rdfs:label "Source document"@en;
   rdfs:comment "Some research source document that reports/generates evidence, like a book, conference paper, or journal article"@en;
   owl:subClassOf schema:CreativeWork, [rdf:type owl:Restriction ; owl:onProperty mira:describesActivity ; owl:minCardinality 1].
 
 mira:observationStatement a dgb:RelationDef;
-  owl:subPropertyOf dg::observationStatement;
   rdfs:label "Observation statement"@en;
   rdfs:domain mira:Evidence;
   rdfs:range mira:Claim.
 
 mira:observationOriginActivity a dgb:RelationDef;
-  owl:subPropertyOf dg::observationOriginActivity;
   rdfs:label "Observation origin process"@en;
   rdfs:comment "An experiment or study at the origin of the data on which the observation is based"@en;
   rdfs:domain mira:Evidence;
@@ -98,7 +112,6 @@ mira:observationOriginActivity a dgb:RelationDef;
 # HOWEVER it is true that, if sourceDocument is defined, the observationOriginActivity should should follow one of these chains.
 
 mira:observationBase a dgb:RelationDef;
-  owl:subPropertyOf dg::observationBase;
   rdfs:label "Observation base"@en;
   rdfs:comment "The data on which the observation is based"@en;
   rdfs:range prov:Entity;
@@ -106,51 +119,44 @@ mira:observationBase a dgb:RelationDef;
   rdfs:domain mira:Evidence.
   # The Entity should be prov:wasGeneratedBy the Activity that is either the Source, or one subject of the Source.
   # I would like to add:
-  #  owl:propertyChainAxiom (dg:observationOriginActivity prov:generated).
+  #  owl:propertyChainAxiom (mira:observationOriginActivity prov:generated).
   # But it is not strictly accurate; the activity may generate many entities.
   # HOWEVER it is true that the observationBase should follow one of these chains, which should exist.
 
 mira:sourceDocument a dgb:RelationDef;
-  owl:subPropertyOf dg::sourceDocument;
   rdfs:label "Source document"@en;
   rdfs:comment "A document that described the activity which led to the data on which the observation is based"@en;
   rdfs:domain mira:Evidence;
   rdfs:range mira:SourceDocument.
 
 mira:opposes a dgb:RelationDef;
-  owl:subPropertyOf dg::opposes;
   rdfs:label "Opposes"@en;
   rdfs:range mira:Claim;
   rdfs:domain mira:Argument.
 
 mira:opposedBy a dgb:RelationDef;
-  owl:subPropertyOf dg::opposedBy;
   rdfs:label "Opposed by"@en;
   owl:inverseOf mira:opposes;
   rdfs:range mira:Argument;
   rdfs:domain mira:Claim.
 
 mira:supports a dgb:RelationDef;
-  owl:subPropertyOf dg::supports;
   rdfs:label "Supports"@en;
   rdfs:range mira:Claim;
   rdfs:domain mira:Argument.
 
 mira:supportedBy a dgb:RelationDef;
-  owl:subPropertyOf dg::supportedBy;
   rdfs:label "Supported by"@en;
   owl:inverseOf mira:supports;
   rdfs:range mira:Argument;
   rdfs:domain mira:Claim.
 
 mira:addresses a dgb:RelationDef;
-  owl:subPropertyOf dg::addresses;
   rdfs:label "Addresses"@en;
   rdfs:range mira:Question;
   rdfs:domain mira:Claim.
 
 mira:addressedBy a dgb:RelationDef;
-  owl:subPropertyOf dg::addressedBy;
   rdfs:label "Addressed by"@en;
   owl:inverseOf mira:addresses;
   rdfs:range mira:Claim;
