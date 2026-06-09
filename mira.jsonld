@@ -77,8 +77,11 @@
     "Study": "mira:Protocol",
 
     "Item": "sioc:Item",
+    "Criterion": "mira:Criterion",
+    "Endorsement": "mira:Endorsement",
     "follows": { "@id": "mira:follows", "@type": "@id" },
     "grounds": { "@id": "mira:grounds", "@type": "@id" },
+    "endorsed": { "@id": "mira:endorsed", "@type": "@id" },
     "is_grounded_in": { "@id": "mira:is_grounded_in", "@type": "@id" },
     "request_for": { "@id": "mira:request_for", "@type": "@id" },
     "request_target": { "@id": "mira:request_target", "@type": "@id" }

@@ -98,7 +98,6 @@ slots:
     domain: Request
     range: Claim
     multivalued: true
-<<<<<<< HEAD
   describesActivity:
     slot_uri: mira:describesActivity
     title: Describes activity
@@ -198,9 +197,8 @@ slots:
     inverse: addresses
     range: Claim
     domain: Question
-=======
+    multivalued: true
   endorsed:
     domain: Endorsement
     range: NodeSchema
->>>>>>> 1ddd1e9 (proposals, contd)
     multivalued: true
