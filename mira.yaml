@@ -13,6 +13,10 @@ imports:
   - prov
   - schemaorg
   - discoursegraphs_base
+types:
+  float:
+    uri: xsd:float
+    base: float
 
 classes:
   Argument:
@@ -69,14 +73,15 @@ classes:
 
   Criterion:
     class_uri: mira:Criterion
-    description: A criterion by which a proposal, claim or activity is judged.
+    description: A criterion by which a proposal, claim or activity is evaluated.
 
   Endorsement:
     class_uri: mira:Endorsement
     mixins:
       - RelationDef
     slots:
-      - endorsed
+      - criterion
+      - magnitude
 
   Project:
     class_uri: mira:Project
@@ -211,15 +216,24 @@ slots:
     range: Claim
     domain: Question
     multivalued: true
-  endorsed:
-    domain: Endorsement
-    range: NodeSchema
-    multivalued: true
   funder:
+    slot_uri: mira:funder
     domain: Grant
     range: Agent
     multivalued: true
   scope:
+    slot_uri: mira:scope
     domain: Project
     range: NodeSchema
     multivalued: true
+  topic:
+    slot_uri: mira:topic
+    multivalued: true
+  criterion:
+    slot_uri: mira:criterion
+    domain: Endorsement
+    range: Criterion
+  magnitude:
+    slot_uri: mira:magnitude
+    domain: Endorsement
+    range: float
