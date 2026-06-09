@@ -77,6 +77,19 @@ classes:
       - RelationDef
     slots:
       - endorsed
+
+  Project:
+    class_uri: mira:Project
+    mixins:
+      - RelationDef
+      - Activity
+
+  Grant:
+    class_uri: mira:Grant
+    is_a: Project
+    slots:
+      - funder
+
 slots:
   follows:
     domain: Study
@@ -200,5 +213,13 @@ slots:
     multivalued: true
   endorsed:
     domain: Endorsement
+    range: NodeSchema
+    multivalued: true
+  funder:
+    domain: Grant
+    range: Agent
+    multivalued: true
+  scope:
+    domain: Project
     range: NodeSchema
     multivalued: true
