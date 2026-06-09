@@ -1,0 +1,80 @@
+{
+  "@context": ["https://purl.archive.org/purl/mira-science/mira.jsonld"],
+  "@graph": [
+    {
+      "@id": "some:account",
+      "name": "Some One",
+      "@type": "UserAccount"
+    },
+    {
+      "@id": "sdata:131157",
+      "@type": "NodeSchema",
+      "modified": "2026-01-24T15:38:14.553Z",
+      "created": "2026-01-24T15:38:14.553Z",
+      "subClassOf": ["dgc:Claim", "mira:Claim"],
+      "label": "Claim",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:254918",
+      "@type": ["sdata:131157", "dgc:Claim", "mira:Claim"],
+      "modified": "2026-05-26T00:39:03.077Z",
+      "created": "2025-12-04T15:47:51.694Z",
+      "title": "CLM - Some base claim",
+      "description": {
+        "format": "text/html",
+        "content": "<hr />\n<p>nodeTypeId: node<em>OHkZtsR6jkJIVaNmMY</em>GB\nnodeInstanceId: c1f02ff4-f116-452f-a490-3e0309667145</p>\n<h2 id=\"publishedtogroups\">publishedToGroups:</h2>\n<p>That file was empty</p>"
+      },
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261134",
+      "@type": ["sdata:131157", "dgc:Claim", "mira:Claim"],
+      "modified": "2026-05-26T00:39:03.077Z",
+      "created": "2025-12-04T15:47:51.694Z",
+      "title": "CLM - Some supporting claim",
+      "creator": "some:account",
+      "description": {
+        "format": "text/html",
+        "content": ""
+      }
+    },
+    {
+      "@id": "sdata:131164",
+      "@type": "AbstractRelationDef",
+      "modified": "2026-01-24T15:38:14.553Z",
+      "created": "2026-01-24T15:38:14.553Z",
+      "subClassOf": [
+        "dgb:RelationInstance",
+        {
+          "@type": "owl:Restriction",
+          "onProperty": "rdf:predicate",
+          "hasValue": "sdata:131164"
+        }
+      ],
+      "label": "supports",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:131169",
+      "@type": "RelationDef",
+      "modified": "2026-01-24T15:38:14.553Z",
+      "created": "2026-01-24T15:38:14.553Z",
+      "domain": "sdata:131157",
+      "range": "sdata:131157",
+      "subClassOf": ["sdata:131164"],
+      "label": "supports",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261147",
+      "@type": "sdata:131164",
+      "modified": "2026-06-03T10:13:09.101Z",
+      "created": "2026-06-03T10:13:09.101Z",
+      "source": "sdata:261134",
+      "destination": "sdata:254918",
+      "title": "[[CLM - Some supporting claim]] -supports-> [[CLM - Some base claim]]",
+      "creator": "some:account"
+    }
+  ]
+}
