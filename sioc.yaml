@@ -21,6 +21,14 @@ classes:
       - format
       - content
       - has_container
+      - creator
+  FoafAgent:
+    abstract: true
+    class_uri: foaf:Agent
+  UserAccount:
+    class_uri: sioc:UserAccount
+    slots:
+      - accountName
 
 slots:
   has_container:
@@ -39,3 +47,19 @@ slots:
     slot_uri: sioc:content
     range: string
     inlined: true
+  accountName:
+    slot_uri: foaf:accountName
+    domain: UserAccount
+    range: string
+  name:
+    slot_uri: foaf:name
+    domain: FoafAgent
+    range: string
+  creator:
+    slot_uri: dct:creator
+    range: UserAccount
+  account:
+    slot_uri: foaf:account
+    domain: FoafAgent
+    range: UserAccount
+    multivalued: true

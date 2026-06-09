@@ -33,9 +33,5 @@ slots:
     slot_uri: dct:title
   format:
     slot_uri: dct:format
-  description:
-    slot_uri: dct:description
-  creator:
-    slot_uri: dct:creator
   subject:
     slot_uri: dct:subject

@@ -13,37 +13,59 @@ classes:
     class_uri: linkml:Any
 
   NodeSchema:
+    class_uri: dgb:NodeSchema
     abstract: true
     mixin: true
-    class_uri: dgb:NodeSchema
     is_a: Item
     slots:
       - created
       - modified
       - creator
+      - description
+      - has_container
 
-slots:
   AbstractRelationDef:
+    is_a: NodeSchema
+    class_uri: dgb:AbstractRelationDef
     abstract: true
     mixin: true
 
   RelationDef:
-    slot_uri: dgb:RelationDef
+    class_uri: dgb:RelationDef
     abstract: true
     mixin: true
-    range: Any
-    any_of:
-      - range: NodeSchema
-      - range: RelationDef
+    slots:
+      - domain
+      - range
     mixins:
       - AbstractRelationDef
-    # subproperty_of: owl:ObjectProperty
-    # slots:
-    #   - domain
-    #   - range
+
+  Agent:
+    class_uri: dgb:Agent
+    is_a: FoafAgent
+    # rdfs:subClassOf prov:Agent, foaf:Agent;
+    description: An agent engaging in an activity, and posting MIRA nodes.
+    slots:
+      - name
+      - account
+
+slots:
+  RelationDef:
+    slot_uri: dgb:RelationDef
+  domain:
+    slot_uri: rdfs:domain
+    domain: RelationDef
+    range: NodeSchema
+  range:
+    slot_uri: rdfs:range
+    domain: RelationDef
+    range: NodeSchema
+  description:
+    slot_uri: dct:description
+    domain: NodeSchema
+    range: Item
+
   textRefersToNode:
     slot_uri: dgb:textRefersToNode
-    range: Any
-    any_of:
-      - range: NodeSchema
-      - range: RelationDef
+    domain: Item
+    range: NodeSchema
