@@ -3,7 +3,7 @@
   "@graph": [
     {
       "@id": "some:account",
-      "name": "Some One",
+      "accountName": "Some One",
       "@type": "UserAccount"
     },
     {
