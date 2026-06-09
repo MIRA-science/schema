@@ -2,7 +2,7 @@
 name = "MIRA"
 version = "0.1"
 description = "Schema for mira.science and discoursegraphs.com"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 authors = [{ name = "Marc-Antoine Parent", email = "maparent@conversence.com" }]
 license = "Apache-2.0"
 dependencies = [
