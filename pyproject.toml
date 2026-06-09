@@ -6,6 +6,7 @@ requires-python = ">=3.14"
 authors = [{ name = "Marc-Antoine Parent", email = "maparent@conversence.com" }]
 license = "Apache-2.0"
 dependencies = [
+    "pydantic>=2.0",
     "linkml",
     "mkdocs<2",
     "mkdocs_mermaid2_plugin",
