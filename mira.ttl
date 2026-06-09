@@ -22,10 +22,14 @@
   bibo:status status:draft;
   owl:versionInfo "0.1 (tentative)".
 
-mira:Question owl:subClassOf dg:Question.
-mira:Claim owl:subClassOf dg:Claim.
-mira:Evidence owl:subClassOf dg:Evidence.
-mira:Study a dgb:NodeSchema, prov:Activity;
+mira:Question rdfs:subClassOf dg:Question;
+  rdfs:comment "A scientific question. May be exploratory or precise."@en.
+mira:Claim rdfs:subClassOf dg:Claim.
+# We may want to say that engineering goals are a variant of scientific questions,
+# and engineering proposals are a variant of claims.
+mira:Evidence rdfs:subClassOf dg:Evidence.
+mira:Study a dgb:NodeSchema;
+  rdfs:subClassOf prov:Activity;
   rdfs:label "Study"@en;
   rdfs:comment "A scientific study that leads to evidence"@en.
 
