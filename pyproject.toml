@@ -11,6 +11,7 @@ dependencies = [
     "mkdocs_mermaid2_plugin",
     "mknotebooks",
     "mkdocs_pymdownx_material_extras",
+    "pyshacl",
     "sphinxcontrib-mermaid"
 ]
 
