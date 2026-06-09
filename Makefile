@@ -13,7 +13,7 @@ validate:
 	linkml validate $(mira_yaml)
 
 clean:
-	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.jsonld docs site
+	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.context.jsonld docs site
 
 docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md mira.svg
 	mkdir -p docs
