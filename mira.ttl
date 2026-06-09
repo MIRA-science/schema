@@ -5,6 +5,7 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix sioc: <http://rdfs.org/sioc/ns#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix dgb: <https://discoursegraphs.com/schema/dg_base#> .
@@ -60,6 +61,25 @@ mira:Request a dgb:NodeSchema;
 mira:Protocol a dgb:NodeSchema, prov:Activity;
   rdfs:label "Request"@en;
   rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
+
+dgb:Agent rdfs:subClassOf prov:Agent, foaf:Agent;
+  rdfs:comment "An agent engaging in an activity, and posting MIRA nodes."@en.
+
+# Also possible:
+# mira:DataSet rdfs:subClassOf prov:Entity.
+# mira:RawDataSet rdfs:subClassOf mira:RawDataSet.
+# mira:Analysis rdfs:subClassOf mira:Activity.
+
+mira:Criterion a dgb:NodeSchema;
+  rdfs:comment "A criterion by which a proposal, claim or activity is judged."@en.
+
+mira:Endorsement a dgb:RelationDef;
+  rdfs:label "Endorsement"@en;
+  rdfs:comment "An endorsement of something by some actor";
+  rdfs:domain mira:Agent;
+  rdfs:range dgb:NodeSchema.
+
+# I would also propose that a Request is a subclass of an endorsement, whose range is a Question.
 
 mira:follows a dgb:RelationDef;
   rdfs:label "follows"@en;
@@ -174,3 +194,17 @@ po:isContainedBy a owl:ObjectRelation;
   rdfs:domain: sioc:Item, po:Structured;
   rdfs:range: sioc:Item;
   owl:inverseOf po:contains.
+
+mira:topic a dgb:RelationDef;
+  rdfs:subPropertyOf sioc:topic;
+  rdfs:domain dgb:NodeSchema.
+  # Leaving the range free
+
+mira:has_criterion a dgb:RelationDef;
+  rdfs:comment "The criterion used in the evaluation"@en;
+  rdfs:domain dbg:Endorsement;
+  rdfs:range mira:Criterion.
+
+mira:magnitude a owl:LiteralProperty;
+  rdfs:domain mira:Endorsement;
+  rdfs:range xsd:float.

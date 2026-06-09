@@ -13,6 +13,10 @@ imports:
   - prov
   - schemaorg
   - discoursegraphs_base
+types:
+  float:
+    uri: xsd:float
+    base: float
 
 classes:
   Argument:
@@ -86,6 +90,35 @@ classes:
     description: Some research source document that reports/generates evidence, like a book, conference paper, or journal article
     slots:
       - describesActivity
+
+  Criterion:
+    class_uri: mira:Criterion
+    title: Criterion
+    mixins:
+      - NodeSchema
+    description: A criterion by which a node (proposal, claim or activity) is evaluated, such as plausibility (Claims) or desirability (Request, Study)
+
+  EvaluationScale:
+    class_uri: mira:EvaluationScale
+    description: The scale against which a specific evaluation is measured
+    mixins:
+      - NodeSchema
+    slots:
+      - minimum
+      - maximum
+      - criterion
+
+  Evaluation:
+    class_uri: mira:Evaluation
+    description: An evaluation by an agent that a node (proposal, claim or activity) falls somewhere on a scale.
+    slots:
+      - creator
+      - scale
+      - magnitude
+      - created
+      - modified
+      - destination
+      - has_container
 
 slots:
   follows:
@@ -165,6 +198,7 @@ slots:
     # Or Arguable?
     domain: Argument
     multivalued: true
+
   opposedBy:
     slot_uri: mira:opposedBy
     subproperty_of: RelationDef
@@ -208,3 +242,26 @@ slots:
     range: Claim
     domain: Question
     multivalued: true
+
+  criterion:
+    slot_uri: mira:criterion
+    domain: EvaluationScale
+    range: Criterion
+
+  magnitude:
+    slot_uri: mira:magnitude
+    domain: Evaluation
+    range: float
+
+  minimum:
+    slot_uri: mira:magnitude
+    domain: EvaluationScale
+    range: float
+  maximum:
+    slot_uri: mira:magnitude
+    domain: EvaluationScale
+    range: float
+  scale:
+    slot_uri: mira:scale
+    domain: Evaluation
+    range: EvaluationScale

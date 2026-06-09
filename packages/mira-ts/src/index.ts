@@ -59,6 +59,24 @@ export interface UserAccount {
 }
 
 
+/**
+ * The class resource, everything.
+ */
+export interface Resource {
+}
+
+
+
+export interface Statement {
+    /** The subject of the subject RDF statement. */
+    rdf_subject?: Resource,
+    /** The predicate of the subject RDF statement. */
+    rdf_predicate?: Resource,
+    /** The object of the subject RDF statement. */
+    rdf_object?: Resource,
+}
+
+
 
 export interface Any {
 }
@@ -96,6 +114,17 @@ export interface RelationDef extends AbstractRelationDef {
     domain?: NodeSchema,
     /** A range of the subject property. */
     range?: NodeSchema,
+}
+
+
+/**
+ * Abstract class for relation definitions
+ */
+export interface RelationInstance extends Statement, NodeSchema {
+    /** The source of a binary relation */
+    source?: "rdf_subject",
+    /** The destination of a binary relation */
+    destination?: "rdf_object",
 }
 
 
@@ -182,5 +211,38 @@ export interface SourceDocument extends CreativeWork, NodeSchema {
     describesActivity?: "subject",
 }
 
+
+/**
+ * A criterion by which a node (proposal, claim or activity) is evaluated.
+ */
+export interface Criterion {
+}
+
+
+/**
+ * The scale against which a specific endorsement is measured
+ */
+export interface EvaluationScale extends NodeSchema {
+    minimum?: number,
+    maximum?: number,
+    criterion?: Criterion,
+}
+
+
+/**
+ * An evaluation by an agent that a node (proposal, claim or activity) falls somewhere on a scale.
+ */
+export interface Evaluation {
+    /** Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity. */
+    creator?: UserAccount[],
+    scale?: EvaluationScale,
+    magnitude?: number,
+    created?: string,
+    modified?: string,
+    /** The destination of a binary relation */
+    destination?: "rdf_object",
+    /** The Container to which this Item belongs. */
+    has_container?: Container,
+}
 
 
