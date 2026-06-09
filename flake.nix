@@ -18,6 +18,7 @@
             nodejs
             plantuml
             stdenv.cc.cc.lib
+            pre-commit
           ];
 
           env = {
@@ -29,6 +30,7 @@
 
           shellHook = ''
             uv sync
+            pre-commit install
           '';
         };
       }
