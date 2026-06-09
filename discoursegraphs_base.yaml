@@ -3,6 +3,7 @@ name: discoursegraphs_base
 prefixes:
   linkml: https://w3id.org/linkml/
   dgb: https://discoursegraphs.com/schema/dg_base#
+  po: http://www.essepuntato.it/2008/12/pattern#
 
 default_prefix: dgb
 imports:
@@ -69,3 +70,15 @@ slots:
     slot_uri: dgb:textRefersToNode
     domain: Item
     range: NodeSchema
+
+  contains:
+    description: A part of a document is contained in another part or whole document
+    slot_uri: po:contains
+    domain: Item
+    range: Item
+
+  isContainedBy:
+    slot_uri: po:isContainedBy
+    inverse: contains
+    domain: Item
+    range: Item

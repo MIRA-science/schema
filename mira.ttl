@@ -13,6 +13,8 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix status: <http://purl.org/ontology/bibo/status/> .
 @prefix mira: <http://purl.org/mira-science/mira#> .
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#> .
+
 
 <http://purl.org/mira-science/mira#> a owl:Ontology;
   dct:created "2026-05-31" ;
@@ -161,3 +163,14 @@ mira:addressedBy a dgb:RelationDef;
   owl:inverseOf mira:addresses;
   rdfs:range mira:Claim;
   rdfs:domain mira:Question.
+
+po:contains a owl:ObjectRelation;
+  rdfs:comment "A part of a document is contained in another part or whole document"@en;
+  rdfs:domain: sioc:Item, po:Structured;
+  rdfs:range: sioc:Item.
+
+po:isContainedBy a owl:ObjectRelation;
+  rdfs:comment "A part of a document is contained in another part or whole document"@en;
+  rdfs:domain: sioc:Item, po:Structured;
+  rdfs:range: sioc:Item;
+  owl:inverseOf po:contains.
