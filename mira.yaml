@@ -67,6 +67,16 @@ classes:
     title: Source document
     description: Some research source document that reports/generates evidence, like a book, conference paper, or journal article
 
+  Criterion:
+    class_uri: mira:Criterion
+    description: A criterion by which a proposal, claim or activity is judged.
+
+  Endorsement:
+    class_uri: mira:Endorsement
+    mixins:
+      - RelationDef
+    slots:
+      - endorsed
 slots:
   follows:
     domain: Study
@@ -88,6 +98,7 @@ slots:
     domain: Request
     range: Claim
     multivalued: true
+<<<<<<< HEAD
   describesActivity:
     slot_uri: mira:describesActivity
     title: Describes activity
@@ -187,4 +198,9 @@ slots:
     inverse: addresses
     range: Claim
     domain: Question
+=======
+  endorsed:
+    domain: Endorsement
+    range: NodeSchema
+>>>>>>> 1ddd1e9 (proposals, contd)
     multivalued: true

@@ -62,7 +62,7 @@ mira:Protocol a dgb:NodeSchema, prov:Activity;
   rdfs:label "Request"@en;
   rdfs:comment "A Protocol that a Study follows."@en.
 
-mira:Agent rdfs:subClassOf prov:Agent, foaf:Agent;
+dgb:Agent rdfs:subClassOf prov:Agent, foaf:Agent;
   rdfs:comment "An agent engaging in an activity, and posting MIRA nodes."@en.
 
 # Also possible:
@@ -78,6 +78,16 @@ mira:Endorsement a dgb:RelationDef;
   rdfs:comment "An endorsement of something by some actor";
   rdfs:domain mira:Agent;
   rdfs:range dgb:NodeSchema.
+
+mira:endorsed a owl:ObjectProperty;
+  rdfs:domain mira:Endorsement;
+  rdfs:range dgb:NodeSchema;
+  rdfs:comment "What is being endorsed".
+
+mira:endorser a owl:ObjectProperty;
+  rdfs:domain mira:Endorsement;
+  rdfs:range dgb:Agent;
+  rdfs:comment "Who endorses".
 
 # I would also propose that a Request is a subclass of an endorsement, whose range is a Question.
 
