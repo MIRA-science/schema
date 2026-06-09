@@ -21,7 +21,7 @@
     "hasValue": "owl:hasValue",
     "title": "dct:title",
     "format": "dct:format",
-    "description": "dct:description",
+    "description": { "@id": "dct:description", "@type": "@id" },
     "modified": {
       "@id": "dct:modified",
       "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
@@ -30,14 +30,14 @@
       "@id": "dct:created",
       "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
     },
-    "creator": "dct:creator",
+    "creator": { "@id": "dct:creator", "@type": "@id" },
     "accountName": "foaf:accountName",
     "name": "foaf:name",
     "account": "foaf:account",
     "Container": "sioc:Container",
     "UserAccount": "sioc:UserAccount",
     "content": "sioc:content",
-    "container_of": "sioc:container_of",
+    "container_of": { "@type": "@id", "@id": "sioc:container_of" },
     "has_container": { "@id": "sioc:has_container", "@type": "@id" },
     "RelationDef": "dgb:RelationDef",
     "Agent": "dgb:Agent",
