@@ -200,13 +200,13 @@ _:c14n12 sh:class <http://rdfs.org/sioc/ns#Container> ;
 	sh:nodeKind sh:BlankNodeOrIRI ;
 	sh:order 4 ;
 	sh:path <http://rdfs.org/sioc/ns#has_container> .
-_:c14n13 sh:datatype xsd:dateTime ;
+_:c14n13 sh:datatype xsd:dateTime .
 _:c14n13 sh:datatype xsd:dateTime ;
 	sh:maxCount 1 ;
 	sh:nodeKind sh:Literal ;
 	sh:order 1 ;
 	sh:path dcterms:modified .
-_:c14n14 sh:class <http://rdfs.org/sioc/ns#Container> ;
+_:c14n14 sh:class <http://rdfs.org/sioc/ns#Container> .
 _:c14n14 sh:class <http://rdfs.org/sioc/ns#Container> ;
 	sh:maxCount 1 ;
 	sh:nodeKind sh:BlankNodeOrIRI ;
