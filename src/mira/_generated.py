@@ -143,6 +143,7 @@ class NodeSchema(Item):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -163,6 +164,7 @@ class AbstractRelationDef(NodeSchema):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -190,6 +192,7 @@ class RelationDef(AbstractRelationDef):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -241,6 +244,7 @@ class Question(NodeSchema):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -263,6 +267,7 @@ class Claim(NodeSchema):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -285,6 +290,7 @@ class Evidence(NodeSchema):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -304,6 +310,7 @@ class Study(NodeSchema, Activity):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -323,6 +330,7 @@ class Request(NodeSchema):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -342,6 +350,7 @@ class Protocol(NodeSchema, Activity):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
@@ -365,6 +374,7 @@ class SourceDocument(NodeSchema, CreativeWork):
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
