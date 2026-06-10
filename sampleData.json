@@ -22,7 +22,7 @@
       "created": "2025-12-04T15:47:51.694Z",
       "title": "CLM - Some base claim",
       "description": {
-        "@type": "Item",
+        "@type": "sioc:Item",
         "format": "text/html",
         "content": "<hr />\n<p>nodeTypeId: node<em>OHkZtsR6jkJIVaNmMY</em>GB\nnodeInstanceId: c1f02ff4-f116-452f-a490-3e0309667145</p>\n<h2 id=\"publishedtogroups\">publishedToGroups:</h2>\n<p>That file was empty</p>"
       },
@@ -31,11 +31,11 @@
     {
       "@id": "https://example.com/some_document.html",
       "format": "text/html",
-      "@type": "Item"
+      "@type": "sioc:Item"
     },
     {
       "@id": "https://example.com/some_document.html#someClaim",
-      "@type": "Item",
+      "@type": "sioc:Item",
       "format": "text/plain",
       "isContainedBy": "https://example.com/some_document.html",
       "content": "Some claim contained in a broader document"
