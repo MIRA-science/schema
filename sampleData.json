@@ -1,5 +1,5 @@
 {
-  "@context": ["https://purl.archive.org/purl/mira-science/mira.jsonld"],
+  "@context": ["https://purl.org/mira-science/mira.jsonld"],
   "@graph": [
     {
       "@id": "some:account",
