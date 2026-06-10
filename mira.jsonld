@@ -74,6 +74,7 @@
     "Evidence": "mira:Evidence",
     "Request": "mira:Request",
     "Protocol": "mira:Protocol",
+    "Item": "sioc:Item",
     "follows": { "@id": "mira:follows", "@type": "@id" },
     "grounds": { "@id": "mira:grounds", "@type": "@id" },
     "is_grounded_in": { "@id": "mira:is_grounded_in", "@type": "@id" },
