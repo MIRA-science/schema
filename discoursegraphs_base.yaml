@@ -22,6 +22,7 @@ classes:
       - created
       - modified
       - creator
+      - title
       - description
       - has_container
 
