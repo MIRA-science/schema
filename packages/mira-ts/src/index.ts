@@ -50,6 +50,7 @@ export interface NodeSchema extends Item {
     created?: string,
     modified?: string,
     creator?: UserAccount[],
+    title?: string,
     description?: Item,
     has_container?: Container,
 }
