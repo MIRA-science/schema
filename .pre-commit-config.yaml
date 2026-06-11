@@ -4,7 +4,7 @@ repos:
       - id: generate-mira-types
         name: Regenerate MIRA types from schema
         language: system
-        entry: make generate
+        entry: make validate_data
         files: ^mira\.yaml$
         pass_filenames: false
         stages: [pre-commit]

@@ -7,22 +7,27 @@ mira_shacl = mira.yaml
 mira_ctxj = mira.context.jsonld
 svgfiles = discoursegraphs.svg mira.svg
 linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
+generated_typescript = packages/mira-ts/src/index.ts
+generated_python = src/mira/_generated.py
 
 all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
-generate: generate-python generate-typescript
+generate: $(generated_python) $(generated_typescript)
 
-generate-python:
-	uv run gen-pydantic $(mira_yaml) > src/mira/_generated.py
+validate_data: validate generate
+	uv run pyshacl -s mira.shacl -sf turtle -e mira.ttl sampleData.json
 
-generate-typescript:
-	uv run gen-typescript $(mira_yaml) > packages/mira-ts/src/index.ts
+$(generated_python): $(mira_yaml)
+	uv run gen-pydantic $(mira_yaml) > $@
+
+$(generated_typescript): $(mira_yaml)
+	uv run gen-typescript $(mira_yaml) > $@
 
 validate:
 	uv run linkml validate $(mira_yaml)
 
 clean:
-	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.context.jsonld docs site
+	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.context.jsonld docs site $(generated_typescript) $(generated_python)
 
 docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md
 	mkdir -p docs/elements
