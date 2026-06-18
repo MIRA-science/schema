@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>MIRA schema — a primer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* warm, tinted neutrals — never pure black/gray */
+    --bg:#FBFAF8; --ink:#241F2B; --muted:#8B8581; --faint:#C2BDB5; --hair:#EAE5DD;
+    --card:rgba(252,251,249,.92);
+
+    /* node palette — sampled from the screenshot */
+    --question:#E6B158; --question-fill:#FBF4E8; --question-ink:#8A5A12;
+    --claim:#5BA756;    --claim-fill:#E7F4E8;    --claim-ink:#2C6A29;
+    --evidence:#E6827A; --evidence-fill:#FBE7E5; --evidence-ink:#A2362E;
+    --study:#5E9EED;    --study-fill:#E7F1FD;    --study-ink:#1F5596;
+    --protocol:#C77FE0; --protocol-fill:#F6ECFB; --protocol-ink:#793795;
+    --request:#5566E4;  --request-fill:#E6E9FB;  --request-ink:#26309A;
+
+    /* type — distinctive pairing, not Inter/system */
+    --display:"Fraunces", Georgia, "Times New Roman", serif;
+    --sans:"Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    /* modular type scale (~1.25), body ≥ 16px */
+    --t-eyebrow:.72rem; --t-cap:.8rem; --t-sm:.92rem; --t-body:1rem;
+    --t-lead:1.18rem;
+    --t-def:clamp(1.32rem, 1.05rem + 1.25vw, 1.7rem);
+    --t-hero:clamp(2.05rem, 1.4rem + 3.4vw, 2.95rem);
+
+    /* 4pt spacing scale */
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+
+    /* subtle, consistent elevation */
+    --shadow:0 6px 26px -8px rgba(54,44,32,.18);
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html{ scroll-snap-type:y proximity; scroll-behavior:smooth; background:var(--bg); }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body{
+    margin:0; font-family:var(--sans); color:var(--ink); background:var(--bg);
+    font-optical-sizing:auto; font-kerning:normal;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+
+  /* ---------- chrome ---------- */
+  .topbar{ position:fixed; inset:0 0 auto 0; z-index:30; display:flex; justify-content:space-between;
+    align-items:center; padding:max(10px,env(safe-area-inset-top)) var(--s4) var(--s2); pointer-events:none;
+    font-size:var(--t-eyebrow); letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  .topbar b{ color:var(--ink); font-weight:700; letter-spacing:.14em; }
+  .topbar .tnum{ font-variant-numeric:tabular-nums; }
+  .progress{ position:fixed; top:0; left:0; height:3px; width:0%; z-index:31;
+    background:var(--accent,#241F2B); transition:width .45s cubic-bezier(.22,.61,.36,1), background .45s ease; }
+  .dots{ position:fixed; z-index:30; right:6px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:var(--s2); }
+  .dot{ position:relative; width:8px; height:8px; border-radius:50%; border:1.5px solid var(--faint);
+    background:transparent; padding:0; cursor:pointer; transition:all .25s ease; }
+  .dot::before{ content:""; position:absolute; inset:-18px; }     /* 44px+ touch target */
+  .dot[aria-current="true"]{ background:var(--accent,#241F2B); border-color:var(--accent,#241F2B); transform:scale(1.3); }
+
+  /* ---------- scrollytelling frame ---------- */
+  .scrolly{ position:relative; }
+  .figure{ position:sticky; top:0; height:42svh; display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-start; padding-top:42px; z-index:5; background:var(--bg); }
+  .figure::after{ content:""; position:absolute; left:0; right:0; bottom:-22px; height:22px;
+    background:linear-gradient(var(--bg), transparent); pointer-events:none; }
+  .figure svg{ width:min(80vw,340px); height:34svh; overflow:visible; }
+  .steps{ position:relative; z-index:2; }
+  .step{ min-height:58svh; scroll-snap-align:start; scroll-margin-top:44svh;
+    display:flex; flex-direction:column; justify-content:flex-start; padding:0 var(--s4) 9svh; }
+
+  /* ---------- copy surface (one panel, not a stack of cards) ---------- */
+  .card{ width:min(93vw,460px); margin:0 auto; background:var(--card);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    border-left:4px solid var(--accent,var(--ink)); border-radius:4px 16px 16px 4px;
+    padding:var(--s5) var(--s5) var(--s4); box-shadow:var(--shadow);
+    max-width:64ch; }
+
+  .eyebrow{ margin:0; font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--accent-ink,var(--ink));
+    display:flex; align-items:baseline; gap:var(--s2); flex-wrap:wrap; }
+  .also{ font-size:var(--t-sm); font-weight:500; letter-spacing:0; text-transform:none; color:var(--muted); }
+
+  /* DEFINITION = the hero of a node card (display face) */
+  .def{ font-family:var(--display); font-weight:560; font-size:var(--t-def); line-height:1.24;
+    letter-spacing:-.01em; margin:var(--s3) 0 0; text-wrap:balance; color:var(--ink); }
+
+  /* hero scenes */
+  .hero{ font-family:var(--display); font-weight:820; font-size:var(--t-hero); line-height:1.02;
+    letter-spacing:-.02em; margin:var(--s2) 0 0; text-wrap:balance; }
+  .lede{ font-size:var(--t-body); line-height:1.6; color:#3b3540; margin:var(--s4) 0 0; max-width:60ch; text-wrap:pretty; }
+  .lede b{ color:var(--ink); font-weight:700; }
+
+  /* example — set off by an accent rule + faint tint, NOT a nested card */
+  .ex{ margin:var(--s5) 0 0; padding:var(--s3) 0 var(--s3) var(--s4);
+    border-left:3px solid var(--accent); background:linear-gradient(90deg, color-mix(in srgb,var(--accent) 8%, transparent), transparent 92%); }
+  .ex .tag{ font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent-ink); opacity:.85; }
+  .ex .lead{ font-family:var(--display); font-size:var(--t-lead); font-weight:540; line-height:1.32;
+    margin-top:var(--s1); color:var(--accent-ink); text-wrap:pretty; }
+  .ex .note{ font-size:var(--t-sm); line-height:1.5; color:var(--accent-ink); opacity:.82; margin-top:var(--s2); }
+  .ex .row{ display:flex; gap:var(--s3); align-items:flex-start; }
+  .artifact{ flex:0 0 auto; border-radius:8px; }
+
+  .why{ font-size:var(--t-body); line-height:1.58; color:#3b3540; margin:var(--s5) 0 0; max-width:60ch; text-wrap:pretty; }
+  .why::before{ content:"Why its own node — "; font-family:var(--sans); font-weight:800; color:var(--accent-ink,var(--ink)); }
+
+  /* relations = the node's structural identity (the part that differs) */
+  .rel{ margin:var(--s5) 0 0; }
+  .rel-label{ margin:0 0 var(--s2); font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); }
+  .attrs{ display:flex; flex-wrap:wrap; gap:var(--s2); }
+  .pill{ font-size:var(--t-cap); line-height:1; display:inline-flex; align-items:center; gap:6px;
+    padding:7px 10px; border-radius:8px; background:var(--fill,#f0efea);
+    border:1px solid color-mix(in srgb,var(--accent,#ccc) 30%, transparent); color:var(--accent-ink,#333); font-weight:600; }
+  .pill .ar{ color:var(--accent,#999); font-weight:800; }
+  .pill .tg{ color:var(--ink); opacity:.7; }
+  .mixin{ font-size:var(--t-cap); color:var(--muted); margin-top:var(--s2); font-style:italic; }
+
+  /* shared fields — quietest tier; identical on every node (SHACL closed shape) */
+  .fields{ margin:var(--s5) 0 0; padding-top:var(--s3); border-top:1px solid var(--hair); }
+  .fields-h{ font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 var(--s2); }
+  .fields-h .src{ font-weight:600; letter-spacing:.02em; opacity:.7; text-transform:none; }
+  .frow{ font-size:var(--t-cap); line-height:1.65; color:#6b6560; margin:0; }
+  .frow b{ display:inline-block; min-width:74px; color:var(--accent-ink); opacity:.8;
+    font-weight:700; font-size:var(--t-eyebrow); letter-spacing:.04em; text-transform:uppercase; }
+  .frow code{ font-family:var(--sans); color:#6b6560; }
+  .badge-new{ font-size:.62rem; font-weight:900; letter-spacing:.06em; color:#fff; background:var(--accent,#241F2B);
+    border-radius:5px; padding:2px 6px; vertical-align:middle; text-transform:uppercase; white-space:nowrap; }
+
+  .hint{ margin:var(--s5) 0 0; font-size:var(--t-sm); color:var(--muted); display:flex; align-items:center; gap:var(--s2); }
+  .hint .k{ display:inline-flex; width:22px; height:22px; align-items:center; justify-content:center;
+    border:1.5px solid var(--faint); border-radius:50%; animation:bob 1.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:.7 } 50%{ transform:translateY(3px); opacity:1 } }
+  @media (prefers-reduced-motion: reduce){ .hint .k{ animation:none } }
+  .legalnote{ font-size:var(--t-sm); color:#6b6560; margin-top:var(--s4); padding:var(--s3) var(--s4);
+    border-radius:10px; background:#fff; border:1px solid var(--hair); line-height:1.5; }
+  .legalnote b{ color:var(--ink); }
+
+  /* ---------- graph ---------- */
+  .node rect{ fill:#fff; stroke:var(--n,#bbb); stroke-width:2; }
+  .node text{ font-family:var(--sans); font-size:13px; font-weight:700; fill:var(--ink);
+    text-anchor:middle; dominant-baseline:middle; }
+  .node--question{ --n:var(--question); } .node--claim{ --n:var(--claim); }
+  .node--evidence{ --n:var(--evidence); } .node--study{ --n:var(--study); }
+  .node--protocol{ --n:var(--protocol); } .node--request{ --n:var(--request); }
+  .node, .edge{ transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1); }
+  .node.is-ghost, .edge.is-ghost{ opacity:.14; }
+  .node.is-on rect{ fill:var(--fillc,#fff); }
+  .node--question.is-on rect{ --fillc:var(--question-fill); }
+  .node--claim.is-on rect{ --fillc:var(--claim-fill); }
+  .node--evidence.is-on rect{ --fillc:var(--evidence-fill); }
+  .node--study.is-on rect{ --fillc:var(--study-fill); }
+  .node--protocol.is-on rect{ --fillc:var(--protocol-fill); }
+  .node--request.is-on rect{ --fillc:var(--request-fill); }
+  .node.is-active rect{ stroke-width:3; filter:drop-shadow(0 4px 12px color-mix(in srgb,var(--n) 55%, transparent)); }
+  .node.is-active{ animation:pop .5s cubic-bezier(.22,.61,.36,1); }
+  @keyframes pop{ 0%{ transform:scale(.92) } 100%{ transform:scale(1) } }
+  @media (prefers-reduced-motion: reduce){ .node.is-active{ animation:none } }
+  .figure.is-overview .node, .figure.is-overview .edge{ opacity:.5; }
+
+  .link{ fill:none; stroke:#AAA59C; stroke-width:1.8; }
+  .edge.is-active .link{ stroke:var(--n,#7a7a82); stroke-width:2.4; }
+  .elabel{ font-family:var(--sans); font-size:9px; font-weight:700; fill:var(--faint); letter-spacing:.02em; }
+  .edge.is-active .elabel{ fill:var(--n,#555); }
+  .edge--addresses{ --n:var(--claim); } .edge--so{ --n:var(--evidence); }
+  .edge--grounds{ --n:var(--study); } .edge--follows{ --n:var(--protocol); }
+  .edge--rf{ --n:var(--request); } .edge--rt{ --n:var(--request); }
+  .anno{ opacity:0; transition:opacity .5s ease; }
+  .figure.is-payoff .anno{ opacity:1; }
+  .figure.is-payoff .edge--so .link{ stroke:var(--evidence); stroke-width:2.6; }
+  .refuted text{ font-size:9px; font-weight:800; fill:#fff; font-family:var(--sans); }
+  .refuted rect{ fill:var(--evidence); stroke:none; }
+</style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="topbar"><span><b>MIRA</b> · schema primer</span><span class="tnum" id="counter">01 / 09</span></div>
+  <div class="dots" id="dots" role="tablist" aria-label="Sections"></div>
+
+  <main class="scrolly" id="scrolly">
+    <div class="figure" id="figure" aria-hidden="true">
+      <svg viewBox="0 0 340 372" role="img">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#AAA59C"></path>
+          </marker>
+        </defs>
+        <g class="edge edge--addresses" data-appear="2">
+          <path class="link" d="M170,95 L170,56" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="176" y="78" text-anchor="start">addresses</text>
+        </g>
+        <g class="edge edge--so" data-appear="3">
+          <path class="link" d="M134,176 L156,130" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="70" y="150" text-anchor="start">supports /</text>
+          <text class="elabel" x="70" y="160" text-anchor="start">opposes</text>
+        </g>
+        <g class="edge edge--grounds" data-appear="4">
+          <path class="link" d="M98,264 L114,212" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="60" y="240" text-anchor="start">grounds</text>
+        </g>
+        <g class="edge edge--follows" data-appear="5">
+          <path class="link" d="M88,298 L88,330" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="94" y="318" text-anchor="start">follows</text>
+        </g>
+        <g class="edge edge--rf" data-appear="6">
+          <path class="link" d="M205,283 L139,283" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="172" y="277" text-anchor="middle">request_for</text>
+        </g>
+        <g class="edge edge--rt" data-appear="6">
+          <path class="link" d="M246,264 C236,200 232,150 221,123" marker-end="url(#arrow)"></path>
+          <text class="elabel" x="250" y="205" text-anchor="start">request_target</text>
+        </g>
+        <g class="node node--question" data-node="question" data-appear="1">
+          <rect x="122" y="19" width="96" height="34" rx="9"></rect><text x="170" y="37">Question</text></g>
+        <g class="node node--claim" data-node="claim" data-appear="2">
+          <rect x="122" y="95" width="96" height="34" rx="9"></rect><text x="170" y="113">Claim</text></g>
+        <g class="node node--evidence" data-node="evidence" data-appear="3">
+          <rect x="78" y="175" width="96" height="34" rx="9"></rect><text x="126" y="193">Evidence</text></g>
+        <g class="node node--study" data-node="study" data-appear="4">
+          <rect x="40" y="263" width="96" height="34" rx="9"></rect><text x="88" y="281">Study</text></g>
+        <g class="node node--protocol" data-node="protocol" data-appear="5">
+          <rect x="40" y="329" width="96" height="34" rx="9"></rect><text x="88" y="347">Protocol</text></g>
+        <g class="node node--request" data-node="request" data-appear="6">
+          <rect x="204" y="263" width="96" height="34" rx="9"></rect><text x="252" y="281">Request</text></g>
+        <g class="anno refuted">
+          <rect x="196" y="86" width="52" height="14" rx="7"></rect>
+          <text x="222" y="93.5" text-anchor="middle">✕ refuted</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="steps" id="steps"></div>
+  </main>
+
+<script>
+const SCENES = [
+  { key:'hook', accent:'ink', g:0, type:'hero',
+    kicker:'MIRA schema · a primer',
+    hero:'A result isn’t a PDF.<br>It’s a graph.',
+    lede:'MIRA turns a finding into a handful of signed, citable records — the question asked, the claim that answers it, and the evidence behind it. We’ll build one famous result a record at a time: <b>the structure of DNA.</b>',
+    hint:'Scroll, or tap the right edge' },
+
+  { key:'overview', accent:'ink', g:0, type:'hero',
+    kicker:'The whole picture',
+    hero:'Six node types,<br>a few labeled links.',
+    lede:'Every node carries the <b>same eight fields</b> — so a node’s <i>type</i> is defined almost entirely by how it <b>links</b>, not by what it stores. Keeping the layers apart lets you ask <i>which</i> layer a problem is in: is the claim contested, the evidence un-reproduced, or the figure itself unsound?',
+    hint:'Meet them one by one' },
+
+  { key:'question', accent:'question', g:1, type:'node',
+    kicker:'Question', also:'research goal · research unknown',
+    def:'A scientific unknown we want to make known — addressable by the systematic application of research methods.',
+    ex:{ tag:'In the DNA story', lead:'What is the 3-D structure of DNA?',
+         note:'Importance: implications for the mechanism of genetic inheritance.' },
+    why:'Questions are the spine of a field. Pin one down and every claim, supported or contested, hangs off a shared, durable target — so you can spot the questions that still have <b>no</b> answer.',
+    attrs:[ ['addressed by','←','Claim'] ] },
+
+  { key:'claim', accent:'claim', g:2, type:'node',
+    kicker:'Claim', also:'hypothesis',
+    def:'An atomic, generalized assertion about the world that (proposes to) answer a research question.',
+    ex:{ tag:'In the DNA story', lead:'DNA forms a triple helix.',
+         note:'Pauling &amp; Corey, 1953: “a three-chain structure, each chain a helix… related by a threefold axis.” — famously <b>wrong</b>.' },
+    why:'A claim can be wrong, and MIRA keeps it anyway. The claim is a stable thing to argue <i>about</i>; evidence then supports or opposes it. Being contested is data, not deletion.',
+    attrs:[ ['addresses','→','Question'], ['supports / opposes','→','Claim'], ['supported / opposed by','←','Argument'] ] },
+
+  { key:'evidence', accent:'evidence', g:3, type:'node',
+    kicker:'Evidence', also:'result · observation · data artifact',
+    def:'A specific empirical observation from a particular application of a research method.',
+    ex:{ tag:'In the DNA story', artifact:true,
+         lead:'Photo 51 — X-ray diffraction of DNA fibres shows a repeating “X” with 3.4 nm periodicity.',
+         note:'Franklin &amp; Gosling: “our conclusions differ from those of Pauling and Corey…” — so this Evidence <b>opposes</b> the triple-helix claim.' },
+    why:'Evidence is one observation, not a verdict. It points four ways at once — to the claim it speaks to, the actual figure, the experiment that made it, and the paper that reported it. That’s what lets you trace a claim down to the literal pixels.',
+    attrs:[ ['observationStatement','→','Claim'], ['observationBase','→','data artifact'],
+            ['observationOriginActivity','→','Study'], ['sourceDocument','→','paper'] ] },
+
+  { key:'study', accent:'study', g:4, type:'node',
+    kicker:'Study', also:'experiment · analysis · event',
+    def:'An activity — an experiment or analysis — that produces evidence.',
+    mixin:'mixes in Activity',
+    ex:{ tag:'In the DNA story', lead:'X-ray diffraction of calf-thymus DNA fibres.',
+         note:'May 3: obtained calf thymus… June 8: prepared fibres… exposed the film for 62 hours…' },
+    why:'The Study is the <i>event</i> — who did what, when, with which data and software. Splitting the event from the observation lets two labs run the same Protocol and be compared side by side.',
+    attrs:[ ['grounds','→','Evidence'], ['follows','→','Protocol'] ] },
+
+  { key:'protocol', accent:'protocol', g:5, type:'node',
+    kicker:'Protocol', also:'method',
+    def:'The method or experimental approach a Study follows to generate the evidence.',
+    mixin:'mixes in Activity',
+    ex:{ tag:'In the DNA story', lead:'Isolate deoxyribose from calf thymus by… prepare the X-ray chamber by… place the fibres in the beam…',
+         note:'A recipe, written once — many Studies can follow it.' },
+    why:'A Protocol is reusable; a Study runs it once. Pull the method out and a recipe can be cited, improved and re-run — so you can tell a flawed <i>result</i> apart from a flawed <i>method</i>.',
+    attrs:[ ['followed by','←','Study'] ] },
+
+  { key:'request', accent:'request', g:6, type:'node',
+    kicker:'Request', also:'need · issue · idea',
+    def:'A unit of work the community can pick up — issue-tracker-shaped.',
+    ex:{ tag:'In the DNA story', lead:'Requested: a cleaner diffraction run to settle one-helix vs. three.',
+         note:'motivation · skill required' },
+    why:'The graph also holds what <i>hasn’t</i> been done. A Request points at the Study it wants, or the Claim it wants settled — so stalled work and open asks are first-class, not lost in a hallway.',
+    attrs:[ ['request_for','→','Study'], ['request_target','→','Claim'] ] },
+
+  { key:'payoff', accent:'ink', g:7, type:'hero',
+    kicker:'Why it’s a graph',
+    hero:'Now query<br>the whole field.',
+    lede:'Every record is signed (<b>creator</b>), dated (<b>created</b>), <b>licensed</b>, and linked. So a funder or researcher can query the live graph and see which claims are well-supported, which are contested, and which questions still have no answer — and attribute credit per record, not per paper. The triple helix was wrong; the graph shows exactly how the evidence overturned it.',
+    footer:true }
+];
+
+const ARTIFACT = `<svg class="artifact" width="58" height="58" viewBox="0 0 62 62" aria-hidden="true">
+  <rect width="62" height="62" rx="8" fill="#181821"/>
+  <g fill="#efeede" opacity=".9">
+    <g transform="translate(31 31) rotate(45)">
+      ${[-20,-12,12,20].map(d=>`<ellipse cx="0" cy="${d}" rx="${9-Math.abs(d)/3}" ry="3.4" opacity="${1-Math.abs(d)/34}"/>`).join('')}
+    </g>
+    <g transform="translate(31 31) rotate(-45)">
+      ${[-20,-12,12,20].map(d=>`<ellipse cx="0" cy="${d}" rx="${9-Math.abs(d)/3}" ry="3.4" opacity="${1-Math.abs(d)/34}"/>`).join('')}
+    </g>
+    <circle cx="31" cy="31" r="2.2"/>
+  </g>
+</svg>`;
+
+// SHACL closed shape — identical 8 literal fields on every node type, grouped by role.
+const FIELDS = `<div class="fields">
+  <p class="fields-h">Every node — the same 8 fields <span class="src">· SHACL closed shape</span></p>
+  <p class="frow"><b>identity</b> <code>title · content · format</code></p>
+  <p class="frow"><b>provenance</b> <code>creator · created · modified</code> <span class="badge-new">+ license</span></p>
+  <p class="frow"><b>context</b> <code>description · has_container</code></p>
+</div>`;
+
+function pills(attrs){
+  return `<div class="attrs">${attrs.map(([l,a,t])=>
+    `<span class="pill">${l}<span class="ar">${a}</span><span class="tg">${t}</span></span>`).join('')}</div>`;
+}
+
+function renderCard(s){
+  if(s.type==='hero'){
+    return `<article class="card">
+      <p class="eyebrow">${s.kicker}</p>
+      <h1 class="hero">${s.hero}</h1>
+      <p class="lede">${s.lede}</p>
+      ${s.footer?FIELDS:''}
+      ${s.footer?`<div class="legalnote"><b>On <code>license</code>:</b> shown on every node per the brief, but it isn’t in <code>mira.yaml</code> yet — flagged as a proposed universal field.</div>`:''}
+      ${s.hint?`<p class="hint"><span class="k">↓</span> ${s.hint}</p>`:''}
+    </article>`;
+  }
+  const ex = s.ex;
+  const exHtml = `<div class="ex">
+    <div class="tag">${ex.tag}</div>
+    <div class="row">
+      ${ex.artifact?ARTIFACT:''}
+      <div><div class="lead">${ex.lead}</div>${ex.note?`<div class="note">${ex.note}</div>`:''}</div>
+    </div></div>`;
+  return `<article class="card">
+    <p class="eyebrow">${s.kicker}${s.also?`<span class="also">${s.also}</span>`:''}</p>
+    <h2 class="def">${s.def}</h2>
+    ${exHtml}
+    <p class="why">${s.why}</p>
+    <div class="rel">
+      <p class="rel-label">Relations${s.mixin?` · ${s.mixin}`:''}</p>
+      ${pills(s.attrs)}
+    </div>
+    ${FIELDS}
+  </article>`;
+}
+
+const stepsEl = document.getElementById('steps');
+const dotsEl  = document.getElementById('dots');
+SCENES.forEach((s,i)=>{
+  const step = document.createElement('section');
+  step.className = 'step scene--'+s.accent;
+  step.id = 'step-'+i; step.dataset.index = i; step.dataset.g = s.g;
+  step.innerHTML = renderCard(s);
+  stepsEl.appendChild(step);
+  const dot = document.createElement('button');
+  dot.className='dot'; dot.setAttribute('role','tab');
+  dot.setAttribute('aria-label', s.kicker); dot.dataset.index=i;
+  dot.addEventListener('click',()=>goTo(i));
+  dotsEl.appendChild(dot);
+});
+
+const ACCENTS = {
+  question:['--question','--question-fill','--question-ink'],
+  claim:['--claim','--claim-fill','--claim-ink'],
+  evidence:['--evidence','--evidence-fill','--evidence-ink'],
+  study:['--study','--study-fill','--study-ink'],
+  protocol:['--protocol','--protocol-fill','--protocol-ink'],
+  request:['--request','--request-fill','--request-ink'],
+  ink:[null,null,null]
+};
+const styleEl=document.createElement('style'); let css='';
+for(const [k,[a,f,ink]] of Object.entries(ACCENTS)){
+  if(k==='ink'){ css+=`.scene--ink{--accent:var(--ink);--fill:#F1F0EC;--accent-ink:var(--ink);}`; continue; }
+  css+=`.scene--${k}{--accent:var(${a});--fill:var(${f});--accent-ink:var(${ink});}`;
+}
+styleEl.textContent=css; document.head.appendChild(styleEl);
+
+const figure=document.getElementById('figure');
+const nodeEls=[...figure.querySelectorAll('.node')];
+const edgeEls=[...figure.querySelectorAll('.edge')];
+function setGraph(g){
+  const all = (g===0 || g===7);
+  figure.classList.toggle('is-overview', g===0);
+  figure.classList.toggle('is-payoff', g===7);
+  for(const el of [...nodeEls,...edgeEls]){
+    const a=+el.dataset.appear;
+    el.classList.toggle('is-on', all || a<=g);
+    el.classList.toggle('is-ghost', !all && a>g);
+    el.classList.toggle('is-active', !all && a===g);
+  }
+}
+
+const progress=document.getElementById('progress');
+const counter=document.getElementById('counter');
+const dots=[...dotsEl.children];
+let active=-1;
+function setActive(i){
+  if(i===active) return; active=i;
+  const s=SCENES[i];
+  setGraph(s.g);
+  const accentVar = s.accent==='ink' ? 'var(--ink)' : `var(--${s.accent})`;
+  document.documentElement.style.setProperty('--accent', accentVar);
+  progress.style.width = ((i+1)/SCENES.length*100)+'%';
+  counter.textContent = String(i+1).padStart(2,'0')+' / '+String(SCENES.length).padStart(2,'0');
+  dots.forEach((d,j)=>d.setAttribute('aria-current', j===i?'true':'false'));
+}
+const io=new IntersectionObserver((entries)=>{
+  let best=null;
+  for(const e of entries){ if(e.isIntersecting && (!best||e.intersectionRatio>best.intersectionRatio)) best=e; }
+  if(best) setActive(+best.target.dataset.index);
+},{ threshold:[.15,.4,.7], rootMargin:'-45% 0px -25% 0px' });
+[...stepsEl.children].forEach(s=>io.observe(s));
+
+function goTo(i){
+  i=Math.max(0,Math.min(SCENES.length-1,i));
+  document.getElementById('step-'+i).scrollIntoView({behavior:'smooth', block:'start'});
+}
+document.addEventListener('keydown',(e)=>{
+  if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); goTo(active+1); }
+  else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); goTo(active-1); }
+});
+document.getElementById('scrolly').addEventListener('click',(e)=>{
+  if(e.target.closest('a,button,.dot,.pill')) return;
+  if(window.getSelection && String(window.getSelection())) return;
+  const x=e.clientX, w=window.innerWidth;
+  if(x > w*0.62) goTo(active+1);
+  else if(x < w*0.24) goTo(active-1);
+});
+</script>
+</body>
+</html>
