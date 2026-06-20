@@ -141,6 +141,19 @@
     border-radius:10px; background:#fff; border:1px solid var(--hair); line-height:1.5; }
   .legalnote b{ color:var(--ink); }
 
+  /* final call-to-action (the one place a contained, actionable element earns its box) */
+  .cta{ display:block; margin-top:var(--s5); padding:var(--s4) var(--s5); border-radius:14px;
+    background:var(--ink); color:#fff; text-decoration:none; box-shadow:var(--shadow);
+    transition:transform .2s cubic-bezier(.22,.61,.36,1), box-shadow .2s ease; }
+  .cta:hover, .cta:focus-visible{ transform:translateY(-2px);
+    box-shadow:0 12px 30px -8px rgba(54,44,32,.38); outline:none; }
+  .cta .cta-h{ display:block; font-family:var(--display); font-size:var(--t-lead); font-weight:620;
+    letter-spacing:-.01em; }
+  .cta .cta-link{ display:inline-flex; align-items:center; gap:6px; margin-top:6px;
+    font-size:var(--t-sm); font-weight:700; color:#F4D9A0; }
+  .cta .cta-link .ar{ transition:transform .2s ease; }
+  .cta:hover .cta-link .ar{ transform:translateX(4px); }
+
   /* ---------- graph ---------- */
   .node rect{ fill:#fff; stroke:var(--n,#bbb); stroke-width:2; }
   .node text{ font-family:var(--sans); font-size:13px; font-weight:700; fill:var(--ink);
@@ -307,7 +320,8 @@ const SCENES = [
     kicker:'Why it’s a graph',
     hero:'Now query<br>the whole field.',
     lede:'Every record is signed (<b>creator</b>), dated (<b>created</b>), <b>licensed</b>, and linked. So a funder or researcher can query the live graph and see which claims are well-supported, which are contested, and which questions still have no answer — and attribute credit per record, not per paper. The triple helix was wrong; the graph shows exactly how the evidence overturned it.',
-    footer:true }
+    footer:true,
+    cta:{ q:'Ready to use the schema?', href:'https://github.com/MIRA-science/schema', label:'github.com/MIRA-science/schema' } }
 ];
 
 const ARTIFACT = `<svg class="artifact" width="58" height="58" viewBox="0 0 62 62" aria-hidden="true">
@@ -344,6 +358,9 @@ function renderCard(s){
       <p class="lede">${s.lede}</p>
       ${s.footer?FIELDS:''}
       ${s.footer?`<div class="legalnote"><b>On <code>license</code>:</b> shown on every node per the brief, but it isn’t in <code>mira.yaml</code> yet — flagged as a proposed universal field.</div>`:''}
+      ${s.cta?`<a class="cta" href="${s.cta.href}" target="_blank" rel="noopener">
+        <span class="cta-h">${s.cta.q}</span>
+        <span class="cta-link">${s.cta.label} <span class="ar">→</span></span></a>`:''}
       ${s.hint?`<p class="hint"><span class="k">↓</span> ${s.hint}</p>`:''}
     </article>`;
   }
