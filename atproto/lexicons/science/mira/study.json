@@ -1,0 +1,35 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.study",
+  "description": "MIRA Study — an activity (experiment/analysis) that produces evidence. Maps mira.yaml class Study (mixins NodeSchema, Activity). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A study/activity. 'follows' points at the protocols it enacts. 'grounds' is normally derived from science.mira.evidence.isGroundedIn; it may be asserted here when a study enumerates its own outputs.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — short human label (e.g. 'STU - ...')." },
+          "description": { "type": "string", "maxLength": 100000, "description": "MIRA dgb:description — what the study did." },
+          "descriptionRef": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA dgb:description, URI form." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator, only when it differs from the signing repo DID." },
+          "container": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA has_container." },
+          "follows": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA follows — Protocols this study follows."
+          },
+          "grounds": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA grounds — Evidence this study grounds (usually derived as the inverse of evidence.isGroundedIn)."
+          }
+        }
+      }
+    }
+  }
+}

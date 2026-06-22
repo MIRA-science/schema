@@ -1,0 +1,13 @@
+{
+  "$comment": "Example INSTANCE of science.mira.relation, not a lexicon. The SAME supports edge as claim-supporting.json, but asserted as a standalone record — the form a THIRD party (here did:plc:labB) uses to assert an edge between two claims it does not own. Mirrors the reified 'supports' RelationInstance (sdata:261147) in ../../sampleData.json.",
+  "$type": "science.mira.relation",
+  "createdAt": "2026-06-03T10:13:09.101Z",
+  "predicate": "science.mira.supports",
+  "source": {
+    "uri": "at://did:plc:labA00000000000000000000/science.mira.claim/3ksupporting0"
+  },
+  "destination": {
+    "uri": "at://did:plc:labA00000000000000000000/science.mira.claim/3kbaseclaim000"
+  },
+  "title": "[[CLM - Some supporting claim]] -supports-> [[CLM - Some base claim]]"
+}

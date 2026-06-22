@@ -1,0 +1,60 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.evidence",
+  "description": "MIRA Evidence — a specific empirical observation from one application of a research method. Maps mira.yaml class Evidence (is_a Entity; mixins Argument, NodeSchema). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "An evidence node. The four-layer chain is realized by observationStatement (the claim it speaks to), observationBase (the literal data), observationOriginActivity / isGroundedIn (the study that produced it) and sourceDocument (the paper). observationStatement and observationBase are required, mirroring the cardinality-1 restriction in the schema.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt", "observationStatement", "observationBase"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — short human label (e.g. 'EVD - ...')." },
+          "description": { "type": "string", "maxLength": 100000, "description": "MIRA dgb:description, inline form — what was observed." },
+          "descriptionRef": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA dgb:description, URI form." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator, only when it differs from the signing repo DID." },
+          "container": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA has_container." },
+          "observationStatement": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA observationStatement — the Claim this observation speaks to."
+          },
+          "observationBase": {
+            "type": "ref",
+            "ref": "science.mira.defs#dataArtifact",
+            "description": "MIRA observationBase — the actual data the observation rests on (figure, blot, dataset)."
+          },
+          "observationOriginActivity": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA observationOriginActivity — the Study/Activity that produced the data."
+          },
+          "isGroundedIn": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA is_grounded_in — the Study grounding this evidence (inverse 'grounds' is AppView-derived)."
+          },
+          "sourceDocument": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA sourceDocument — the SourceDocument reporting this evidence."
+          },
+          "supports": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA supports — Claims this evidence supports (Evidence is an Argument)."
+          },
+          "opposes": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA opposes — Claims this evidence opposes."
+          }
+        }
+      }
+    }
+  }
+}

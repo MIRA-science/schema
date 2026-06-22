@@ -1,0 +1,40 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.claim",
+  "description": "MIRA Claim — an atomic, generalized assertion that (proposes to) answer a research question. Maps mira.yaml class Claim (mixins Argument, NodeSchema). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A claim. Forward edges the claim's author owns (addresses / supports / opposes) are inlined here; third-party assertions about this claim use science.mira.relation. Inverse edges (addressedBy, supportedBy, opposedBy) are AppView-derived.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — short human label (e.g. 'CLM - ...')." },
+          "description": { "type": "string", "maxLength": 100000, "description": "MIRA dgb:description, inline form — the assertion text." },
+          "descriptionRef": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA dgb:description, URI form." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator, only when it differs from the signing repo DID." },
+          "container": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA has_container." },
+          "addresses": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA addresses — Questions this claim (proposes to) answer."
+          },
+          "supports": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA supports — Claims this claim supports (a Claim is an Argument)."
+          },
+          "opposes": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA opposes — Claims this claim opposes."
+          }
+        }
+      }
+    }
+  }
+}

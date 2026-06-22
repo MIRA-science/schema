@@ -1,0 +1,25 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.protocol",
+  "description": "MIRA Protocol — the method an activity follows. Maps mira.yaml class Protocol (mixins NodeSchema, Activity). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A protocol/method. The inverse of study.follows ('followedBy') is AppView-derived.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — short human label." },
+          "description": { "type": "string", "maxLength": 100000, "description": "MIRA dgb:description — the method." },
+          "descriptionRef": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA dgb:description, URI form (e.g. a protocols.io link)." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator, only when it differs from the signing repo DID." },
+          "container": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA has_container." }
+        }
+      }
+    }
+  }
+}

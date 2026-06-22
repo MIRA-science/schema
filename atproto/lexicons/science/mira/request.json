@@ -1,0 +1,35 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.request",
+  "description": "MIRA Request — a unit of work the community can pick up (issue-tracker-shaped). Maps mira.yaml class Request (mixin NodeSchema). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A request. requestFor points at the Study being asked for; requestTarget at the Claim it concerns. Issue-tracker fields (status, assignee) are intentionally omitted — the schema does not yet define them (see SPEC.md open questions).",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — short human label (e.g. 'REQ - ...')." },
+          "description": { "type": "string", "maxLength": 100000, "description": "MIRA dgb:description — what is being requested." },
+          "descriptionRef": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA dgb:description, URI form." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator, only when it differs from the signing repo DID." },
+          "container": { "type": "ref", "ref": "science.mira.defs#externalRef", "description": "MIRA has_container." },
+          "requestFor": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA request_for — Studies this request asks for."
+          },
+          "requestTarget": {
+            "type": "array",
+            "items": { "type": "ref", "ref": "science.mira.defs#ref" },
+            "description": "MIRA request_target — Claims this request targets."
+          }
+        }
+      }
+    }
+  }
+}

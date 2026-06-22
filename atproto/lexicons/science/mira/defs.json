@@ -1,0 +1,104 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.defs",
+  "description": "Shared definitions for the MIRA discourse-graph lexicons. DRAFT — derived by hand from schema/mira.yaml; not yet adopted or published. See schema/atproto/SPEC.md.",
+  "defs": {
+    "ref": {
+      "type": "object",
+      "description": "A reference from one MIRA record to another. Weak by default (uri only, follows the latest version); strong when 'cid' is present (pins one immutable version, for citation that must not drift). Compatible with com.atproto.repo.strongRef.",
+      "required": ["uri"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the target record, e.g. at://did:plc:abc/science.mira.claim/3k..."
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Optional content hash pinning a specific version of the target (makes this a strong ref)."
+        }
+      }
+    },
+    "externalRef": {
+      "type": "object",
+      "description": "A pointer to a resource that lives outside the AT Protocol network — a URL, DOI, dataset locator, or document. Embodies MIRA's 'pointers, not payloads' rule for content held off-PDS.",
+      "required": ["uri"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The locator (https URL, doi:, etc.)."
+        },
+        "mediaType": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Optional MIME type of the resource, e.g. text/html, application/pdf."
+        },
+        "cid": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Optional content hash for integrity, if known."
+        }
+      }
+    },
+    "dataArtifact": {
+      "type": "object",
+      "description": "The literal data an observation rests on — a figure, blot, image, or dataset (MIRA observationBase, range prov:Entity). Primary form is an external URL ('pointers, not payloads'); a PDS blob is permitted for small artifacts. At least one of 'uri' or 'blob' is expected.",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "External locator of the artifact (image/dataset URL). Preferred for large data."
+        },
+        "blob": {
+          "type": "blob",
+          "accept": ["*/*"],
+          "maxSize": 5242880,
+          "description": "Optional inline blob, only for small artifacts hosted on the author's PDS."
+        },
+        "mediaType": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "MIME type of the artifact."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Human label for the artifact (e.g. 'Figure 3b')."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Optional caption / what the artifact shows."
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "description": "An explicit scientific author or curator. Used for MIRA 'creator' ONLY when the scientific author differs from the signing repo account (e.g. a curator importing a third party's claim), and for SourceDocument authors. When absent on a node, the creator is the repo's DID by construction.",
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "AT Protocol DID, if the agent has one."
+        },
+        "orcid": {
+          "type": "string",
+          "format": "uri",
+          "description": "ORCID URI, e.g. https://orcid.org/0000-0002-1825-0097 — the identity bridge for researchers without a DID."
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "AT Protocol handle, if any."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Display name."
+        }
+      }
+    }
+  }
+}

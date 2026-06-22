@@ -1,0 +1,17 @@
+{
+  "$comment": "Example INSTANCE of science.mira.claim, not a lexicon. Mirrors 'CLM - Some supporting claim' from ../../sampleData.json. The supports edge is inlined because this claim's author owns it. Would live at at://did:plc:labA.../science.mira.claim/3ksupporting.",
+  "$type": "science.mira.claim",
+  "createdAt": "2025-12-04T15:47:51.694Z",
+  "updatedAt": "2026-05-26T00:39:03.077Z",
+  "title": "CLM - Some supporting claim",
+  "descriptionRef": {
+    "uri": "https://example.com/some_document.html#someClaim",
+    "mediaType": "text/plain"
+  },
+  "supports": [
+    {
+      "uri": "at://did:plc:labA00000000000000000000/science.mira.claim/3kbaseclaim000",
+      "cid": "bafyreib2rxk3rybcnj6m5z2x3q5example000000000000000000000"
+    }
+  ]
+}

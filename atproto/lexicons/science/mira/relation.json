@@ -1,0 +1,52 @@
+{
+  "lexicon": 1,
+  "id": "science.mira.relation",
+  "description": "A reified MIRA edge — the AT Protocol form of dgb:RelationInstance (source / destination / predicate, each instance carrying its own creator). DRAFT.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A standalone relation record. This is how an actor asserts an edge about records they do NOT own (the cross-lab case): the assertion lives in the asserter's repo, so 'Lab B's evidence opposes Lab A's claim' needs no write access to Lab A. The AppView normalizes both inline edges and these records into one RelationInstance view. For edges the subject author owns, prefer inlining on the node record.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt", "predicate", "source", "destination"],
+        "properties": {
+          "createdAt": { "type": "string", "format": "datetime", "description": "MIRA dct:created." },
+          "updatedAt": { "type": "string", "format": "datetime", "description": "MIRA dct:modified." },
+          "predicate": {
+            "type": "string",
+            "knownValues": [
+              "science.mira.addresses",
+              "science.mira.supports",
+              "science.mira.opposes",
+              "science.mira.observationStatement",
+              "science.mira.observationOriginActivity",
+              "science.mira.observationBase",
+              "science.mira.isGroundedIn",
+              "science.mira.grounds",
+              "science.mira.sourceDocument",
+              "science.mira.follows",
+              "science.mira.describesActivity",
+              "science.mira.requestFor",
+              "science.mira.requestTarget"
+            ],
+            "maxLength": 256,
+            "description": "The MIRA RelationDef this edge instantiates. Open enum (knownValues) so the predicate vocabulary can extend without a breaking lexicon change."
+          },
+          "source": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA RelationInstance.source — the edge's subject node."
+          },
+          "destination": {
+            "type": "ref",
+            "ref": "science.mira.defs#ref",
+            "description": "MIRA RelationInstance.destination — the edge's object node."
+          },
+          "title": { "type": "string", "maxLength": 5000, "description": "MIRA dct:title — human label, e.g. '[[CLM - A]] -supports-> [[CLM - B]]'." },
+          "attributedTo": { "type": "ref", "ref": "science.mira.defs#agent", "description": "MIRA creator of the assertion, only when it differs from the signing repo DID." }
+        }
+      }
+    }
+  }
+}
