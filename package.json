@@ -1,0 +1,15 @@
+{
+  "name": "@mira/types",
+  "version": "0.0.1",
+  "description": "TypeScript types for the MIRA schema. Sourced from packages/mira-ts/.",
+  "main": "./packages/mira-ts/src/index.ts",
+  "types": "./packages/mira-ts/src/index.ts",
+  "files": [
+    "packages/mira-ts/src"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MIRA-science/schema.git"
+  }
+}
