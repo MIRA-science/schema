@@ -8,3 +8,4 @@ default_prefix: schema
 classes:
   CreativeWork:
     class_uri: schema:CreativeWork
+    description: (Schema.org) The most generic kind of creative work, including books, movies, photographs, software programs, etc.
