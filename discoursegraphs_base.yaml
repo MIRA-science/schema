@@ -14,6 +14,7 @@ classes:
     class_uri: linkml:Any
 
   NodeSchema:
+    description: Abstract class for node definitions
     class_uri: dgb:NodeSchema
     abstract: true
     mixin: true
@@ -27,12 +28,14 @@ classes:
       - has_container
 
   AbstractRelationDef:
+    description: Abstract meta-class for relation definitions
     is_a: NodeSchema
     class_uri: dgb:AbstractRelationDef
     abstract: true
     mixin: true
 
   RelationDef:
+    description: Abstract class for relation definitions
     class_uri: dgb:RelationDef
     abstract: true
     mixin: true
@@ -46,7 +49,7 @@ classes:
     class_uri: dgb:Agent
     is_a: FoafAgent
     # rdfs:subClassOf prov:Agent, foaf:Agent;
-    description: An agent engaging in an activity, and posting MIRA nodes.
+    description: An agent engaging in an activity, and posting nodes.
     slots:
       - name
       - account
@@ -56,19 +59,23 @@ slots:
     slot_uri: dgb:RelationDef
   domain:
     slot_uri: rdfs:domain
+    description: A domain of the subject property.
     domain: RelationDef
     range: NodeSchema
   range:
     slot_uri: rdfs:range
+    description: A range of the subject property.
     domain: RelationDef
     range: NodeSchema
   description:
     slot_uri: dct:description
+    description: "Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."
     domain: NodeSchema
     range: Item
 
   textRefersToNode:
     slot_uri: dgb:textRefersToNode
+    description: A text resource refers to a node
     domain: Item
     range: NodeSchema
 
@@ -80,6 +87,7 @@ slots:
 
   isContainedBy:
     slot_uri: po:isContainedBy
+    description: An element that is contained by another structured element.
     inverse: contains
     domain: Item
     range: Item

@@ -16,8 +16,10 @@ emit_prefixes:
 classes:
   Container:
     class_uri: sioc:Container
+    description: An area in which content Items are contained.
   Item:
     class_uri: sioc:Item
+    description: An Item is something which can be in a Container.
     slots:
       - format
       - content
@@ -25,9 +27,11 @@ classes:
       - creator
   FoafAgent:
     abstract: true
+    description: An agent (eg. person, group, software or physical artifact).
     class_uri: foaf:Agent
   UserAccount:
     class_uri: sioc:UserAccount
+    description: A user account in an online community site.
     slots:
       - accountName
 
@@ -40,28 +44,34 @@ slots:
     inverse: container_of
   container_of:
     slot_uri: sioc:container_of
+    description: An Item that this Container contains.
     domain: Container
     range: Item
     multivalued: true
     inverse: has_container
   content:
     slot_uri: sioc:content
+    description: The content of the Item in plain text format.
     range: string
     inlined: true
   accountName:
     slot_uri: foaf:accountName
+    description: Indicates the name (identifier) associated with this online account.
     domain: UserAccount
     range: string
   name:
     slot_uri: foaf:name
+    description: A name for some thing.
     domain: FoafAgent
     range: string
   creator:
     slot_uri: dct:creator
+    description: Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.
     range: UserAccount
     multivalued: true
   account:
     slot_uri: foaf:account
+    description: Indicates an account held by this agent.
     domain: FoafAgent
     range: UserAccount
     multivalued: true
