@@ -38,6 +38,8 @@ docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md
 site/index.html: docs/index.md mira.svg
 	uv run mkdocs build -f mkdocs_mira.yaml
 	cp mira.svg site/elements/
+	sed -i~ 's/index.md//g' site/*.html site/*/*.html
+	rm site/*~ site/*/*~
 
 $(svgfiles):%.svg: %.puml
 	plantuml -f svg $<
