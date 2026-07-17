@@ -51,15 +51,15 @@ mira:Evidence a dgb:NodeSchema;
 mira:Study a dgb:NodeSchema;
   rdfs:subClassOf prov:Activity;
   rdfs:label "Study"@en;
-  rdfs:comment "A scientific study that leads to evidence"@en.
+  rdfs:comment "An activity — an experiment or analysis — that produces evidence."@en.
 
 mira:Request a dgb:NodeSchema;
     rdfs:label "Request"@en;
-    rdfs:comment "A request for a Study that may elucidate a Claim"@en.
+    rdfs:comment "A unit of work the community can pick up — issue-tracker-shaped."@en.
 
 mira:Protocol a dgb:NodeSchema, prov:Activity;
   rdfs:label "Request"@en;
-  rdfs:comment "A Protocol that a Study follows."@en.
+  rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
 
 mira:follows a dgb:RelationDef;
   rdfs:label "follows"@en;
