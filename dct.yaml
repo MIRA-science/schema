@@ -31,7 +31,10 @@ slots:
 
   title:
     slot_uri: dct:title
+    description: A name given to the resource.
   format:
     slot_uri: dct:format
+    description: Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].
   subject:
     slot_uri: dct:subject
+    description: Typically, the subject will be represented using keywords, key phrases, or classification codes. Recommended best practice is to use a controlled vocabulary. To describe the spatial or temporal topic of the resource, use the Coverage element.

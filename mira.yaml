@@ -51,6 +51,7 @@ classes:
 
   Study:
     class_uri: mira:Study
+    description: An activity — an experiment or analysis — that produces evidence.
     mixins:
       - NodeSchema
       - Activity
@@ -61,6 +62,7 @@ classes:
 
   Request:
     class_uri: mira:Request
+    description: A unit of work the community can pick up — issue-tracker-shaped.
     mixins:
       - NodeSchema
     slots:
@@ -69,6 +71,7 @@ classes:
 
   Protocol:
     class_uri: mira:Protocol
+    description: The method or experimental approach a Study follows to generate the evidence.
     mixins:
       - NodeSchema
       - Activity

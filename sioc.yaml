@@ -38,6 +38,7 @@ classes:
 slots:
   has_container:
     slot_uri: sioc:has_container
+    description: The Container to which this Item belongs.
     domain: Item
     range: Container
     inlined: false
