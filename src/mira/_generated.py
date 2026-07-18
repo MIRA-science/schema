@@ -435,7 +435,7 @@ class SourceDocument(NodeSchema, CreativeWork):
     """
     Some research source document that reports/generates evidence, like a book, conference paper, or journal article
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'dg:SourceDocument',
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:SourceDocument',
          'from_schema': 'http://purl.org/mira-science/mira#',
          'mixins': ['NodeSchema'],
          'title': 'Source document'})
