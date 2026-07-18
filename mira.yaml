@@ -77,7 +77,7 @@ classes:
       - Activity
 
   SourceDocument:
-    class_uri: dg:SourceDocument
+    class_uri: mira:SourceDocument
     is_a: CreativeWork
     mixins:
       - NodeSchema
