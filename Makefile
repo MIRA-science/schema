@@ -42,7 +42,7 @@ site/index.html: docs/index.md mira.svg
 	rm site/*~ site/*/*~
 
 $(svgfiles):%.svg: %.puml
-	plantuml -f svg $<
+	curl -o $@ --data-binary @$< --location https://www.conversence.com/plantuml_deflate/svg
 
 %.context.jsonld: %.yaml
 	uv run gen-jsonld-context $< > $@
