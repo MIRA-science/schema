@@ -128,34 +128,55 @@
   .pill.inv{ background:transparent; border-style:dashed;
     border-color:color-mix(in srgb,var(--accent,#ccc) 38%, transparent);
     color:color-mix(in srgb,var(--accent-ink,#333) 72%, #fbfaf8); font-weight:540; }
+  /* pills are detail-on-demand too: hover, tap or tab for a one-line explainer */
+  button.pill{ font-family:var(--sans); cursor:help; text-align:left; }
+  button.pill:hover, button.pill[aria-expanded="true"]{
+    border-color:color-mix(in srgb,var(--accent,#999) 65%, transparent); }
+  button.pill:focus-visible{ outline:none;
+    box-shadow:0 0 0 2px color-mix(in srgb,var(--accent,#241F2B) 40%, transparent); }
   .none{ font-size:var(--t-cap); color:var(--muted); font-style:italic; margin:0; }
-  .mixin{ font-size:var(--t-cap); line-height:1.6; color:var(--muted); margin-top:var(--s3); font-style:italic;
+  .snote{ font-size:var(--t-cap); line-height:1.6; color:var(--muted); margin-top:var(--s3); font-style:italic;
     max-width:58ch; text-wrap:pretty; }
-  .mixin code{ font-family:var(--sans); font-style:normal; font-weight:700;
+  .snote code{ font-family:var(--sans); font-style:normal; font-weight:700;
     color:var(--accent-ink,var(--ink)); opacity:.85; }
-  .mixin b{ font-style:normal; color:#4a444f; }
+  .snote b{ font-style:normal; color:#4a444f; }
 
-  /* shared fields — quietest tier; identical on every node (SHACL closed shape) */
-  .fields{ margin:var(--s5) 0 0; padding-top:var(--s3); border-top:1px solid var(--hair); }
+  /* shared fields — stated ONCE, in the overview. Detail is on demand, not on the page. */
+  .fields{ margin:var(--s5) 0 0; padding-top:var(--s4); border-top:1px solid var(--hair); }
   .fields-h{ font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--muted); margin:0 0 var(--s2); }
-  .fields-h .src{ font-weight:600; letter-spacing:.02em; opacity:.7; text-transform:none; }
-  .frow{ font-size:var(--t-cap); line-height:1.65; color:#6b6560; margin:0; }
-  .frow b{ display:inline-block; min-width:74px; color:var(--accent-ink); opacity:.8;
-    font-weight:700; font-size:var(--t-eyebrow); letter-spacing:.04em; text-transform:uppercase; }
-  .frow code{ font-family:var(--sans); color:#6b6560; }
-  .badge-new{ font-size:.62rem; font-weight:900; letter-spacing:.06em; color:#fff; background:var(--accent,#241F2B);
-    border-radius:5px; padding:2px 6px; vertical-align:middle; text-transform:uppercase; white-space:nowrap; }
+    color:var(--muted); margin:0 0 var(--s3); display:flex; justify-content:space-between;
+    align-items:baseline; gap:var(--s3); flex-wrap:wrap; }
+  .fields-h .src{ font-weight:600; letter-spacing:.02em; opacity:.75; text-transform:none; font-style:italic; }
+  /* label column + field column, so all three groups align on one vertical line */
+  .frow{ display:grid; grid-template-columns:82px 1fr; gap:var(--s2) var(--s3); align-items:baseline;
+    font-size:var(--t-cap); line-height:1.9; color:#6b6560; margin:0 0 var(--s1); }
+  .frow b{ color:var(--accent-ink); opacity:.75; font-weight:700; font-size:var(--t-eyebrow);
+    letter-spacing:.04em; text-transform:uppercase; }
+  .frow .fs{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0 var(--s1); }
+  .frow span[aria-hidden]{ color:var(--faint); }
+  /* the affordance depends on the device */
+  .h-tap{ display:none; }
+  @media (hover:none){ .h-hover{ display:none; } .h-tap{ display:inline; } }
+
+  /* a field name: quiet until asked. Hover, tap, or tab to it. */
+  .f{ font:inherit; font-weight:600; color:#4a444f; background:none; border:0; padding:2px 1px; margin:0;
+    cursor:help; border-bottom:1px dotted var(--faint); border-radius:2px;
+    transition:color .18s ease, border-color .18s ease; }
+  .f:hover, .f:focus-visible, .f[aria-expanded="true"]{ color:var(--ink); border-bottom-color:var(--ink); outline:none; }
+  .f:focus-visible{ box-shadow:0 0 0 2px color-mix(in srgb,var(--accent,#241F2B) 40%, transparent); }
+  .tip{ position:fixed; z-index:40; max-width:min(78vw,290px); padding:var(--s3) var(--s4);
+    background:var(--ink); color:#F3F0EA; border-radius:10px; font-size:var(--t-sm); line-height:1.45;
+    box-shadow:0 10px 30px -8px rgba(54,44,32,.45); pointer-events:none;
+    opacity:0; transform:translateY(3px); transition:opacity .16s ease, transform .16s ease; }
+  .tip.is-on{ opacity:1; transform:translateY(0); }
+  .tip code{ font-family:var(--sans); font-weight:700; color:#F4D9A0; }
+  @media (prefers-reduced-motion: reduce){ .tip{ transition:opacity .16s ease; transform:none; } }
 
   .hint{ margin:var(--s5) 0 0; font-size:var(--t-sm); color:var(--muted); display:flex; align-items:center; gap:var(--s2); }
   .hint .k{ display:inline-flex; width:22px; height:22px; align-items:center; justify-content:center;
     border:1.5px solid var(--faint); border-radius:50%; animation:bob 1.8s ease-in-out infinite; }
   @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:.7 } 50%{ transform:translateY(3px); opacity:1 } }
   @media (prefers-reduced-motion: reduce){ .hint .k{ animation:none } }
-  .legalnote{ font-size:var(--t-sm); color:#6b6560; margin-top:var(--s4); padding:var(--s3) var(--s4);
-    border-radius:10px; background:#fff; border:1px solid var(--hair); line-height:1.5; }
-  .legalnote b{ color:var(--ink); }
-
   /* final call-to-action (the one place a contained, actionable element earns its box) */
   .cta{ display:block; margin-top:var(--s5); padding:var(--s4) var(--s5); border-radius:14px;
     background:var(--ink); color:#fff; text-decoration:none; box-shadow:var(--shadow);
@@ -192,12 +213,18 @@
   .figure.is-overview .node, .figure.is-overview .edge{ opacity:.5; }
 
   .link{ fill:none; stroke:#AAA59C; stroke-width:1.8; }
-  .edge.is-active .link{ stroke:var(--n,#7a7a82); stroke-width:2.4; }
-  .elabel{ font-family:var(--sans); font-size:9px; font-weight:700; fill:var(--faint); letter-spacing:.02em; }
-  .edge.is-active .elabel{ fill:var(--n,#555); }
-  .edge--addresses{ --n:var(--claim); } .edge--so{ --n:var(--evidence); }
-  .edge--grounds{ --n:var(--study); } .edge--follows{ --n:var(--protocol); }
-  .edge--rf{ --n:var(--request); } .edge--rt{ --n:var(--request); }
+  .edge.is-active .link, .edge:hover .link{ stroke:var(--n,#7a7a82); stroke-width:2.4; }
+  /* edge labels are the schema's verbs — legible by default, loud when their scene (or the cursor) asks */
+  .elabel{ font-family:var(--sans); font-size:10px; font-weight:700; fill:var(--muted); letter-spacing:.02em;
+    paint-order:stroke; stroke:var(--bg); stroke-width:3px; stroke-linejoin:round; }
+  .edge.is-active .elabel, .edge:hover .elabel{ fill:var(--nink,#555); }
+  /* generous invisible hover/tap target behind each label (sized from its bbox in JS) */
+  .ehit{ fill:transparent; stroke:none; pointer-events:all; cursor:help; }
+  .edge .link, .edge .elabel{ pointer-events:none; }
+  .edge.is-ghost .ehit{ pointer-events:none; }
+  .edge--addresses{ --n:var(--claim); --nink:var(--claim-ink); } .edge--so{ --n:var(--evidence); --nink:var(--evidence-ink); }
+  .edge--grounds{ --n:var(--study); --nink:var(--study-ink); } .edge--follows{ --n:var(--protocol); --nink:var(--protocol-ink); }
+  .edge--rf{ --n:var(--request); --nink:var(--request-ink); } .edge--rt{ --n:var(--request); --nink:var(--request-ink); }
   .anno{ opacity:0; transition:opacity .5s ease; }
   .figure.is-payoff .anno{ opacity:1; }
   .figure.is-payoff .edge--so .link{ stroke:var(--evidence); stroke-width:2.6; }
@@ -275,15 +302,16 @@ const SCENES = [
 
   { key:'overview', accent:'ink', g:0, type:'hero',
     kicker:'The whole picture',
-    hero:'Six node types,<br>a few labeled links.',
-    lede:'Every node inherits the <b>same eight fields</b>. What actually distinguishes a type is the handful of <b>slots it declares</b> — and every one of them is a link to another node. A node’s type <i>is</i> its links. Keeping the layers apart lets you ask <i>which</i> layer a problem is in: is the claim contested, the evidence un-reproduced, or the figure itself unsound?',
+    hero:'Six node types.<br>The meaning is<br>in the links.',
+    lede:'Every node carries the same eight fields, so what makes a type a type is <b>who it points at</b> — and every link in this schema joins one node to another. Keeping the layers apart is what lets you ask <i>which</i> layer a problem is in: is the claim contested, the evidence un-reproduced, or the figure itself unsound? Each link label in the diagram explains itself — <span class="h-hover">hover it</span><span class="h-tap">tap it</span>.',
+    fields:true,
     hint:'Meet them one by one' },
 
   { key:'question', accent:'question', g:1, type:'node',
     kicker:'Question', also:'research goal · research unknown',
     def:'A scientific unknown we want to make known — addressable by the systematic application of research methods.',
     ex:{ tag:'In the DNA story', lead:'What is the 3-D structure of DNA?',
-         note:'Importance: implications for the mechanism of genetic inheritance.' },
+         note:'Why it matters: the mechanism of genetic inheritance turns on the answer.' },
     why:'Questions are the spine of a field. Pin one down and every claim, supported or contested, hangs off a shared, durable target — so you can spot the questions that still have <b>no</b> answer.',
     slots:[], inv:[ {s:'addressedBy', t:'Claim', many:true} ] },
 
@@ -295,7 +323,7 @@ const SCENES = [
     why:'A claim can be wrong, and MIRA keeps it anyway. The claim is a stable thing to argue <i>about</i>; evidence then supports or opposes it. Being contested is data, not deletion.',
     slots:[ {s:'addresses', t:'Question', many:true} ],
     inv:[ {s:'supportedBy', t:'Argument', many:true}, {s:'opposedBy', t:'Argument', many:true} ],
-    note:'<code>supports</code> / <code>opposes</code> live on the <code>Argument</code> mixin — the pair that makes a graph <i>argue</i> rather than just cite.' },
+    note:'An <b>Argument</b> is anything that can take a side — a Claim or a piece of Evidence. <code>supports</code> and <code>opposes</code> are the pair that make a graph <i>argue</i> rather than merely cite.' },
 
   { key:'evidence', accent:'evidence', g:3, type:'node',
     kicker:'Evidence', also:'result · observation · data artifact',
@@ -307,22 +335,21 @@ const SCENES = [
     slots:[ {s:'observationStatement', t:'Claim'}, {s:'observationBase', t:'Entity'},
             {s:'observationOriginActivity', t:'Activity'}, {s:'sourceDocument', t:'SourceDocument'} ],
     inv:[ {s:'is_grounded_in', t:'Study'} ],
-    note:'The widest slot list in the schema — and the reason the model works. <code>observationBase</code> is the literal artifact (a <code>prov:Entity</code>: figure, blot, dataset), held as a <b>pointer, never a payload</b>.' },
+    note:'<code>observationBase</code> is the artifact itself — a figure, a blot, a dataset — held as a <b>pointer, never a payload</b>. An 80-GB stack stays where it lives; the record keeps its address.' },
 
   { key:'study', accent:'study', g:4, type:'node',
     kicker:'Study', also:'experiment · analysis · event',
     def:'An activity — an experiment or analysis — that produces evidence.',
-    mixin:'mixes in Activity',
     ex:{ tag:'In the DNA story', lead:'X-ray diffraction of calf-thymus DNA fibres.',
          note:'May 3: obtained calf thymus… June 8: prepared fibres… exposed the film for 62 hours…' },
     why:'The Study is the <i>event</i> — who did what, when, with which data and software. Splitting the event from the observation lets two labs run the same Protocol and be compared side by side.',
     slots:[ {s:'follows', t:'Protocol', many:true}, {s:'grounds', t:'Evidence', many:true} ],
-    inv:[ {s:'request_for', t:'Request', many:true} ] },
+    inv:[ {s:'request_for', t:'Request', many:true} ],
+    note:'Study and Protocol are the schema’s two <b>activities</b> — the doing, kept apart from the finding.' },
 
   { key:'protocol', accent:'protocol', g:5, type:'node',
     kicker:'Protocol', also:'method',
     def:'The method or experimental approach a Study follows to generate the evidence.',
-    mixin:'mixes in Activity',
     ex:{ tag:'In the DNA story', lead:'Isolate deoxyribose from calf thymus by… prepare the X-ray chamber by… place the fibres in the beam…',
          note:'A recipe, written once — many Studies can follow it.' },
     why:'A Protocol is reusable; a Study runs it once. Pull the method out and a recipe can be cited, improved and re-run — so you can tell a flawed <i>result</i> apart from a flawed <i>method</i>.',
@@ -333,7 +360,7 @@ const SCENES = [
     kicker:'Request', also:'need · issue · idea',
     def:'A unit of work the community can pick up — issue-tracker-shaped.',
     ex:{ tag:'In the DNA story', lead:'Requested: a cleaner diffraction run to settle one-helix vs. three.',
-         note:'motivation · skill required' },
+         note:'Unclaimed — it sits in the graph until someone picks it up.' },
     why:'The graph also holds what <i>hasn’t</i> been done. A Request points at the Study it wants, or the Claim it wants settled — so stalled work and open asks are first-class, not lost in a hallway.',
     slots:[ {s:'request_for', t:'Study', many:true}, {s:'request_target', t:'Claim', many:true} ],
     inv:[] },
@@ -341,8 +368,7 @@ const SCENES = [
   { key:'payoff', accent:'ink', g:7, type:'hero',
     kicker:'Why it’s a graph',
     hero:'Now query<br>the whole field.',
-    lede:'Every record is signed (<b>creator</b>), dated (<b>created</b>), <b>licensed</b>, and linked. So a funder or researcher can query the live graph and see which claims are well-supported, which are contested, and which questions still have no answer — and attribute credit per record, not per paper. The triple helix was wrong; the graph shows exactly how the evidence overturned it.',
-    footer:true,
+    lede:'Every record is signed, dated and linked. So a funder or a researcher can query the live graph of a field and see which claims are well supported, which are contested, and which questions still have no answer — and credit lands per record, not per paper. The triple helix was wrong; the graph shows exactly how the evidence overturned it.',
     cta:{ q:'Ready to use the schema?', href:'https://github.com/MIRA-science/schema', label:'github.com/MIRA-science/schema' } }
 ];
 
@@ -359,20 +385,59 @@ const ARTIFACT = `<svg class="artifact" width="58" height="58" viewBox="0 0 62 6
   </g>
 </svg>`;
 
-// The 8 literal fields every node inherits from the NodeSchema mixin, grouped by role.
-// (Attributed to NodeSchema, not SHACL: mira.shacl hasn't been regenerated since the slots landed.)
+// The eight fields every node carries, grouped by the job they do.
+// Shown once, on the overview — each name explains itself on hover, tap or focus.
+const FIELD_GROUPS = [
+  ['identity', [
+    ['title',        'A short name for the record — what you’d see in a list.'],
+    ['content',      'The record’s own text: the claim as written, the note as typed.'],
+    ['format',       'What kind of text <code>content</code> is — plain, Markdown, HTML.']]],
+  ['provenance', [
+    ['creator',      'Who posted it — a person, a group, or a piece of software. A record can name several.'],
+    ['created',      'When the record was first posted.'],
+    ['modified',     'When it last changed. Records are revised, not overwritten in silence.']]],
+  ['context', [
+    ['description',  'The longer account around the record: an abstract, a summary, free notes.'],
+    ['has_container','The collection this record belongs to — a lab’s space, a project, a notebook.']]]
+];
+
 const FIELDS = `<div class="fields">
-  <p class="fields-h">Every node also carries these 8 <span class="src">· from the NodeSchema mixin</span></p>
-  <p class="frow"><b>identity</b> <code>title · content · format</code></p>
-  <p class="frow"><b>provenance</b> <code>creator · created · modified</code> <span class="badge-new">+ license</span></p>
-  <p class="frow"><b>context</b> <code>description · has_container</code></p>
+  <p class="fields-h"><span>The eight fields, on every node</span>
+    <span class="src"><span class="h-hover">hover a name</span><span class="h-tap">tap a name</span></span></p>
+  ${FIELD_GROUPS.map(([g,fs])=>`<p class="frow"><b>${g}</b><span class="fs">${
+    fs.map(([n,d])=>`<button class="f" type="button" aria-expanded="false" data-tip="${d}">${n}</button>`)
+      .join('<span aria-hidden="true"> · </span>')}</span></p>`).join('')}
 </div>`;
+
+// One-line explainers for every relation. Keyed by slot name; forward and inverse
+// readings differ, so each direction gets its own dictionary.
+const TIP_FWD = {
+  addresses:            'The open question this claim proposes to answer.',
+  observationStatement: 'The claim this observation speaks to — what it is evidence <i>of</i>.',
+  observationBase:      'The artifact itself — figure, blot, dataset — kept as a pointer, never a payload.',
+  observationOriginActivity: 'The experiment or analysis that produced this observation.',
+  sourceDocument:       'The paper that reported this observation.',
+  follows:              'The reusable recipe this study ran.',
+  grounds:              'The evidence this study produced.',
+  request_for:          'The study this request wants someone to run.',
+  request_target:       'The claim this request wants settled.'
+};
+const TIP_INV = {
+  addressedBy:    'The claims proposing answers here — <code>addresses</code>, read from the question’s end.',
+  supportedBy:    'Arguments in favour — <code>supports</code>, read from the claim’s end.',
+  opposedBy:      'Arguments against — <code>opposes</code>, read from the claim’s end.',
+  is_grounded_in: 'The study behind this evidence — <code>grounds</code>, read from the other end.',
+  follows:        'The studies that have run this recipe — <code>follows</code>, read from the study’s end.',
+  request_for:    'Requests asking for this study to be run.'
+};
 
 // One pill per slot. `inv` = the slot exists but is declared from the other end.
 function pills(list, inv){
-  return `<div class="attrs">${list.map(r=>
-    `<span class="pill${inv?' inv':''}">${r.s}${r.many?`<span class="many">many</span>`:''}` +
-    `<span class="ar">${inv?'←':'→'}</span><span class="tg">${r.t}</span></span>`).join('')}</div>`;
+  return `<div class="attrs">${list.map(r=>{
+    const tip=(inv?TIP_INV:TIP_FWD)[r.s];
+    return `<button type="button" class="pill${inv?' inv':''}"${tip?` data-tip="${tip}" aria-expanded="false"`:''}>` +
+    `${r.s}${r.many?`<span class="many">many</span>`:''}` +
+    `<span class="ar">${inv?'←':'→'}</span><span class="tg">${r.t}</span></button>`;}).join('')}</div>`;
 }
 
 function renderCard(s){
@@ -381,8 +446,7 @@ function renderCard(s){
       <p class="eyebrow">${s.kicker}</p>
       <h1 class="hero">${s.hero}</h1>
       <p class="lede">${s.lede}</p>
-      ${s.footer?FIELDS:''}
-      ${s.footer?`<div class="legalnote"><b>On <code>license</code>:</b> shown on every node per the brief, but it isn’t in <code>mira.yaml</code> yet — flagged as a proposed universal field.</div>`:''}
+      ${s.fields?FIELDS:''}
       ${s.cta?`<a class="cta" href="${s.cta.href}" target="_blank" rel="noopener">
         <span class="cta-h">${s.cta.q}</span>
         <span class="cta-link">${s.cta.label} <span class="ar">→</span></span></a>`:''}
@@ -402,12 +466,11 @@ function renderCard(s){
     ${exHtml}
     <p class="why">${s.why}</p>
     <div class="rel">
-      <p class="rel-label">Declared on <span class="on">${s.kicker}</span>${s.mixin?` · ${s.mixin}`:''}</p>
-      ${s.slots.length ? pills(s.slots,false) : `<p class="none">No outgoing slots — other nodes point here.</p>`}
-      ${s.inv.length ? `<p class="rel-sub">Reached from</p>${pills(s.inv,true)}` : ''}
-      ${s.note?`<p class="mixin">${s.note}</p>`:''}
+      <p class="rel-label"><span class="on">${s.kicker}</span> points to</p>
+      ${s.slots.length ? pills(s.slots,false) : `<p class="none">Nothing — other nodes reach for it.</p>`}
+      ${s.inv.length ? `<p class="rel-sub">Pointed to by</p>${pills(s.inv,true)}` : ''}
+      ${s.note?`<p class="snote">${s.note}</p>`:''}
     </div>
-    ${FIELDS}
   </article>`;
 }
 
@@ -445,6 +508,32 @@ styleEl.textContent=css; document.head.appendChild(styleEl);
 const figure=document.getElementById('figure');
 const nodeEls=[...figure.querySelectorAll('.node')];
 const edgeEls=[...figure.querySelectorAll('.edge')];
+
+/* ---- edge explainers: what each link means, told on the diagram itself ---- */
+const EDGE_TIPS = {
+  addresses: '<code>Claim → Question</code> — proposes an answer to this open question.',
+  so:        '<code>Evidence / Claim → Claim</code> — takes a side. The pair that lets a graph argue, not just cite.',
+  grounds:   '<code>Study → Evidence</code> — the experiment that produced the observation.',
+  follows:   '<code>Study → Protocol</code> — one run of a reusable recipe.',
+  rf:        '<code>Request → Study</code> — the work this request wants run.',
+  rt:        '<code>Request → Claim</code> — the claim this request wants settled.'
+};
+for(const g of edgeEls){
+  const key=[...g.classList].find(c=>c.startsWith('edge--'))?.slice('edge--'.length);
+  if(!EDGE_TIPS[key]) continue;
+  let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;
+  for(const t of g.querySelectorAll('.elabel')){
+    const b=t.getBBox();
+    x1=Math.min(x1,b.x); y1=Math.min(y1,b.y);
+    x2=Math.max(x2,b.x+b.width); y2=Math.max(y2,b.y+b.height);
+  }
+  const pad=7, r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  r.setAttribute('class','ehit');
+  r.setAttribute('x',x1-pad); r.setAttribute('y',y1-pad);
+  r.setAttribute('width',(x2-x1)+2*pad); r.setAttribute('height',(y2-y1)+2*pad);
+  r.dataset.tip=EDGE_TIPS[key];
+  g.appendChild(r);
+}
 function setGraph(g){
   const all = (g===0 || g===7);
   figure.classList.toggle('is-overview', g===0);
@@ -483,11 +572,69 @@ function goTo(i){
   document.getElementById('step-'+i).scrollIntoView({behavior:'smooth', block:'start'});
 }
 document.addEventListener('keydown',(e)=>{
+  if(e.target.closest('.f,.pill,a,.dot')) return;   // let focused controls keep their own keys
   if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); goTo(active+1); }
   else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); goTo(active-1); }
 });
+/* ---- field explainers: one shared tooltip, placed under whichever name is asking ---- */
+const tip=document.createElement('div');
+tip.className='tip'; tip.setAttribute('role','tooltip'); tip.id='field-tip';
+document.body.appendChild(tip);
+let tipFor=null;
+
+function showTip(btn){
+  if(tipFor===btn) return;
+  tipFor=btn;
+  tip.innerHTML=btn.dataset.tip;
+  tip.classList.add('is-on');
+  btn.setAttribute('aria-expanded','true');
+  btn.setAttribute('aria-describedby','field-tip');
+  // park at the origin first: a fixed box shrink-to-fits within (viewport − left),
+  // so measuring while the previous position is still applied under-reports the width
+  tip.style.left='0px'; tip.style.top='0px';
+  const r=btn.getBoundingClientRect(), t=tip.getBoundingClientRect(), pad=10;
+  let left=r.left+r.width/2-t.width/2;
+  left=Math.max(pad, Math.min(left, window.innerWidth-t.width-pad));
+  const below=r.bottom+8;
+  const top=(below+t.height>window.innerHeight-pad) ? r.top-t.height-8 : below;
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+}
+function hideTip(){
+  if(!tipFor) return;
+  tipFor.setAttribute('aria-expanded','false');
+  tipFor.removeAttribute('aria-describedby');
+  tipFor=null; tip.classList.remove('is-on');
+}
+
+document.addEventListener('pointerover',(e)=>{
+  const b=e.target.closest('[data-tip]');
+  if(b && e.pointerType==='mouse') showTip(b);
+});
+document.addEventListener('pointerout',(e)=>{
+  if(e.pointerType!=='mouse') return;
+  const b=e.target.closest('[data-tip]');
+  if(b && b===tipFor && !b.contains(e.relatedTarget)) hideTip();
+});
+document.addEventListener('click',(e)=>{
+  const b=e.target.closest('[data-tip]');
+  if(b){ e.stopPropagation();
+    if(b!==tipFor) showTip(b);
+    else if(e.pointerType!=='mouse') hideTip();   // tap toggles; a mouse click keeps what hover opened
+  }
+  else hideTip();
+});
+document.addEventListener('focusin',(e)=>{
+  const b=e.target.closest('[data-tip]');
+  // only keyboard focus opens it; a mouse click is already handled above
+  if(b && b.matches(':focus-visible')) showTip(b);
+  else if(!b) hideTip();
+});
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') hideTip(); });
+window.addEventListener('scroll',hideTip,{passive:true});
+window.addEventListener('resize',hideTip);
+
 document.getElementById('scrolly').addEventListener('click',(e)=>{
-  if(e.target.closest('a,button,.dot,.pill')) return;
+  if(e.target.closest('a,button,.dot,.pill,.ehit')) return;
   if(window.getSelection && String(window.getSelection())) return;
   const x=e.clientX, w=window.innerWidth;
   if(x > w*0.62) goTo(active+1);
