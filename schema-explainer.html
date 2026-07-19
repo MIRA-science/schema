@@ -112,13 +112,28 @@
   .rel{ margin:var(--s5) 0 0; }
   .rel-label{ margin:0 0 var(--s2); font-size:var(--t-eyebrow); font-weight:800; letter-spacing:.12em;
     text-transform:uppercase; color:var(--muted); }
+  .rel-label .on{ color:var(--accent-ink); }
+  .rel-sub{ margin:var(--s3) 0 var(--s2); font-size:var(--t-eyebrow); font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); opacity:.75; }
   .attrs{ display:flex; flex-wrap:wrap; gap:var(--s2); }
   .pill{ font-size:var(--t-cap); line-height:1; display:inline-flex; align-items:center; gap:6px;
     padding:7px 10px; border-radius:8px; background:var(--fill,#f0efea);
     border:1px solid color-mix(in srgb,var(--accent,#ccc) 30%, transparent); color:var(--accent-ink,#333); font-weight:600; }
   .pill .ar{ color:var(--accent,#999); font-weight:800; }
-  .pill .tg{ color:var(--ink); opacity:.7; }
-  .mixin{ font-size:var(--t-cap); color:var(--muted); margin-top:var(--s2); font-style:italic; }
+  .pill .tg{ color:var(--ink); opacity:.7; font-weight:540; }
+  /* multivalued: true in mira.yaml */
+  .pill .many{ font-size:.86em; font-weight:700; font-style:italic; letter-spacing:.01em;
+    color:var(--accent,#999); opacity:.9; }
+  /* inverse: real slots in the schema, but declared from the other end */
+  .pill.inv{ background:transparent; border-style:dashed;
+    border-color:color-mix(in srgb,var(--accent,#ccc) 38%, transparent);
+    color:color-mix(in srgb,var(--accent-ink,#333) 72%, #fbfaf8); font-weight:540; }
+  .none{ font-size:var(--t-cap); color:var(--muted); font-style:italic; margin:0; }
+  .mixin{ font-size:var(--t-cap); line-height:1.6; color:var(--muted); margin-top:var(--s3); font-style:italic;
+    max-width:58ch; text-wrap:pretty; }
+  .mixin code{ font-family:var(--sans); font-style:normal; font-weight:700;
+    color:var(--accent-ink,var(--ink)); opacity:.85; }
+  .mixin b{ font-style:normal; color:#4a444f; }
 
   /* shared fields — quietest tier; identical on every node (SHACL closed shape) */
   .fields{ margin:var(--s5) 0 0; padding-top:var(--s3); border-top:1px solid var(--hair); }
@@ -261,7 +276,7 @@ const SCENES = [
   { key:'overview', accent:'ink', g:0, type:'hero',
     kicker:'The whole picture',
     hero:'Six node types,<br>a few labeled links.',
-    lede:'Every node carries the <b>same eight fields</b> — so a node’s <i>type</i> is defined almost entirely by how it <b>links</b>, not by what it stores. Keeping the layers apart lets you ask <i>which</i> layer a problem is in: is the claim contested, the evidence un-reproduced, or the figure itself unsound?',
+    lede:'Every node inherits the <b>same eight fields</b>. What actually distinguishes a type is the handful of <b>slots it declares</b> — and every one of them is a link to another node. A node’s type <i>is</i> its links. Keeping the layers apart lets you ask <i>which</i> layer a problem is in: is the claim contested, the evidence un-reproduced, or the figure itself unsound?',
     hint:'Meet them one by one' },
 
   { key:'question', accent:'question', g:1, type:'node',
@@ -270,7 +285,7 @@ const SCENES = [
     ex:{ tag:'In the DNA story', lead:'What is the 3-D structure of DNA?',
          note:'Importance: implications for the mechanism of genetic inheritance.' },
     why:'Questions are the spine of a field. Pin one down and every claim, supported or contested, hangs off a shared, durable target — so you can spot the questions that still have <b>no</b> answer.',
-    attrs:[ ['addressed by','←','Claim'] ] },
+    slots:[], inv:[ {s:'addressedBy', t:'Claim', many:true} ] },
 
   { key:'claim', accent:'claim', g:2, type:'node',
     kicker:'Claim', also:'hypothesis',
@@ -278,7 +293,9 @@ const SCENES = [
     ex:{ tag:'In the DNA story', lead:'DNA forms a triple helix.',
          note:'Pauling &amp; Corey, 1953: “a three-chain structure, each chain a helix… related by a threefold axis.” — famously <b>wrong</b>.' },
     why:'A claim can be wrong, and MIRA keeps it anyway. The claim is a stable thing to argue <i>about</i>; evidence then supports or opposes it. Being contested is data, not deletion.',
-    attrs:[ ['addresses','→','Question'], ['supports / opposes','→','Claim'], ['supported / opposed by','←','Argument'] ] },
+    slots:[ {s:'addresses', t:'Question', many:true} ],
+    inv:[ {s:'supportedBy', t:'Argument', many:true}, {s:'opposedBy', t:'Argument', many:true} ],
+    note:'<code>supports</code> / <code>opposes</code> live on the <code>Argument</code> mixin — the pair that makes a graph <i>argue</i> rather than just cite.' },
 
   { key:'evidence', accent:'evidence', g:3, type:'node',
     kicker:'Evidence', also:'result · observation · data artifact',
@@ -287,8 +304,10 @@ const SCENES = [
          lead:'Photo 51 — X-ray diffraction of DNA fibres shows a repeating “X” with 3.4 nm periodicity.',
          note:'Franklin &amp; Gosling: “our conclusions differ from those of Pauling and Corey…” — so this Evidence <b>opposes</b> the triple-helix claim.' },
     why:'Evidence is one observation, not a verdict. It points four ways at once — to the claim it speaks to, the actual figure, the experiment that made it, and the paper that reported it. That’s what lets you trace a claim down to the literal pixels.',
-    attrs:[ ['observationStatement','→','Claim'], ['observationBase','→','data artifact'],
-            ['observationOriginActivity','→','Study'], ['sourceDocument','→','paper'] ] },
+    slots:[ {s:'observationStatement', t:'Claim'}, {s:'observationBase', t:'Entity'},
+            {s:'observationOriginActivity', t:'Activity'}, {s:'sourceDocument', t:'SourceDocument'} ],
+    inv:[ {s:'is_grounded_in', t:'Study'} ],
+    note:'The widest slot list in the schema — and the reason the model works. <code>observationBase</code> is the literal artifact (a <code>prov:Entity</code>: figure, blot, dataset), held as a <b>pointer, never a payload</b>.' },
 
   { key:'study', accent:'study', g:4, type:'node',
     kicker:'Study', also:'experiment · analysis · event',
@@ -297,7 +316,8 @@ const SCENES = [
     ex:{ tag:'In the DNA story', lead:'X-ray diffraction of calf-thymus DNA fibres.',
          note:'May 3: obtained calf thymus… June 8: prepared fibres… exposed the film for 62 hours…' },
     why:'The Study is the <i>event</i> — who did what, when, with which data and software. Splitting the event from the observation lets two labs run the same Protocol and be compared side by side.',
-    attrs:[ ['grounds','→','Evidence'], ['follows','→','Protocol'] ] },
+    slots:[ {s:'follows', t:'Protocol', many:true}, {s:'grounds', t:'Evidence', many:true} ],
+    inv:[ {s:'request_for', t:'Request', many:true} ] },
 
   { key:'protocol', accent:'protocol', g:5, type:'node',
     kicker:'Protocol', also:'method',
@@ -306,7 +326,8 @@ const SCENES = [
     ex:{ tag:'In the DNA story', lead:'Isolate deoxyribose from calf thymus by… prepare the X-ray chamber by… place the fibres in the beam…',
          note:'A recipe, written once — many Studies can follow it.' },
     why:'A Protocol is reusable; a Study runs it once. Pull the method out and a recipe can be cited, improved and re-run — so you can tell a flawed <i>result</i> apart from a flawed <i>method</i>.',
-    attrs:[ ['followed by','←','Study'] ] },
+    slots:[], inv:[ {s:'follows', t:'Study', many:true} ],
+    note:'Question and Protocol are the schema’s two <b>anchors</b> — the durable things other records reach out to.' },
 
   { key:'request', accent:'request', g:6, type:'node',
     kicker:'Request', also:'need · issue · idea',
@@ -314,7 +335,8 @@ const SCENES = [
     ex:{ tag:'In the DNA story', lead:'Requested: a cleaner diffraction run to settle one-helix vs. three.',
          note:'motivation · skill required' },
     why:'The graph also holds what <i>hasn’t</i> been done. A Request points at the Study it wants, or the Claim it wants settled — so stalled work and open asks are first-class, not lost in a hallway.',
-    attrs:[ ['request_for','→','Study'], ['request_target','→','Claim'] ] },
+    slots:[ {s:'request_for', t:'Study', many:true}, {s:'request_target', t:'Claim', many:true} ],
+    inv:[] },
 
   { key:'payoff', accent:'ink', g:7, type:'hero',
     kicker:'Why it’s a graph',
@@ -337,17 +359,20 @@ const ARTIFACT = `<svg class="artifact" width="58" height="58" viewBox="0 0 62 6
   </g>
 </svg>`;
 
-// SHACL closed shape — identical 8 literal fields on every node type, grouped by role.
+// The 8 literal fields every node inherits from the NodeSchema mixin, grouped by role.
+// (Attributed to NodeSchema, not SHACL: mira.shacl hasn't been regenerated since the slots landed.)
 const FIELDS = `<div class="fields">
-  <p class="fields-h">Every node — the same 8 fields <span class="src">· SHACL closed shape</span></p>
+  <p class="fields-h">Every node also carries these 8 <span class="src">· from the NodeSchema mixin</span></p>
   <p class="frow"><b>identity</b> <code>title · content · format</code></p>
   <p class="frow"><b>provenance</b> <code>creator · created · modified</code> <span class="badge-new">+ license</span></p>
   <p class="frow"><b>context</b> <code>description · has_container</code></p>
 </div>`;
 
-function pills(attrs){
-  return `<div class="attrs">${attrs.map(([l,a,t])=>
-    `<span class="pill">${l}<span class="ar">${a}</span><span class="tg">${t}</span></span>`).join('')}</div>`;
+// One pill per slot. `inv` = the slot exists but is declared from the other end.
+function pills(list, inv){
+  return `<div class="attrs">${list.map(r=>
+    `<span class="pill${inv?' inv':''}">${r.s}${r.many?`<span class="many">many</span>`:''}` +
+    `<span class="ar">${inv?'←':'→'}</span><span class="tg">${r.t}</span></span>`).join('')}</div>`;
 }
 
 function renderCard(s){
@@ -377,8 +402,10 @@ function renderCard(s){
     ${exHtml}
     <p class="why">${s.why}</p>
     <div class="rel">
-      <p class="rel-label">Relations${s.mixin?` · ${s.mixin}`:''}</p>
-      ${pills(s.attrs)}
+      <p class="rel-label">Declared on <span class="on">${s.kicker}</span>${s.mixin?` · ${s.mixin}`:''}</p>
+      ${s.slots.length ? pills(s.slots,false) : `<p class="none">No outgoing slots — other nodes point here.</p>`}
+      ${s.inv.length ? `<p class="rel-sub">Reached from</p>${pills(s.inv,true)}` : ''}
+      ${s.note?`<p class="mixin">${s.note}</p>`:''}
     </div>
     ${FIELDS}
   </article>`;
