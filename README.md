@@ -8,4 +8,4 @@ Note that the current version builds upon and refers to schema work done for [Di
 
 However, this is intended to be a temporary situation: Over the course of the meeting or shortly thereafter, the MIRA schema should stand alone, and each platform, including Discourse Graphs, should inherit that common schema.
 
-This repository uses [LinkML](https://linkml.io) to describe the schemas, as it allows documenation and code generation. The current version of the generated documentation is temporarily hosted [here](https://www.conversence.com/mira_schema).
+This repository uses [LinkML](https://linkml.io) to describe the schemas, as it allows documenation and code generation. The current version of the generated documentation can be found [here](https://mira.science/schema/).
