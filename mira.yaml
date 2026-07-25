@@ -87,6 +87,18 @@ classes:
     slots:
       - describesActivity
 
+  Project:
+    class_uri: mira:Project
+    mixins:
+      - RelationDef
+      - Activity
+
+  Grant:
+    class_uri: mira:Grant
+    is_a: Project
+    slots:
+      - funder
+
 slots:
   follows:
     domain: Study
@@ -207,4 +219,16 @@ slots:
     inverse: addresses
     range: Claim
     domain: Question
+    multivalued: true
+
+  funder:
+    slot_uri: mira:funder
+    domain: Grant
+    range: Agent
+    multivalued: true
+
+  scope:
+    slot_uri: mira:scope
+    domain: Project
+    range: NodeSchema
     multivalued: true

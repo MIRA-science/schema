@@ -61,6 +61,12 @@ mira:Protocol a dgb:NodeSchema, prov:Activity;
   rdfs:label "Request"@en;
   rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
 
+mira:Grant a dgb:NodeSchema;
+  rdfs:label "Grant"@en.
+
+mira:Project a dgb:NodeSchema;
+  rdfs:label "Project"@en.
+
 mira:follows a dgb:RelationDef;
   rdfs:label "follows"@en;
   rdfs:domain mira:Study;
@@ -163,6 +169,16 @@ mira:addressedBy a dgb:RelationDef;
   owl:inverseOf mira:addresses;
   rdfs:range mira:Claim;
   rdfs:domain mira:Question.
+
+mira:funder a dgb:RelationDef;
+  rdfs:label "funder"@en;
+  rdfs:domain mira:Grant;
+  rdfs:range dgb:Agent.
+
+mira:scope a dgb:RelationDef;
+  rdfs:label "scope"@en;
+  rdfs:domain mira:Project;
+  rdfs:range dgb:NodeSchema.
 
 po:contains a owl:ObjectRelation;
   rdfs:comment "A part of a document is contained in another part or whole document"@en;

@@ -75,12 +75,16 @@
     "Request": "mira:Request",
     "Protocol": "mira:Protocol",
     "Study": "mira:Study",
+    "Claim": "mira:Claim",
+    "Grant": "mira:Grant",
 
     "Item": "sioc:Item",
     "follows": { "@id": "mira:follows", "@type": "@id" },
     "grounds": { "@id": "mira:grounds", "@type": "@id" },
     "is_grounded_in": { "@id": "mira:is_grounded_in", "@type": "@id" },
     "request_for": { "@id": "mira:request_for", "@type": "@id" },
+    "funder": { "@id": "mira:funder", "@type": "@id" },
+    "scope": { "@id": "mira:scope", "@type": "@id" },
     "request_target": { "@id": "mira:request_target", "@type": "@id" }
   }
 }
