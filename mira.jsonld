@@ -74,7 +74,7 @@
     "Evidence": "mira:Evidence",
     "Request": "mira:Request",
     "Protocol": "mira:Protocol",
-    "Study": "mira:Protocol",
+    "Study": "mira:Study",
 
     "Item": "sioc:Item",
     "follows": { "@id": "mira:follows", "@type": "@id" },
