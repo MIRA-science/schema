@@ -1,0 +1,42 @@
+id: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+name: rdf
+prefixes:
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+
+default_prefix: rdf
+
+classes:
+  Resource:
+    class_uri: rdfs:Resource
+    description: The class resource, everything.
+    name: Resource
+
+  Statement:
+    class_uri: rdf:Statement
+    name: Statement
+    slots:
+      - rdf_subject
+      - rdf_predicate
+      - rdf_object
+slots:
+  rdf_subject:
+    slot_uri: rdf:subject
+    description: The subject of the subject RDF statement.
+    domain: Statement
+    range: Resource
+    name: rdf_subject
+
+  rdf_predicate:
+    slot_uri: rdf:predicate
+    description: The predicate of the subject RDF statement.
+    domain: Statement
+    range: Resource
+    name: rdf_predicate
+
+  rdf_object:
+    slot_uri: rdf:object
+    description: The object of the subject RDF statement.
+    domain: Statement
+    range: Resource
+    name: rdf_object
