@@ -155,6 +155,25 @@ class UserAccount(ConfiguredBaseModel):
          'slot_uri': 'foaf:accountName'} })
 
 
+class Resource(ConfiguredBaseModel):
+    """
+    The class resource, everything.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'rdfs:Resource',
+         'from_schema': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'})
+
+    pass
+
+
+class Statement(ConfiguredBaseModel):
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'rdf:Statement',
+         'from_schema': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'})
+
+    rdf_subject: Optional[Resource] = Field(default=None, description="""The subject of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:subject'} })
+    rdf_predicate: Optional[Resource] = Field(default=None, description="""The predicate of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:predicate'} })
+    rdf_object: Optional[Resource] = Field(default=None, description="""The object of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:object'} })
+
+
 class NodeSchema(Item):
     """
     Abstract class for node definitions
@@ -219,6 +238,42 @@ class RelationDef(AbstractRelationDef):
     range: Optional[str] = Field(default=None, description="""A range of the subject property.""", json_schema_extra = { "linkml_meta": {'domain': 'RelationDef',
          'domain_of': ['RelationDef'],
          'slot_uri': 'rdfs:range'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
+    description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
+         'domain_of': ['NodeSchema'],
+         'slot_uri': 'dct:description'} })
+    has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
+         'domain_of': ['Item', 'NodeSchema'],
+         'inverse': 'container_of',
+         'slot_uri': 'sioc:has_container'} })
+    format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
+    content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
+
+
+class RelationInstance(NodeSchema, Statement):
+    """
+    Abstract class for relation definitions
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'class_uri': 'dgb:RelationInstance',
+         'from_schema': 'https://discoursegraphs.com/schema/dg_base',
+         'mixin': True,
+         'mixins': ['Statement', 'NodeSchema']})
+
+    source: Optional[str] = Field(default=None, description="""The source of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
+         'domain_of': ['RelationInstance'],
+         'slot_uri': 'dgb:source',
+         'subproperty_of': 'rdf_subject'} })
+    destination: Optional[str] = Field(default=None, description="""The destination of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
+         'domain_of': ['RelationInstance'],
+         'slot_uri': 'dgb:destination',
+         'subproperty_of': 'rdf_object'} })
+    rdf_subject: Optional[Resource] = Field(default=None, description="""The subject of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:subject'} })
+    rdf_predicate: Optional[Resource] = Field(default=None, description="""The predicate of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:predicate'} })
+    rdf_object: Optional[Resource] = Field(default=None, description="""The object of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:object'} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
@@ -468,9 +523,12 @@ Container.model_rebuild()
 Item.model_rebuild()
 FoafAgent.model_rebuild()
 UserAccount.model_rebuild()
+Resource.model_rebuild()
+Statement.model_rebuild()
 NodeSchema.model_rebuild()
 AbstractRelationDef.model_rebuild()
 RelationDef.model_rebuild()
+RelationInstance.model_rebuild()
 Agent.model_rebuild()
 Argument.model_rebuild()
 Question.model_rebuild()
