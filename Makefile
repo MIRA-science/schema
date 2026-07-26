@@ -18,10 +18,10 @@ validate_data: validate generate
 	uv run pyshacl -s mira.shacl -sf turtle -e mira.ttl sampleData.json
 
 $(generated_python): $(mira_yaml)
-	uv run gen-pydantic -o $@ $(mira_yaml)
+	uv run gen-pydantic $(mira_yaml) > $@
 
 $(generated_typescript): $(mira_yaml)
-	uv run gen-typescript -o $@ $(mira_yaml)
+	uv run gen-typescript --output $@ $(mira_yaml)
 
 validate:
 	uv run linkml validate $(mira_yaml)
