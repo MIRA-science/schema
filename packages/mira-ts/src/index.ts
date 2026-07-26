@@ -59,6 +59,24 @@ export interface UserAccount {
 }
 
 
+/**
+ * The class resource, everything.
+ */
+export interface Resource {
+}
+
+
+
+export interface Statement {
+    /** The subject of the subject RDF statement. */
+    rdf_subject?: Resource,
+    /** The predicate of the subject RDF statement. */
+    rdf_predicate?: Resource,
+    /** The object of the subject RDF statement. */
+    rdf_object?: Resource,
+}
+
+
 
 export interface Any {
 }
@@ -96,6 +114,17 @@ export interface RelationDef extends AbstractRelationDef {
     domain?: NodeSchema,
     /** A range of the subject property. */
     range?: NodeSchema,
+}
+
+
+/**
+ * Abstract class for relation definitions
+ */
+export interface RelationInstance extends Statement, NodeSchema {
+    /** The source of a binary relation */
+    source?: "rdf_subject",
+    /** The destination of a binary relation */
+    destination?: "rdf_object",
 }
 
 
@@ -181,6 +210,5 @@ export interface Protocol extends NodeSchema, Activity {
 export interface SourceDocument extends CreativeWork, NodeSchema {
     describesActivity?: "subject",
 }
-
 
 
