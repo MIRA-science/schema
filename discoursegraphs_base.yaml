@@ -8,6 +8,7 @@ prefixes:
 default_prefix: dgb
 imports:
   - sioc
+  - rdf
 
 classes:
   Any:
@@ -45,6 +46,18 @@ classes:
     mixins:
       - AbstractRelationDef
 
+  RelationInstance:
+    description: Abstract class for relation definitions
+    class_uri: dgb:RelationInstance
+    abstract: true
+    mixin: true
+    mixins:
+      - Statement
+      - NodeSchema
+    slots:
+      - source
+      - destination
+
   Agent:
     class_uri: dgb:Agent
     is_a: FoafAgent
@@ -72,6 +85,18 @@ slots:
     description: "Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."
     domain: NodeSchema
     range: Item
+  source:
+    slot_uri: dgb:source
+    subproperty_of: rdf_subject
+    domain: RelationInstance
+    range: NodeSchema
+    description: "The source of a binary relation"
+  destination:
+    slot_uri: dgb:destination
+    subproperty_of: rdf_object
+    domain: RelationInstance
+    range: NodeSchema
+    description: "The destination of a binary relation"
 
   textRefersToNode:
     slot_uri: dgb:textRefersToNode
