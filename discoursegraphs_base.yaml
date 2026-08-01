@@ -47,7 +47,7 @@ classes:
       - AbstractRelationDef
 
   RelationInstance:
-    description: Abstract class for relation definitions
+    description: Abstract class for relation instances
     class_uri: dgb:RelationInstance
     abstract: true
     mixin: true

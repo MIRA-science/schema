@@ -14,7 +14,7 @@ all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
 generate: $(generated_python) $(generated_typescript)
 
-validate_data: validate generate
+validate_data: validate sampleData.json $(mira_shacl)
 	uv run pyshacl -s mira.shacl -sf turtle -e mira.ttl sampleData.json
 
 $(generated_python): $(mira_yaml)

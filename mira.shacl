@@ -127,7 +127,7 @@ foaf:Agent a sh:NodeShape ;
 	sh:property _:c14n12 , _:c14n140 , _:c14n15 , _:c14n19 , _:c14n34 , _:c14n44 , _:c14n50 , _:c14n56 , _:c14n79 , _:c14n90 ;
 	sh:targetClass <https://discoursegraphs.com/schema/dg_base#RelationDef> .
 <https://discoursegraphs.com/schema/dg_base#RelationInstance> a sh:NodeShape ;
-	rdfs:comment "Abstract class for relation definitions" ;
+	rdfs:comment "Abstract class for relation instances" ;
 	sh:closed false ;
 	sh:ignoredProperties _:c14n63 ;
 	sh:property _:c14n116 , _:c14n122 , _:c14n130 , _:c14n142 , _:c14n33 , _:c14n45 , _:c14n54 , _:c14n57 , _:c14n68 , _:c14n71 , _:c14n84 , _:c14n88 , _:c14n94 ;
