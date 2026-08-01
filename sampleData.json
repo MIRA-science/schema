@@ -55,7 +55,6 @@
       "modified": "2026-01-24T15:38:14.553Z",
       "created": "2026-01-24T15:38:14.553Z",
       "subClassOf": [
-        "dgb:RelationInstance",
         "supports",
         {
           "@type": "owl:Restriction",
@@ -73,7 +72,7 @@
       "created": "2026-01-24T15:38:14.553Z",
       "domain": "sdata:131157",
       "range": "sdata:131157",
-      "subClassOf": ["sdata:131164"],
+      "subClassOf": ["sdata:131164", "RelationInstance"],
       "label": "supports",
       "creator": "some:account"
     },
