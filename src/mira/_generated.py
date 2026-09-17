@@ -255,7 +255,7 @@ class RelationDef(AbstractRelationDef):
 
 class RelationInstance(NodeSchema, Statement):
     """
-    Abstract class for relation definitions
+    Abstract class for relation instances
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
          'class_uri': 'dgb:RelationInstance',

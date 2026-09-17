@@ -118,7 +118,7 @@ export interface RelationDef extends AbstractRelationDef {
 
 
 /**
- * Abstract class for relation definitions
+ * Abstract class for relation instances
  */
 export interface RelationInstance extends Statement, NodeSchema {
     /** The source of a binary relation */
