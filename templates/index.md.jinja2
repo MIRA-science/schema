@@ -1,0 +1,36 @@
+{% import "_macros.md.jinja2" as m with context -%}
+{#- imports_closure() is what populates schemaview.schema_map; the index is the
+    first page rendered, so it must be called before walking the import tree. -#}
+{%- set closure = schemaview.imports_closure() -%}
+# {{ schema.title or schema.name }}
+
+{% if schema.description %}{{ schema.description }}
+{% endif %}
+URI: {{ schema.id }}
+
+Name: {{ schema.name }}
+{% if include_top_level_diagram %}
+## Schema Diagram
+
+```{{ gen.mermaid_directive() }}
+{{ gen.mermaid_diagram() }}
+```
+{% endif %}
+## Schemas
+
+**{{ schema.name }}** and the schemas it imports, directly or transitively.
+
+| Schema | URI | Description |
+| --- | --- | --- |
+{% set ordered = [] -%}
+{{- m.schema_rows(schema.name, 0, ordered) -}}
+{%- for sn in closure %}{{ m.schema_rows(sn, 1, ordered) }}{% endfor -%}
+{%- for sname in ordered %}
+{%- set s = schemaview.schema_map.values()|selectattr('name', 'equalto', sname)|first %}
+
+## {{ m.schema_link(s) }}{% if s.id == schema.id %} (main schema){% endif %}
+{% if s.description %}
+{{ s.description }}
+{% endif %}
+{{- m.element_sections(s.id, True, 3) }}
+{% endfor %}
