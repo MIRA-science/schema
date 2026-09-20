@@ -1,0 +1,48 @@
+{#
+  Shared macros for the mira docs templates.
+  Import with context so that `gen`, `schemaview` and `sort_by` are visible:
+      {% import "_macros.md.jinja2" as m with context %}
+#}
+{%- macro schema_link(s, subfolder='') -%}
+[{{ s.title or s.name }}]({{ subfolder }}{{ s.name }}.md)
+{%- endmacro -%}
+
+{#- One table row per schema, depth-first over `imports`, root first.
+    `seen` is a list that the macro appends to, so a schema reached by two
+    different paths is listed once, at its shallowest position. -#}
+{%- macro schema_rows(sname, depth, seen, subfolder='') -%}
+{%- set s = schemaview.schema_map.get(sname) -%}
+{%- if s and s.name not in seen -%}
+{%- set _ = seen.append(s.name) -%}
+| {{ "&nbsp;"|safe * depth * 4 }}{% if s.id == schemaview.schema.id %}**{{ schema_link(s, subfolder) }}**{% else %}{{ schema_link(s, subfolder) }}{% endif %} | {{ s.id }} | {{ s.description|enshorten }} |
+{% for i in s.imports %}{{- schema_rows(i, depth + 1, seen, subfolder) -}}{% endfor %}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro element_rows(elements, index_link) -%}
+{% for e in elements|sort(attribute=sort_by) -%}
+| {{ gen.link(e, index_link) }} | {{ e.description|enshorten }} |
+{% endfor %}
+{%- endmacro -%}
+
+{#- Classes/slots/enums/types/subsets belonging to one schema, as `level`
+    headings. Empty kinds are skipped. -#}
+{%- macro element_sections(schema_id, index_link, level) -%}
+{%- set kinds = [
+      ('Classes', gen.all_class_objects()),
+      ('Slots', gen.all_slot_objects()),
+      ('Enumerations', gen.all_enum_objects()),
+      ('Types', gen.all_type_objects()),
+      ('Subsets', gen.all_subset_objects())] -%}
+{%- for label, elts in kinds -%}
+{%- set selected = elts|selectattr('from_schema', 'equalto', schema_id)|list -%}
+{%- if selected %}
+
+{{ '#' * level }} {{ label }}
+
+| Name | Description |
+| --- | --- |
+{{ element_rows(selected, index_link) }}
+{%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}

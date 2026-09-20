@@ -33,7 +33,7 @@ docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md
 	mkdir -p docs/elements
 	cp README.md docs/about.md
 	cp elements.md docs/
-	uv run gen-doc -d docs --no-hierarchical-class-view --no-render-imports  --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram mira.yaml --include-top-level-diagram
+	uv run gen-doc -d docs --no-hierarchical-class-view --render-imports --no-mergeimports --no-use-class-uris --no-use-slot-uris --diagram-type er_diagram mira.yaml --include-top-level-diagram --template-directory templates
 
 site/index.html: docs/index.md mira.svg
 	uv run mkdocs build -f mkdocs_mira.yaml

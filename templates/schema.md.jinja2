@@ -1,0 +1,15 @@
+{% import "_macros.md.jinja2" as m with context -%}
+# {{ schema.title or schema.name }}{% if schema.deprecated %} <span style="color: red;"><strong> (DEPRECATED) </strong></span>{% endif %}
+{% if schema.id == schemaview.schema.id %}
+The main schema of this documentation.
+{% endif %}
+{% if schema.description %}{{ schema.description }}{% endif %}
+
+URI: {{ schema.id }}
+
+Name: {{ schema.name }}
+{% if schema.imports %}
+Imports: {% for i in schema.imports %}{% set s = schemaview.schema_map.get(i) %}{% if s %}{{ m.schema_link(s) }}{% else %}`{{ i }}`{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+[« All schemas]({% if gen.subfolder_type_separation %}../{% endif %}{{ gen.index_name }}.md)
+{{ m.element_sections(schema.id, not gen.subfolder_type_separation, 2) }}
