@@ -86,7 +86,9 @@ class Activity(ConfiguredBaseModel):
     """
     An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'prov:Activity', 'from_schema': 'http://www.w3.org/ns/prov#'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'class_uri': 'prov:Activity',
+         'from_schema': 'http://www.w3.org/ns/prov#'})
 
     pass
 

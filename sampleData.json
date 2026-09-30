@@ -115,8 +115,16 @@
       "title": "EVD - Some observation reported in figure 1",
       "observationStatement": "sdata:261170",
       "observationBase": "https://example.com/some_paper#figure1",
+      "observationOriginActivity": "sdata:261190",
       "sourceDocument": "https://example.com/some_paper",
       "supports": "sdata:261170",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261190",
+      "@type": "Study",
+      "title": "STU - Some experiment",
+      "grounds": "sdata:261180",
       "creator": "some:account"
     }
   ]
