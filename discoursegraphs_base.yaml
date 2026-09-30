@@ -87,17 +87,19 @@ slots:
     range: Item
   # is_a gives rdfs:subPropertyOf; subproperty_of would make gen-shacl require
   # the *value* to be a descendant of rdf_subject.
+  # Range is Any: node types are instances of dgb:NodeSchema, not subclasses
+  # (mira:Claim a dgb:NodeSchema), so sh:class dgb:NodeSchema never matches.
   source:
     slot_uri: dgb:source
     is_a: rdf_subject
     domain: RelationInstance
-    range: NodeSchema
+    range: Any
     description: "The source of a binary relation"
   destination:
     slot_uri: dgb:destination
     is_a: rdf_object
     domain: RelationInstance
-    range: NodeSchema
+    range: Any
     description: "The destination of a binary relation"
 
   textRefersToNode:
