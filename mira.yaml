@@ -33,6 +33,7 @@ classes:
     class_uri: mira:Claim
     mixins:
       - NodeSchema
+      - Argument
     description: Atomic, generalized assertions about the world that (propose to) answer research questions
     slots:
       - addresses
@@ -41,6 +42,7 @@ classes:
     class_uri: mira:Evidence
     mixins:
       - NodeSchema
+      - Argument
     description: A specific empirical observation from a particular application of a research method
     slots:
       - grounds
