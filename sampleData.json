@@ -85,6 +85,47 @@
       "destination": "sdata:254918",
       "title": "[[CLM - Some supporting claim]] -supports-> [[CLM - Some base claim]]",
       "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261170",
+      "@type": "Claim",
+      "title": "CLM - Some further supporting claim",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261171",
+      "@type": ["RelationInstance", "supports"],
+      "source": "sdata:261170",
+      "destination": "sdata:254918",
+      "title": "[[CLM - Some further supporting claim]] -supports-> [[CLM - Some base claim]]",
+      "creator": "some:account"
+    },
+    {
+      "@id": "https://example.com/some_paper",
+      "@type": "SourceDocument",
+      "title": "Some paper reporting the observation"
+    },
+    {
+      "@id": "https://example.com/some_paper#figure1",
+      "@type": "prov:Entity"
+    },
+    {
+      "@id": "sdata:261180",
+      "@type": "Evidence",
+      "title": "EVD - Some observation reported in figure 1",
+      "observationStatement": "sdata:261170",
+      "observationBase": "https://example.com/some_paper#figure1",
+      "observationOriginActivity": "sdata:261190",
+      "sourceDocument": "https://example.com/some_paper",
+      "supports": "sdata:261170",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:261190",
+      "@type": "Study",
+      "title": "STU - Some experiment",
+      "grounds": "sdata:261180",
+      "creator": "some:account"
     }
   ]
 }

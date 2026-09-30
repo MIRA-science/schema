@@ -122,9 +122,9 @@ export interface RelationDef extends AbstractRelationDef {
  */
 export interface RelationInstance extends Statement, NodeSchema {
     /** The source of a binary relation */
-    source?: "rdf_subject",
+    source?: Any,
     /** The destination of a binary relation */
-    destination?: "rdf_object",
+    destination?: Any,
 }
 
 
@@ -143,8 +143,8 @@ export interface Agent extends FoafAgent {
  * A node that can support or oppose another node
  */
 export interface Argument {
-    supports?: ("RelationDef" | "observationBase")[],
-    opposes?: ("RelationDef" | "observationBase")[],
+    supports?: Claim[],
+    opposes?: Claim[],
 }
 
 
@@ -158,23 +158,23 @@ export interface Question extends NodeSchema {
 /**
  * Atomic, generalized assertions about the world that (propose to) answer research questions
  */
-export interface Claim extends NodeSchema {
-    addresses?: ("RelationDef" | "observationBase")[],
+export interface Claim extends NodeSchema, Argument {
+    addresses?: Question[],
 }
 
 
 /**
  * A specific empirical observation from a particular application of a research method
  */
-export interface Evidence extends NodeSchema {
+export interface Evidence extends NodeSchema, Argument {
     grounds?: Evidence[],
-    observationStatement?: "RelationDef" | "observationBase",
+    observationStatement?: Claim,
     /** An experiment or study at the origin of the data on which the observation is based */
-    observationOriginActivity?: "RelationDef" | "observationBase",
+    observationOriginActivity?: Activity,
     /** The data on which the observation is based */
     observationBase?: Entity,
     /** A document that described the activity which led to the data on which the observation is based */
-    sourceDocument?: "RelationDef" | "observationBase",
+    sourceDocument?: SourceDocument,
 }
 
 
@@ -208,7 +208,7 @@ export interface Protocol extends NodeSchema, Activity {
  * Some research source document that reports/generates evidence, like a book, conference paper, or journal article
  */
 export interface SourceDocument extends CreativeWork, NodeSchema {
-    describesActivity?: "subject",
+    describesActivity?: Activity,
 }
 
 

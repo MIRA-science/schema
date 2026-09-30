@@ -86,7 +86,9 @@ class Activity(ConfiguredBaseModel):
     """
     An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'prov:Activity', 'from_schema': 'http://www.w3.org/ns/prov#'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'class_uri': 'prov:Activity',
+         'from_schema': 'http://www.w3.org/ns/prov#'})
 
     pass
 
@@ -263,14 +265,14 @@ class RelationInstance(NodeSchema, Statement):
          'mixin': True,
          'mixins': ['Statement', 'NodeSchema']})
 
-    source: Optional[str] = Field(default=None, description="""The source of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
+    source: Optional[Any] = Field(default=None, description="""The source of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
          'domain_of': ['RelationInstance'],
-         'slot_uri': 'dgb:source',
-         'subproperty_of': 'rdf_subject'} })
-    destination: Optional[str] = Field(default=None, description="""The destination of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
+         'is_a': 'rdf_subject',
+         'slot_uri': 'dgb:source'} })
+    destination: Optional[Any] = Field(default=None, description="""The destination of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
          'domain_of': ['RelationInstance'],
-         'slot_uri': 'dgb:destination',
-         'subproperty_of': 'rdf_object'} })
+         'is_a': 'rdf_object',
+         'slot_uri': 'dgb:destination'} })
     rdf_subject: Optional[Resource] = Field(default=None, description="""The subject of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:subject'} })
     rdf_predicate: Optional[Resource] = Field(default=None, description="""The predicate of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:predicate'} })
     rdf_object: Optional[Resource] = Field(default=None, description="""The object of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:object'} })
@@ -310,12 +312,12 @@ class Argument(ConfiguredBaseModel):
 
     supports: Optional[list[Claim]] = Field(default=None, title="Supports", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
          'domain_of': ['Argument'],
-         'slot_uri': 'mira:supports',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:supports'} })
     opposes: Optional[list[Claim]] = Field(default=None, title="Opposes", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
          'domain_of': ['Argument'],
-         'slot_uri': 'mira:opposes',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:opposes'} })
 
 
 class Question(NodeSchema):
@@ -341,18 +343,18 @@ class Question(NodeSchema):
     content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
 
 
-class Claim(NodeSchema):
+class Claim(Argument, NodeSchema):
     """
     Atomic, generalized assertions about the world that (propose to) answer research questions
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:Claim',
          'from_schema': 'http://purl.org/mira-science/mira#',
-         'mixins': ['NodeSchema']})
+         'mixins': ['NodeSchema', 'Argument']})
 
     addresses: Optional[list[Question]] = Field(default=None, title="Addresses", json_schema_extra = { "linkml_meta": {'domain': 'Claim',
          'domain_of': ['Claim'],
-         'slot_uri': 'mira:addresses',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:addresses'} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
@@ -364,37 +366,45 @@ class Claim(NodeSchema):
          'domain_of': ['Item', 'NodeSchema'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
+    supports: Optional[list[Claim]] = Field(default=None, title="Supports", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
+         'domain_of': ['Argument'],
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:supports'} })
+    opposes: Optional[list[Claim]] = Field(default=None, title="Opposes", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
+         'domain_of': ['Argument'],
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:opposes'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
     content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
 
 
-class Evidence(NodeSchema):
+class Evidence(Argument, NodeSchema):
     """
     A specific empirical observation from a particular application of a research method
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:Evidence',
          'from_schema': 'http://purl.org/mira-science/mira#',
-         'mixins': ['NodeSchema']})
+         'mixins': ['NodeSchema', 'Argument']})
 
     grounds: Optional[list[Evidence]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Study',
          'domain_of': ['Evidence', 'Study'],
          'inverse': 'is_grounded_in'} })
     observationStatement: Optional[Claim] = Field(default=None, title="Observation statement", json_schema_extra = { "linkml_meta": {'domain': 'Evidence',
          'domain_of': ['Evidence'],
-         'slot_uri': 'mira:observationStatement',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:observationStatement'} })
     observationOriginActivity: Optional[Activity] = Field(default=None, title="Observation origin process", description="""An experiment or study at the origin of the data on which the observation is based""", json_schema_extra = { "linkml_meta": {'domain': 'Evidence',
          'domain_of': ['Evidence'],
-         'slot_uri': 'mira:observationOriginActivity',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:observationOriginActivity'} })
     observationBase: Optional[Entity] = Field(default=None, title="Observation base", description="""The data on which the observation is based""", json_schema_extra = { "linkml_meta": {'domain': 'Evidence',
          'domain_of': ['Evidence'],
-         'mixins': ['RelationDef'],
+         'instantiates': ['dgb:RelationDef'],
          'slot_uri': 'mira:observationBase'} })
     sourceDocument: Optional[SourceDocument] = Field(default=None, title="Source document", description="""A document that described the activity which led to the data on which the observation is based""", json_schema_extra = { "linkml_meta": {'domain': 'Evidence',
          'domain_of': ['Evidence'],
-         'slot_uri': 'mira:sourceDocument',
-         'subproperty_of': 'RelationDef'} })
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:sourceDocument'} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
@@ -406,6 +416,14 @@ class Evidence(NodeSchema):
          'domain_of': ['Item', 'NodeSchema'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
+    supports: Optional[list[Claim]] = Field(default=None, title="Supports", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
+         'domain_of': ['Argument'],
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:supports'} })
+    opposes: Optional[list[Claim]] = Field(default=None, title="Opposes", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
+         'domain_of': ['Argument'],
+         'instantiates': ['dgb:RelationDef'],
+         'slot_uri': 'mira:opposes'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
     content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
 
@@ -497,8 +515,8 @@ class SourceDocument(NodeSchema, CreativeWork):
 
     describesActivity: Optional[Activity] = Field(default=None, title="Describes activity", json_schema_extra = { "linkml_meta": {'domain': 'CreativeWork',
          'domain_of': ['SourceDocument'],
-         'slot_uri': 'mira:describesActivity',
-         'subproperty_of': 'subject'} })
+         'is_a': 'subject',
+         'slot_uri': 'mira:describesActivity'} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })

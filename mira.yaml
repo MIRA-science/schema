@@ -33,6 +33,7 @@ classes:
     class_uri: mira:Claim
     mixins:
       - NodeSchema
+      - Argument
     description: Atomic, generalized assertions about the world that (propose to) answer research questions
     slots:
       - addresses
@@ -41,6 +42,7 @@ classes:
     class_uri: mira:Evidence
     mixins:
       - NodeSchema
+      - Argument
     description: A specific empirical observation from a particular application of a research method
     slots:
       - grounds
@@ -111,20 +113,20 @@ slots:
   describesActivity:
     slot_uri: mira:describesActivity
     title: Describes activity
-    subproperty_of: subject
+    is_a: subject
     domain: CreativeWork
     range: Activity
 
   observationStatement:
     slot_uri: mira:observationStatement
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Observation statement
     domain: Evidence
     range: Claim
 
   observationOriginActivity:
     slot_uri: mira:observationOriginActivity
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Observation origin process
     description: An experiment or study at the origin of the data on which the observation is based
     domain: Evidence
@@ -141,8 +143,7 @@ slots:
     range: Entity
     # That range is very, very provisional. could also involve schema:DigitalDocument , schema:Dataset
     domain: Evidence
-    mixins:
-      - RelationDef
+    instantiates: [dgb:RelationDef]
   # The Entity should be prov:wasGeneratedBy the Activity that is either the Source, or one subject of the Source.
   # I would like to add:
   #  owl:propertyChainAxiom (observationOriginActivity prov:generated).
@@ -151,7 +152,7 @@ slots:
 
   sourceDocument:
     slot_uri: mira:sourceDocument
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Source document
     description: A document that described the activity which led to the data on which the observation is based
     domain: Evidence
@@ -159,7 +160,7 @@ slots:
 
   opposes:
     slot_uri: mira:opposes
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Opposes
     range: Claim
     # Or Arguable?
@@ -167,7 +168,7 @@ slots:
     multivalued: true
   opposedBy:
     slot_uri: mira:opposedBy
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Opposed by
     inverse: opposes
     domain: Claim
@@ -176,7 +177,7 @@ slots:
     multivalued: true
   supports:
     slot_uri: mira:supports
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Supports
     range: Claim
     # Or Arguable?
@@ -184,7 +185,7 @@ slots:
     multivalued: true
   supportedBy:
     slot_uri: mira:supportedBy
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Supported by
     inverse: supports
     domain: Claim
@@ -194,7 +195,7 @@ slots:
 
   addresses:
     slot_uri: mira:addresses
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Addresses
     range: Question
     domain: Claim
@@ -202,7 +203,7 @@ slots:
 
   addressedBy:
     slot_uri: mira:addressedBy
-    subproperty_of: RelationDef
+    instantiates: [dgb:RelationDef]
     title: Addressed by
     inverse: addresses
     range: Claim
