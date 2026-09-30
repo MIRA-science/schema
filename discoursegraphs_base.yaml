@@ -85,15 +85,17 @@ slots:
     description: "Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."
     domain: NodeSchema
     range: Item
+  # is_a gives rdfs:subPropertyOf; subproperty_of would make gen-shacl require
+  # the *value* to be a descendant of rdf_subject.
   source:
     slot_uri: dgb:source
-    subproperty_of: rdf_subject
+    is_a: rdf_subject
     domain: RelationInstance
     range: NodeSchema
     description: "The source of a binary relation"
   destination:
     slot_uri: dgb:destination
-    subproperty_of: rdf_object
+    is_a: rdf_object
     domain: RelationInstance
     range: NodeSchema
     description: "The destination of a binary relation"
