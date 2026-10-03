@@ -57,7 +57,8 @@ mira:Request a dgb:NodeSchema;
     rdfs:label "Request"@en;
     rdfs:comment "A unit of work the community can pick up — issue-tracker-shaped."@en.
 
-mira:Protocol a dgb:NodeSchema, prov:Activity;
+mira:Protocol a dgb:NodeSchema;
+  rdfs:subClassOf prov:Activity;
   rdfs:label "Protocol"@en;
   rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
 
