@@ -68,8 +68,6 @@ classes:
       - account
 
 slots:
-  RelationDef:
-    slot_uri: dgb:RelationDef
   domain:
     slot_uri: rdfs:domain
     description: A domain of the subject property.
@@ -87,13 +85,13 @@ slots:
     range: Item
   source:
     slot_uri: dgb:source
-    subproperty_of: rdf_subject
+    is_a: rdf_subject
     domain: RelationInstance
     range: NodeSchema
     description: "The source of a binary relation"
   destination:
     slot_uri: dgb:destination
-    subproperty_of: rdf_object
+    is_a: rdf_object
     domain: RelationInstance
     range: NodeSchema
     description: "The destination of a binary relation"

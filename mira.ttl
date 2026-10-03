@@ -43,7 +43,7 @@ mira:Evidence a dgb:NodeSchema;
   rdfs:subClassOf mira:Argument;
   rdfs:label "Evidence"@en;
   rdfs:comment "A specific empirical observation from a particular application of a research method"@en;
-  owl:subClassOf [rdf:type owl:Restriction ; owl:onProperty mira:observationStatement ; owl:cardinality 1],
+  rdfs:subClassOf [rdf:type owl:Restriction ; owl:onProperty mira:observationStatement ; owl:cardinality 1],
     [rdf:type owl:Restriction ; owl:onProperty mira:observationBase ; owl:cardinality 1].
     # Ideally also mira:observationOriginActivity, but maybe not a hard constraint.
 
@@ -58,7 +58,7 @@ mira:Request a dgb:NodeSchema;
     rdfs:comment "A unit of work the community can pick up — issue-tracker-shaped."@en.
 
 mira:Protocol a dgb:NodeSchema, prov:Activity;
-  rdfs:label "Request"@en;
+  rdfs:label "Protocol"@en;
   rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
 
 mira:follows a dgb:RelationDef;
@@ -96,7 +96,7 @@ mira:describesActivity a dgb:RelationDef;
 mira:SourceDocument a dgb:NodeSchema;
   rdfs:label "Source document"@en;
   rdfs:comment "Some research source document that reports/generates evidence, like a book, conference paper, or journal article"@en;
-  owl:subClassOf schema:CreativeWork, [rdf:type owl:Restriction ; owl:onProperty mira:describesActivity ; owl:minCardinality 1].
+  rdfs:subClassOf schema:CreativeWork, [rdf:type owl:Restriction ; owl:onProperty mira:describesActivity ; owl:minCardinality 1].
 
 mira:observationStatement a dgb:RelationDef;
   rdfs:label "Observation statement"@en;
@@ -164,13 +164,13 @@ mira:addressedBy a dgb:RelationDef;
   rdfs:range mira:Claim;
   rdfs:domain mira:Question.
 
-po:contains a owl:ObjectRelation;
+po:contains a owl:ObjectProperty;
   rdfs:comment "A part of a document is contained in another part or whole document"@en;
-  rdfs:domain: sioc:Item, po:Structured;
-  rdfs:range: sioc:Item.
+  rdfs:domain sioc:Item, po:Structured;
+  rdfs:range sioc:Item.
 
-po:isContainedBy a owl:ObjectRelation;
+po:isContainedBy a owl:ObjectProperty;
   rdfs:comment "A part of a document is contained in another part or whole document"@en;
-  rdfs:domain: sioc:Item, po:Structured;
-  rdfs:range: sioc:Item;
+  rdfs:domain sioc:Item, po:Structured;
+  rdfs:range sioc:Item;
   owl:inverseOf po:contains.
