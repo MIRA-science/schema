@@ -43,7 +43,6 @@
     "Agent": "dgb:Agent",
     "AbstractRelationDef": "dgb:AbstractRelationDef",
     "RelationInstance": "dgb:RelationInstance",
-    "RelationSchema": "dgb:RelationSchema",
     "NodeSchema": "dgb:NodeSchema",
     "source": { "@id": "dgb:source", "@type": "@id" },
     "destination": { "@id": "dgb:destination", "@type": "@id" },

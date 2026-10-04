@@ -389,6 +389,7 @@ class Evidence(Argument, NodeSchema):
 
     grounds: Optional[list[Evidence]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Study',
          'domain_of': ['Evidence', 'Study'],
+         'instantiates': ['dgb:RelationDef'],
          'inverse': 'is_grounded_in'} })
     observationStatement: Optional[Claim] = Field(default=None, title="Observation statement", json_schema_extra = { "linkml_meta": {'domain': 'Evidence',
          'domain_of': ['Evidence'],
@@ -437,10 +438,13 @@ class Study(NodeSchema, Activity):
          'from_schema': 'http://purl.org/mira-science/mira#',
          'mixins': ['NodeSchema', 'Activity']})
 
-    request_for: Optional[list[Study]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request', 'domain_of': ['Study', 'Request']} })
-    follows: Optional[list[Protocol]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Study', 'domain_of': ['Study']} })
+    request_for: Optional[list[Study]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request',
+         'domain_of': ['Study', 'Request'],
+         'instantiates': ['dgb:RelationDef']} })
+    follows: Optional[list[Protocol]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Study', 'domain_of': ['Study'], 'instantiates': ['dgb:RelationDef']} })
     grounds: Optional[list[Evidence]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Study',
          'domain_of': ['Evidence', 'Study'],
+         'instantiates': ['dgb:RelationDef'],
          'inverse': 'is_grounded_in'} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
@@ -465,8 +469,12 @@ class Request(NodeSchema):
          'from_schema': 'http://purl.org/mira-science/mira#',
          'mixins': ['NodeSchema']})
 
-    request_for: Optional[list[Study]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request', 'domain_of': ['Study', 'Request']} })
-    request_target: Optional[list[Claim]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request', 'domain_of': ['Request']} })
+    request_for: Optional[list[Study]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request',
+         'domain_of': ['Study', 'Request'],
+         'instantiates': ['dgb:RelationDef']} })
+    request_target: Optional[list[Claim]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request',
+         'domain_of': ['Request'],
+         'instantiates': ['dgb:RelationDef']} })
     created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
     modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
