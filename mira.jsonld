@@ -45,6 +45,7 @@
     "Agent": "dgb:Agent",
     "AbstractRelationDef": "dgb:AbstractRelationDef",
     "RelationInstance": "dgb:RelationInstance",
+    "Relationship": "dgb:Relationship",
     "RelationSchema": "dgb:RelationSchema",
     "Node": "dgb:Node",
     "NodeSchema": "dgb:NodeSchema",
