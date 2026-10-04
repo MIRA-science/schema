@@ -14,6 +14,7 @@ classes:
 
   Statement:
     class_uri: rdf:Statement
+    abstract: true
     name: Statement
     slots:
       - rdf_subject
