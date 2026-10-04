@@ -91,22 +91,27 @@ classes:
 
 slots:
   follows:
+    instantiates: [dgb:RelationDef]
     domain: Study
     range: Protocol
     multivalued: true
   grounds:
+    instantiates: [dgb:RelationDef]
     domain: Study
     range: Evidence
     inverse: is_grounded_in
     multivalued: true
   is_grounded_in:
+    instantiates: [dgb:RelationDef]
     domain: Evidence
     range: Study
   request_for:
+    instantiates: [dgb:RelationDef]
     domain: Request
     range: Study
     multivalued: true
   request_target:
+    instantiates: [dgb:RelationDef]
     domain: Request
     range: Claim
     multivalued: true
