@@ -78,7 +78,7 @@ mira:Study a sh:NodeShape ;
 	sh:ignoredProperties _:c14n83 ;
 	sh:targetClass <http://schema.org/CreativeWork> .
 rdf:Statement a sh:NodeShape ;
-	sh:closed true ;
+	sh:closed false ;
 	sh:ignoredProperties _:c14n97 ;
 	sh:property _:c14n123 , _:c14n16 , _:c14n24 ;
 	sh:targetClass rdf:Statement .

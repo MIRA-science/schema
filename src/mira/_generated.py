@@ -168,7 +168,8 @@ class Resource(ConfiguredBaseModel):
 
 
 class Statement(ConfiguredBaseModel):
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'rdf:Statement',
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'class_uri': 'rdf:Statement',
          'from_schema': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'})
 
     rdf_subject: Optional[Resource] = Field(default=None, description="""The subject of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:subject'} })
