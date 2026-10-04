@@ -26,13 +26,13 @@ classes:
   Question:
     class_uri: mira:Question
     mixins:
-      - NodeSchema
+      - Node
     description: Scientific unknowns that we want to make known, and are addressable by the systematic application of research methods
 
   Claim:
     class_uri: mira:Claim
     mixins:
-      - NodeSchema
+      - Node
       - Argument
     description: Atomic, generalized assertions about the world that (propose to) answer research questions
     slots:
@@ -41,7 +41,7 @@ classes:
   Evidence:
     class_uri: mira:Evidence
     mixins:
-      - NodeSchema
+      - Node
       - Argument
     description: A specific empirical observation from a particular application of a research method
     slots:
@@ -55,7 +55,7 @@ classes:
     class_uri: mira:Study
     description: An activity — an experiment or analysis — that produces evidence.
     mixins:
-      - NodeSchema
+      - Node
       - Activity
     slots:
       - request_for
@@ -66,7 +66,7 @@ classes:
     class_uri: mira:Request
     description: A unit of work the community can pick up — issue-tracker-shaped.
     mixins:
-      - NodeSchema
+      - Node
     slots:
       - request_for
       - request_target
@@ -75,14 +75,14 @@ classes:
     class_uri: mira:Protocol
     description: The method or experimental approach a Study follows to generate the evidence.
     mixins:
-      - NodeSchema
+      - Node
       - Activity
 
   SourceDocument:
     class_uri: mira:SourceDocument
     is_a: CreativeWork
     mixins:
-      - NodeSchema
+      - Node
       # [rdf:type owl:Restriction ; owl:onProperty describesActivity ; owl:minCardinality 1].
     title: Source document
     description: Some research source document that reports/generates evidence, like a book, conference paper, or journal article
