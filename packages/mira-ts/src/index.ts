@@ -212,3 +212,37 @@ export interface SourceDocument extends CreativeWork, NodeSchema {
 }
 
 
+/**
+ * A criterion by which a node (proposal, claim or activity) is evaluated, such as plausibility (Claims) or desirability (Request, Study)
+ */
+export interface Criterion extends NodeSchema {
+}
+
+
+/**
+ * The scale against which a specific evaluation is measured
+ */
+export interface EvaluationScale extends NodeSchema {
+    minimum?: number,
+    maximum?: number,
+    criterion?: Criterion,
+}
+
+
+/**
+ * An evaluation by an agent that a node (proposal, claim or activity) falls somewhere on a scale.
+ */
+export interface Evaluation {
+    /** Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity. */
+    creator?: UserAccount[],
+    scale?: EvaluationScale,
+    magnitude?: number,
+    created?: string,
+    modified?: string,
+    /** The destination of a binary relation */
+    destination?: NodeSchema,
+    /** The Container to which this Item belongs. */
+    has_container?: Container,
+}
+
+
