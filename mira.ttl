@@ -28,19 +28,20 @@ mira:Argument a owl:Class;
   rdfs:label "Argument"@en;
   rdfs:comment "A marker class for nodes that can serve as arguments".
 
-mira:Question a dgb:NodeSchema;
+mira:Question a owl:Class;
+  rdfs:subClassOf dgb:Node;
   rdfs:label "Question"@en;
   rdfs:comment "A scientific question. May be exploratory or precise."@en.
 
-mira:Claim a dgb:NodeSchema;
-  rdfs:subClassOf mira:Argument;
+mira:Claim a owl:Class;
+  rdfs:subClassOf dgb:Node, mira:Argument;
   rdfs:label "Claim"@en;
   rdfs:comment "Atomic, generalized assertions about the world that (propose to) answer research questions"@en.
 
 # We may want to say that engineering goals are a variant of scientific questions,
 # and engineering proposals are a variant of claims.
-mira:Evidence a dgb:NodeSchema;
-  rdfs:subClassOf mira:Argument;
+mira:Evidence a owl:Class;
+  rdfs:subClassOf dgb:Node, mira:Argument;
   rdfs:label "Evidence"@en;
   rdfs:comment "A specific empirical observation from a particular application of a research method"@en;
   rdfs:subClassOf [rdf:type owl:Restriction ; owl:onProperty mira:observationStatement ; owl:cardinality 1],
@@ -48,17 +49,18 @@ mira:Evidence a dgb:NodeSchema;
     # Ideally also mira:observationOriginActivity, but maybe not a hard constraint.
 
 
-mira:Study a dgb:NodeSchema;
-  rdfs:subClassOf prov:Activity;
+mira:Study a owl:Class;
+  rdfs:subClassOf dgb:Node, prov:Activity;
   rdfs:label "Study"@en;
   rdfs:comment "An activity — an experiment or analysis — that produces evidence."@en.
 
-mira:Request a dgb:NodeSchema;
+mira:Request a owl:Class;
+    rdfs:subClassOf dgb:Node;
     rdfs:label "Request"@en;
     rdfs:comment "A unit of work the community can pick up — issue-tracker-shaped."@en.
 
-mira:Protocol a dgb:NodeSchema;
-  rdfs:subClassOf prov:Activity;
+mira:Protocol a owl:Class;
+  rdfs:subClassOf dgb:Node, prov:Activity;
   rdfs:label "Protocol"@en;
   rdfs:comment "The method or experimental approach a Study follows to generate the evidence."@en.
 
@@ -94,7 +96,8 @@ mira:describesActivity a dgb:RelationDef;
   rdfs:domain schema:CreativeWork;
   rdfs:range prov:Activity.
 
-mira:SourceDocument a dgb:NodeSchema;
+mira:SourceDocument a owl:Class;
+  rdfs:subClassOf dgb:Node;
   rdfs:label "Source document"@en;
   rdfs:comment "Some research source document that reports/generates evidence, like a book, conference paper, or journal article"@en;
   rdfs:subClassOf schema:CreativeWork, [rdf:type owl:Restriction ; owl:onProperty mira:describesActivity ; owl:minCardinality 1].

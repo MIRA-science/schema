@@ -83,9 +83,9 @@ export interface Any {
 
 
 /**
- * Abstract class for node definitions
+ * Superclass of all discourse graph nodes
  */
-export interface NodeSchema extends Item {
+export interface Node extends Item {
     created?: string,
     modified?: string,
     /** Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity. */
@@ -100,16 +100,20 @@ export interface NodeSchema extends Item {
 
 
 /**
- * Abstract meta-class for relation definitions
+ * Metaclass of node types
  */
-export interface AbstractRelationDef extends NodeSchema {
+export interface NodeSchema {
+    created?: string,
+    modified?: string,
+    /** Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity. */
+    creator?: UserAccount[],
 }
 
 
 /**
  * Abstract class for relation definitions
  */
-export interface RelationDef extends AbstractRelationDef {
+export interface RelationDef extends NodeSchema {
     /** A domain of the subject property. */
     domain?: NodeSchema,
     /** A range of the subject property. */
@@ -118,13 +122,20 @@ export interface RelationDef extends AbstractRelationDef {
 
 
 /**
+ * Deprecated alias of RelationDef
+ */
+export interface AbstractRelationDef extends RelationDef {
+}
+
+
+/**
  * Abstract class for relation instances
  */
-export interface RelationInstance extends Statement, NodeSchema {
+export interface RelationInstance extends Statement, Node {
     /** The source of a binary relation */
-    source?: NodeSchema,
+    source?: Node,
     /** The destination of a binary relation */
-    destination?: NodeSchema,
+    destination?: Node,
 }
 
 
@@ -151,14 +162,14 @@ export interface Argument {
 /**
  * Scientific unknowns that we want to make known, and are addressable by the systematic application of research methods
  */
-export interface Question extends NodeSchema {
+export interface Question extends Node {
 }
 
 
 /**
  * Atomic, generalized assertions about the world that (propose to) answer research questions
  */
-export interface Claim extends NodeSchema, Argument {
+export interface Claim extends Node, Argument {
     addresses?: Question[],
 }
 
@@ -166,7 +177,7 @@ export interface Claim extends NodeSchema, Argument {
 /**
  * A specific empirical observation from a particular application of a research method
  */
-export interface Evidence extends NodeSchema, Argument {
+export interface Evidence extends Node, Argument {
     grounds?: Evidence[],
     observationStatement?: Claim,
     /** An experiment or study at the origin of the data on which the observation is based */
@@ -181,7 +192,7 @@ export interface Evidence extends NodeSchema, Argument {
 /**
  * An activity — an experiment or analysis — that produces evidence.
  */
-export interface Study extends NodeSchema, Activity {
+export interface Study extends Node, Activity {
     request_for?: Study[],
     follows?: Protocol[],
     grounds?: Evidence[],
@@ -191,7 +202,7 @@ export interface Study extends NodeSchema, Activity {
 /**
  * A unit of work the community can pick up — issue-tracker-shaped.
  */
-export interface Request extends NodeSchema {
+export interface Request extends Node {
     request_for?: Study[],
     request_target?: Claim[],
 }
@@ -200,14 +211,14 @@ export interface Request extends NodeSchema {
 /**
  * The method or experimental approach a Study follows to generate the evidence.
  */
-export interface Protocol extends NodeSchema, Activity {
+export interface Protocol extends Node, Activity {
 }
 
 
 /**
  * Some research source document that reports/generates evidence, like a book, conference paper, or journal article
  */
-export interface SourceDocument extends CreativeWork, NodeSchema {
+export interface SourceDocument extends CreativeWork, Node {
     describesActivity?: Activity,
 }
 

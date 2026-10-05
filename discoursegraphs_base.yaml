@@ -14,9 +14,9 @@ classes:
   Any:
     class_uri: linkml:Any
 
-  NodeSchema:
-    description: Abstract class for node definitions
-    class_uri: dgb:NodeSchema
+  Node:
+    description: Superclass of all discourse graph nodes
+    class_uri: dgb:Node
     abstract: true
     mixin: true
     is_a: Item
@@ -28,32 +28,55 @@ classes:
       - description
       - has_container
 
-  AbstractRelationDef:
-    description: Abstract meta-class for relation definitions
-    is_a: NodeSchema
-    class_uri: dgb:AbstractRelationDef
+  NodeSchema:
+    # Metaclass of node types: X a NodeSchema iff X rdfs:subClassOf Node (see dg_base.ttl).
+    # Node types declare mixins: [Node]; NodeSchema is inferred.
+    description: Metaclass of node types
+    class_uri: dgb:NodeSchema
     abstract: true
-    mixin: true
+    slots:
+      - created
+      - modified
+      - creator
 
   RelationDef:
+    # X a RelationDef iff X rdfs:subClassOf RelationInstance (see dg_base.ttl);
+    # relation definitions are punned: properties and classes of relation instances.
+    # A relation family is a RelationDef without domain/range; signed variants are
+    # rdfs:subPropertyOf (and rdfs:subClassOf) the family.
     description: Abstract class for relation definitions
+    is_a: NodeSchema
     class_uri: dgb:RelationDef
     abstract: true
     mixin: true
     slots:
       - domain
       - range
+
+  AbstractRelationDef:
+    # Kept so that existing data typed AbstractRelationDef still validates;
+    # equivalent to RelationDef in dg_base.ttl.
+    description: Deprecated alias of RelationDef
+    deprecated: Use RelationDef
+    deprecated_element_has_exact_replacement: RelationDef
+    class_uri: dgb:AbstractRelationDef
+    abstract: true
+    mixin: true
     mixins:
-      - AbstractRelationDef
+      - RelationDef
 
   RelationInstance:
+    # Relationship is the preferred future name; equivalent to RelationInstance in dg_base.ttl.
+    # RelationInstance stays primary until tools emit Relationship.
     description: Abstract class for relation instances
+    aliases:
+      - Relationship
     class_uri: dgb:RelationInstance
     abstract: true
     mixin: true
     mixins:
       - Statement
-      - NodeSchema
+      - Node
     slots:
       - source
       - destination
@@ -81,26 +104,26 @@ slots:
   description:
     slot_uri: dct:description
     description: "Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."
-    domain: NodeSchema
+    domain: Node
     range: Item
   source:
     slot_uri: dgb:source
     is_a: rdf_subject
     domain: RelationInstance
-    range: NodeSchema
+    range: Node
     description: "The source of a binary relation"
   destination:
     slot_uri: dgb:destination
     is_a: rdf_object
     domain: RelationInstance
-    range: NodeSchema
+    range: Node
     description: "The destination of a binary relation"
 
   textRefersToNode:
     slot_uri: dgb:textRefersToNode
     description: A text resource refers to a node
     domain: Item
-    range: NodeSchema
+    range: Node
 
   contains:
     description: A part of a document is contained in another part or whole document
