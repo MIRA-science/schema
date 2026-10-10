@@ -1,0 +1,31 @@
+# ATProto binding of mira.yaml, read by lod-at-gen (linkedopendata-at/generator).
+# PROOF OF CONCEPT. Kept outside mira.yaml so the shared schema is unchanged;
+# these entries could become LinkML annotations later (proposal §10).
+
+schema: ../mira.yaml
+nsid_prefix: science.mira
+# Shared reference def (proposal §3 rule 3).
+ref_def: at.linkedopendata.defs#ref
+
+# LinkML classes published as record types. NSID = nsid_prefix + lowerCamel(class).
+records: [Question, Claim, Evidence, Study, Request, Protocol, SourceDocument]
+record_key: tid
+# Adds previousVersionCid to every record (proposal §3 rule 9).
+track_versions: true
+
+# Slots left out of the lexicon.
+omit:
+  - creator  # the signing DID; the broker emits sioc:has_creator (§6.1)
+  - format   # not used by MIRA records yet
+  - content  # not used by MIRA records yet
+
+# Per-slot overrides, by LinkML slot name. Default field name is lowerCamel(slot).
+fields:
+  created: {name: createdAt, required: true}
+  modified: {name: updatedAt}
+  title: {maxLength: 5000}
+  # Range Item: inline text with facets, or a reference to an external or shared text.
+  description:
+    union: [at.linkedopendata.richtext#text, at.linkedopendata.defs#ref]
+  # Application-level container, outside ATProto (Q8).
+  has_container: {name: container, range: uri}

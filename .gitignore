@@ -1,2 +1,5 @@
 __pycache__
 .direnv
+atproto/context.jsonld
+atproto/lexicons
+atproto/pinning.shacl.ttl
