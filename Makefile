@@ -9,6 +9,9 @@ svgfiles = discoursegraphs.svg mira.svg
 linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
 generated_typescript = packages/mira-ts/src/index.ts
 generated_python = src/mira/_generated.py
+# ATProto binding (proof of concept); generator lives in linkedopendata-at
+LOD_AT_GEN ?= ../mira-repos/linkedopendata-at/generator
+atproto_context = atproto/context.jsonld
 
 all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
@@ -22,6 +25,11 @@ $(generated_python): $(mira_yaml) $(yaml_deps)
 
 $(generated_typescript): $(mira_yaml) $(yaml_deps)
 	uv run gen-typescript --output $@ $(mira_yaml)
+
+atproto: $(atproto_context)
+
+$(atproto_context): atproto/binding.yaml $(mira_yaml) $(yaml_deps)
+	uv run --project $(LOD_AT_GEN) lod-at-gen atproto/binding.yaml atproto
 
 validate:
 	uv run linkml validate $(mira_yaml)

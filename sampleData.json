@@ -1,5 +1,5 @@
 {
-  "@context": ["https://purl.org/mira-science/mira.jsonld"],
+  "@context": ["https://purl.org/mira-science/mira.jsonld", {"sdata": "https://example.com/api/data/1/"}],
   "@graph": [
     {
       "@id": "some:account",
@@ -84,6 +84,36 @@
       "source": "sdata:261134",
       "destination": "sdata:254918",
       "title": "[[CLM - Some supporting claim]] -supports-> [[CLM - Some base claim]]",
+      "creator": "some:account"
+    },
+    {
+      "@id": "sdata:270001",
+      "@type": "Study",
+      "modified": "2026-06-10T09:00:00.000Z",
+      "created": "2026-06-10T09:00:00.000Z",
+      "title": "STU - Binding assay",
+      "creator": "some:account"
+    },
+    {
+      "@id": "https://example.com/papers/binding-assay",
+      "@type": "SourceDocument",
+      "title": "A binding assay",
+      "describesActivity": "sdata:270001"
+    },
+    {
+      "@id": "https://example.com/data/binding-assay/figure2.csv",
+      "@type": "prov:Entity"
+    },
+    {
+      "@id": "sdata:270010",
+      "@type": "Evidence",
+      "modified": "2026-06-10T09:30:00.000Z",
+      "created": "2026-06-10T09:30:00.000Z",
+      "title": "EVD - Binding assay, figure 2",
+      "observationStatement": "sdata:261134",
+      "observationOriginActivity": "sdata:270001",
+      "observationBase": "https://example.com/data/binding-assay/figure2.csv",
+      "sourceDocument": "https://example.com/papers/binding-assay",
       "creator": "some:account"
     }
   ]
