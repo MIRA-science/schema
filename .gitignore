@@ -3,3 +3,4 @@ __pycache__
 atproto/context.jsonld
 atproto/lexicons
 atproto/pinning.shacl.ttl
+atproto/binding.shacl.ttl

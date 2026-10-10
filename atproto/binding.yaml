@@ -12,6 +12,9 @@ records: [Question, Claim, Evidence, Study, Request, Protocol, SourceDocument]
 record_key: tid
 # Adds previousVersionCid to every record (proposal §3 rule 9).
 track_versions: true
+# Adds sameAs to every record: the IRIs of the same node elsewhere, e.g. the Discourse
+# Graphs node a record was converted from.
+same_as: true
 
 # Slots left out of the lexicon.
 omit:
