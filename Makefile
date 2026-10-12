@@ -10,7 +10,7 @@ linkml_ttl_files = linkml_mira.ttl linkml_discoursegraphs.ttl
 generated_typescript = packages/mira-ts/src/index.ts
 generated_python = src/mira/_generated.py
 # ATProto binding (proof of concept); generator lives in linkedopendata-at
-LOD_AT_GEN ?= ../mira-repos/linkedopendata-at/generator
+LOD_AT_GEN ?= ../linkedopendata-at/generator
 atproto_context = atproto/context.jsonld
 
 all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
