@@ -79,7 +79,11 @@ linkml_meta = LinkMLMeta({'default_prefix': 'mira',
                           'prefix_reference': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'},
                   'rdfs': {'prefix_prefix': 'rdfs',
                            'prefix_reference': 'http://www.w3.org/2000/01/rdf-schema#'}},
-     'source_file': 'mira.yaml'} )
+     'source_file': 'mira.yaml',
+     'types': {'float': {'base': 'float',
+                         'from_schema': 'http://purl.org/mira-science/mira#',
+                         'name': 'float',
+                         'uri': 'xsd:float'}}} )
 
 
 class Activity(ConfiguredBaseModel):
@@ -129,10 +133,10 @@ class Item(ConfiguredBaseModel):
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
     content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
 
 
 class FoafAgent(ConfiguredBaseModel):
@@ -186,15 +190,15 @@ class NodeSchema(Item):
          'from_schema': 'https://discoursegraphs.com/schema/dg_base',
          'mixin': True})
 
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -210,15 +214,15 @@ class AbstractRelationDef(NodeSchema):
          'from_schema': 'https://discoursegraphs.com/schema/dg_base',
          'mixin': True})
 
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -241,15 +245,15 @@ class RelationDef(AbstractRelationDef):
     range: Optional[str] = Field(default=None, description="""A range of the subject property.""", json_schema_extra = { "linkml_meta": {'domain': 'RelationDef',
          'domain_of': ['RelationDef'],
          'slot_uri': 'rdfs:range'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -271,21 +275,21 @@ class RelationInstance(NodeSchema, Statement):
          'is_a': 'rdf_subject',
          'slot_uri': 'dgb:source'} })
     destination: Optional[str] = Field(default=None, description="""The destination of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
-         'domain_of': ['RelationInstance'],
+         'domain_of': ['RelationInstance', 'Evaluation'],
          'is_a': 'rdf_object',
          'slot_uri': 'dgb:destination'} })
     rdf_subject: Optional[Resource] = Field(default=None, description="""The subject of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:subject'} })
     rdf_predicate: Optional[Resource] = Field(default=None, description="""The predicate of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:predicate'} })
     rdf_object: Optional[Resource] = Field(default=None, description="""The object of the subject RDF statement.""", json_schema_extra = { "linkml_meta": {'domain': 'Statement', 'domain_of': ['Statement'], 'slot_uri': 'rdf:object'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -329,15 +333,15 @@ class Question(NodeSchema):
          'from_schema': 'http://purl.org/mira-science/mira#',
          'mixins': ['NodeSchema']})
 
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -356,15 +360,15 @@ class Claim(Argument, NodeSchema):
          'domain_of': ['Claim'],
          'instantiates': ['dgb:RelationDef'],
          'slot_uri': 'mira:addresses'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     supports: Optional[list[Claim]] = Field(default=None, title="Supports", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
@@ -407,15 +411,15 @@ class Evidence(Argument, NodeSchema):
          'domain_of': ['Evidence'],
          'instantiates': ['dgb:RelationDef'],
          'slot_uri': 'mira:sourceDocument'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     supports: Optional[list[Claim]] = Field(default=None, title="Supports", json_schema_extra = { "linkml_meta": {'domain': 'Argument',
@@ -446,15 +450,15 @@ class Study(NodeSchema, Activity):
          'domain_of': ['Evidence', 'Study'],
          'instantiates': ['dgb:RelationDef'],
          'inverse': 'is_grounded_in'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -475,15 +479,15 @@ class Request(NodeSchema):
     request_target: Optional[list[Claim]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Request',
          'domain_of': ['Request'],
          'instantiates': ['dgb:RelationDef']} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -498,15 +502,15 @@ class Protocol(NodeSchema, Activity):
          'from_schema': 'http://purl.org/mira-science/mira#',
          'mixins': ['NodeSchema', 'Activity']})
 
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
@@ -526,19 +530,99 @@ class SourceDocument(NodeSchema, CreativeWork):
          'domain_of': ['SourceDocument'],
          'is_a': 'subject',
          'slot_uri': 'mira:describesActivity'} })
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
     title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
     description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
          'domain_of': ['NodeSchema'],
          'slot_uri': 'dct:description'} })
     has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
-         'domain_of': ['Item', 'NodeSchema'],
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
          'inverse': 'container_of',
          'slot_uri': 'sioc:has_container'} })
     format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
     content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
+
+
+class Criterion(NodeSchema):
+    """
+    A criterion by which a node (proposal, claim or activity) is evaluated, such as plausibility (Claims) or desirability (Request, Study)
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:Criterion',
+         'from_schema': 'http://purl.org/mira-science/mira#',
+         'mixins': ['NodeSchema'],
+         'title': 'Criterion'})
+
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
+    description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
+         'domain_of': ['NodeSchema'],
+         'slot_uri': 'dct:description'} })
+    has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
+         'inverse': 'container_of',
+         'slot_uri': 'sioc:has_container'} })
+    format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
+    content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
+
+
+class EvaluationScale(NodeSchema):
+    """
+    The scale against which a specific evaluation is measured
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:EvaluationScale',
+         'from_schema': 'http://purl.org/mira-science/mira#',
+         'mixins': ['NodeSchema']})
+
+    minimum: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'EvaluationScale',
+         'domain_of': ['EvaluationScale'],
+         'slot_uri': 'mira:magnitude'} })
+    maximum: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'EvaluationScale',
+         'domain_of': ['EvaluationScale'],
+         'slot_uri': 'mira:magnitude'} })
+    criterion: Optional[Criterion] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'EvaluationScale',
+         'domain_of': ['EvaluationScale'],
+         'slot_uri': 'mira:criterion'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
+    title: Optional[str] = Field(default=None, description="""A name given to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema'], 'slot_uri': 'dct:title'} })
+    description: Optional[Item] = Field(default=None, description="""Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource.""", json_schema_extra = { "linkml_meta": {'domain': 'NodeSchema',
+         'domain_of': ['NodeSchema'],
+         'slot_uri': 'dct:description'} })
+    has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
+         'inverse': 'container_of',
+         'slot_uri': 'sioc:has_container'} })
+    format: Optional[str] = Field(default=None, description="""Examples of dimensions include size and duration. Recommended best practice is to use a controlled vocabulary such as the list of Internet Media Types [MIME].""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'dct:format'} })
+    content: Optional[str] = Field(default=None, description="""The content of the Item in plain text format.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item'], 'slot_uri': 'sioc:content'} })
+
+
+class Evaluation(ConfiguredBaseModel):
+    """
+    An evaluation by an agent that a node (proposal, claim or activity) falls somewhere on a scale.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'mira:Evaluation',
+         'from_schema': 'http://purl.org/mira-science/mira#'})
+
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'NodeSchema', 'Evaluation'], 'slot_uri': 'dct:creator'} })
+    scale: Optional[EvaluationScale] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Evaluation', 'domain_of': ['Evaluation'], 'slot_uri': 'mira:scale'} })
+    magnitude: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain': 'Evaluation',
+         'domain_of': ['Evaluation'],
+         'slot_uri': 'mira:magnitude'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NodeSchema', 'Evaluation'], 'slot_uri': 'dct:modified'} })
+    destination: Optional[str] = Field(default=None, description="""The destination of a binary relation""", json_schema_extra = { "linkml_meta": {'domain': 'RelationInstance',
+         'domain_of': ['RelationInstance', 'Evaluation'],
+         'is_a': 'rdf_object',
+         'slot_uri': 'dgb:destination'} })
+    has_container: Optional[Container] = Field(default=None, description="""The Container to which this Item belongs.""", json_schema_extra = { "linkml_meta": {'domain': 'Item',
+         'domain_of': ['Item', 'NodeSchema', 'Evaluation'],
+         'inverse': 'container_of',
+         'slot_uri': 'sioc:has_container'} })
 
 
 # Model rebuild
@@ -565,3 +649,6 @@ Study.model_rebuild()
 Request.model_rebuild()
 Protocol.model_rebuild()
 SourceDocument.model_rebuild()
+Criterion.model_rebuild()
+EvaluationScale.model_rebuild()
+Evaluation.model_rebuild()
