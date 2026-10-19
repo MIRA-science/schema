@@ -14,3 +14,28 @@ classes:
   Entity:
     class_uri: prov:Entity
     description: "An entity is a physical, digital, conceptual, or other kind of thing with some fixed aspects; entities may be real or imaginary."
+slots:
+  generated:
+    slot_uri: prov:generated
+    domain: Activity
+    range: Entity
+    inlined: false
+    inverse: wasGeneratedBy
+  wasGeneratedBy:
+    slot_uri: prov:wasGeneratedBy
+    domain: Entity
+    range: Activity
+    inlined: false
+  used:
+    slot_uri: prov:used
+    description: "A prov:Entity that was used by this prov:Activity. For example, :baking prov:used :spoon, :egg, :oven ."
+    domain: Activity
+    range: Entity
+    inlined: false
+    inverse: wasUsedBy
+  wasUsedBy:
+    slot_uri: prov:wasUsedBy
+    domain: Entity
+    range: Activity
+    inlined: false
+    inverse: used
