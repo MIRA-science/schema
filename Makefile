@@ -14,8 +14,9 @@ all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
 generate: $(generated_python) $(generated_typescript)
 
-validate_data: validate sampleData.json $(mira_shacl)
+validate_data: validate sampleData.json sampleData_implicitrange.json $(mira_shacl) mira_implicit.shacl implicit_range_rule.ttl
 	uv run pyshacl -s mira.shacl -sf turtle -e mira.ttl sampleData.json
+	uv run pyshacl -s mira_implicit.shacl -sf turtle --imports -a -i none -e mira.ttl sampleData_implicitrange.json
 
 $(generated_python): $(mira_yaml) $(yaml_deps)
 	uv run gen-pydantic $(mira_yaml) > $@

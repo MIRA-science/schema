@@ -1,0 +1,5 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# MIRA shapes, with untyped values assumed to be of their property's range.
+# Validate with: pyshacl -s mira_implicit.shacl --imports -a -e mira.ttl <data>
+<> owl:imports <mira.shacl>, <implicit_range_rule.ttl> .

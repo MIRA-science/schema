@@ -1,0 +1,29 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Open-world typing: a value with no rdf:type is assumed to be
+# an instance of its property's rdfs:range.
+# Vocabulary-neutral: import it from a schema-specific shapes file,
+# and pass the ontology declaring the ranges to the validator as
+# part of the data graph (e.g. pyshacl -a -e <ontology>).
+<#ImplicitRangeRule> a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT DISTINCT ?this WHERE {
+        ?this ?p ?o .
+        ?p <http://www.w3.org/2000/01/rdf-schema#range> [] .
+      }
+    """ ;
+  ] ;
+  sh:rule [
+    a sh:SPARQLRule ;
+    sh:construct """
+      CONSTRUCT { ?o a ?range }
+      WHERE {
+        $this ?p ?o .
+        ?p <http://www.w3.org/2000/01/rdf-schema#range> ?range .
+        FILTER (!isLiteral(?o))
+        FILTER NOT EXISTS { ?o a ?anyType }
+      }
+    """ ;
+  ] .
