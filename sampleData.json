@@ -77,6 +77,16 @@
       "creator": "some:account"
     },
     {
+      "@id": "sdata:261148",
+      "@type": ["Evidence"],
+      "modified": "2026-06-03T10:13:09.101Z",
+      "created": "2026-06-03T10:13:09.101Z",
+      "title": "[[EVD - The image shows some evidence]]",
+      "sourceDocument": {"@id":"http://example.com/a_document", "@type":"SourceDocument"},
+      "observationBase": { "@id": "http://example.com/a_document/image1.png" , "@type":"Entity"},
+      "creator": "some:account"
+    },
+    {
       "@id": "sdata:261147",
       "@type": ["sdata:131164", "supports"],
       "modified": "2026-06-03T10:13:09.101Z",
