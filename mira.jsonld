@@ -41,6 +41,14 @@
     "content": "sioc:content",
     "container_of": { "@type": "@id", "@id": "sioc:container_of" },
     "has_container": { "@id": "sioc:has_container", "@type": "@id" },
+
+    "Entity": "prov:Entity",
+    "Activity": "prov:Activity",
+    "wasGeneratedBy": "prov:wasGeneratedBy",
+    "generated": "prov:generated",
+    "used": "prov:used",
+    "wasUsedBy": "prov:wasUsedBy",
+
     "RelationDef": "dgb:RelationDef",
     "Agent": "dgb:Agent",
     "AbstractRelationDef": "dgb:AbstractRelationDef",
