@@ -111,20 +111,20 @@ export interface NodeSchema {
 
 
 /**
- * Abstract meta-class for relation definitions
- */
-export interface AbstractRelationDef extends NodeSchema {
-}
-
-
-/**
  * Abstract class for relation definitions
  */
-export interface RelationDef extends AbstractRelationDef {
+export interface RelationDef extends NodeSchema {
     /** A domain of the subject property. */
     domain?: NodeSchema,
     /** A range of the subject property. */
     range?: NodeSchema,
+}
+
+
+/**
+ * Deprecated alias of RelationDef
+ */
+export interface AbstractRelationDef extends RelationDef {
 }
 
 

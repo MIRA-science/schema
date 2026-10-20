@@ -39,28 +39,38 @@ classes:
       - modified
       - creator
 
-  AbstractRelationDef:
-    # X a AbstractRelationDef iff X rdfs:subClassOf RelationInstance (see dg_base.ttl);
-    # relation definitions are punned: properties and classes of relation instances.
-    description: Abstract meta-class for relation definitions
-    is_a: NodeSchema
-    class_uri: dgb:AbstractRelationDef
-    abstract: true
-    mixin: true
-
   RelationDef:
+    # X a RelationDef iff X rdfs:subClassOf RelationInstance (see dg_base.ttl);
+    # relation definitions are punned: properties and classes of relation instances.
+    # A relation family is a RelationDef without domain/range; signed variants are
+    # rdfs:subPropertyOf (and rdfs:subClassOf) the family.
     description: Abstract class for relation definitions
+    is_a: NodeSchema
     class_uri: dgb:RelationDef
     abstract: true
     mixin: true
     slots:
       - domain
       - range
+
+  AbstractRelationDef:
+    # Kept so that existing data typed AbstractRelationDef still validates;
+    # equivalent to RelationDef in dg_base.ttl.
+    description: Deprecated alias of RelationDef
+    deprecated: Use RelationDef
+    deprecated_element_has_exact_replacement: RelationDef
+    class_uri: dgb:AbstractRelationDef
+    abstract: true
+    mixin: true
     mixins:
-      - AbstractRelationDef
+      - RelationDef
 
   RelationInstance:
+    # Relationship is the preferred future name; equivalent to RelationInstance in dg_base.ttl.
+    # RelationInstance stays primary until tools emit Relationship.
     description: Abstract class for relation instances
+    aliases:
+      - Relationship
     class_uri: dgb:RelationInstance
     abstract: true
     mixin: true
