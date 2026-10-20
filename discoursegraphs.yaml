@@ -34,7 +34,7 @@ classes:
   Question:
     class_uri: dg:Question
     mixins:
-      - NodeSchema
+      - Node
     description: Scientific unknowns that we want to make known, and are addressable by the systematic application of research methods
 
   Claim:
@@ -43,7 +43,7 @@ classes:
     mixins:
       - Argument
       # - Arguable
-      - NodeSchema
+      - Node
     slots:
       - addresses
 
@@ -54,7 +54,7 @@ classes:
     mixins:
       - Argument
       # - Arguable
-      - NodeSchema
+      - Node
     # owl:subClassOf [rdf:type owl:Restriction ; owl:onProperty observationStatement ; owl:cardinality 1],
     #   [rdf:type owl:Restriction ; owl:onProperty observationBase ; owl:cardinality 1].
     # # Ideally also observationOriginActivity, but maybe not a hard constraint.
@@ -68,7 +68,7 @@ classes:
     class_uri: dg:SourceDocument
     is_a: CreativeWork
     mixins:
-      - NodeSchema
+      - Node
       # [rdf:type owl:Restriction ; owl:onProperty describesActivity ; owl:minCardinality 1].
     title: Source document
     description: Some research source document that reports/generates evidence, like a book, conference paper, or journal article
