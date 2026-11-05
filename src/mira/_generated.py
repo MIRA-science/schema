@@ -212,29 +212,37 @@ class NodeSchema(ConfiguredBaseModel):
     creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'Node', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
 
 
-class AbstractRelationDef(NodeSchema):
-    """
-    Abstract meta-class for relation definitions
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
-         'class_uri': 'dgb:AbstractRelationDef',
-         'from_schema': 'https://discoursegraphs.com/schema/dg_base',
-         'mixin': True})
-
-    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Node', 'NodeSchema'], 'slot_uri': 'dct:created'} })
-    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Node', 'NodeSchema'], 'slot_uri': 'dct:modified'} })
-    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'Node', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
-
-
-class RelationDef(AbstractRelationDef):
+class RelationDef(NodeSchema):
     """
     Abstract class for relation definitions
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
          'class_uri': 'dgb:RelationDef',
          'from_schema': 'https://discoursegraphs.com/schema/dg_base',
+         'mixin': True})
+
+    domain: Optional[NodeSchema] = Field(default=None, description="""A domain of the subject property.""", json_schema_extra = { "linkml_meta": {'domain': 'RelationDef',
+         'domain_of': ['RelationDef'],
+         'slot_uri': 'rdfs:domain'} })
+    range: Optional[NodeSchema] = Field(default=None, description="""A range of the subject property.""", json_schema_extra = { "linkml_meta": {'domain': 'RelationDef',
+         'domain_of': ['RelationDef'],
+         'slot_uri': 'rdfs:range'} })
+    created: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Node', 'NodeSchema'], 'slot_uri': 'dct:created'} })
+    modified: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Node', 'NodeSchema'], 'slot_uri': 'dct:modified'} })
+    creator: Optional[list[UserAccount]] = Field(default=None, description="""Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Item', 'Node', 'NodeSchema'], 'slot_uri': 'dct:creator'} })
+
+
+class AbstractRelationDef(RelationDef):
+    """
+    Deprecated alias of RelationDef
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'class_uri': 'dgb:AbstractRelationDef',
+         'deprecated': 'Use RelationDef',
+         'deprecated_element_has_exact_replacement': 'RelationDef',
+         'from_schema': 'https://discoursegraphs.com/schema/dg_base',
          'mixin': True,
-         'mixins': ['AbstractRelationDef']})
+         'mixins': ['RelationDef']})
 
     domain: Optional[NodeSchema] = Field(default=None, description="""A domain of the subject property.""", json_schema_extra = { "linkml_meta": {'domain': 'RelationDef',
          'domain_of': ['RelationDef'],
@@ -252,6 +260,7 @@ class RelationInstance(Node, Statement):
     Abstract class for relation instances
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'aliases': ['Relationship'],
          'class_uri': 'dgb:RelationInstance',
          'from_schema': 'https://discoursegraphs.com/schema/dg_base',
          'mixin': True,
@@ -529,8 +538,8 @@ Resource.model_rebuild()
 Statement.model_rebuild()
 Node.model_rebuild()
 NodeSchema.model_rebuild()
-AbstractRelationDef.model_rebuild()
 RelationDef.model_rebuild()
+AbstractRelationDef.model_rebuild()
 RelationInstance.model_rebuild()
 Agent.model_rebuild()
 Argument.model_rebuild()
