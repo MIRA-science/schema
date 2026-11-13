@@ -1,0 +1,435 @@
+{
+ "@context": [
+  "../mira.jsonld",
+  {
+   "ex": "urn:x-research-os:"
+  }
+ ],
+ "@graph": [
+  {
+   "@id": "ex:acct-human-lead",
+   "@type": "UserAccount",
+   "accountName": "human:lead"
+  },
+  {
+   "@id": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "@type": "UserAccount",
+   "accountName": "agent:codex-cli/gpt-6-luna"
+  },
+  {
+   "@id": "ex:acct-agent-claude-opus-5-5",
+   "@type": "UserAccount",
+   "accountName": "agent:claude-opus-5-5"
+  },
+  {
+   "@id": "ex:q-primary-interface",
+   "@type": "Question",
+   "title": "Which web interface should humans use as their primary place to steer and review research_os work?"
+  },
+  {
+   "@id": "ex:q-state-of-field",
+   "@type": "Question",
+   "title": "How do existing AI-for-science systems store research state, provenance and decisions?"
+  },
+  {
+   "@id": "ex:q-temporal-queries",
+   "@type": "Question",
+   "title": "How do we answer \"what did we believe on date X, and why did that change\"?"
+  },
+  {
+   "@id": "ex:r-factcheck",
+   "@type": "Study",
+   "title": "Fact-check of 14 doubtful scan claims against primary sources",
+   "created": "2026-11-13T00:00:00Z",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "grounds": [
+    "ex:c-typst-latest-ev1"
+   ]
+  },
+  {
+   "@id": "ex:r-gap-fill",
+   "@type": "Study",
+   "title": "Gap-fill scan (LLM gateways, durable engines, agent boards)",
+   "created": "2026-11-13T00:00:00Z",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "grounds": [
+    "ex:c-litellm-mit-ev0"
+   ]
+  },
+  {
+   "@id": "ex:r-info-scan",
+   "@type": "Study",
+   "title": "Scan against the ideal information model (six jobs)",
+   "created": "2026-11-13T00:00:00Z",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "grounds": [
+    "ex:c-no-ai-science-storage-ev0",
+    "ex:c-xtdb-bitemporal-ev0"
+   ]
+  },
+  {
+   "@id": "ex:r-publishing-scan",
+   "@type": "Study",
+   "title": "Landscape scan of publishing formats (web search, one job)",
+   "created": "2026-11-13T00:00:00Z",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "grounds": [
+    "ex:c-typst-latest-ev0"
+   ]
+  },
+  {
+   "@id": "ex:r-ui-scan",
+   "@type": "Study",
+   "title": "Scan of primary web interfaces (four parallel jobs, scored on nine criteria)",
+   "created": "2026-11-13T00:00:00Z",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna",
+   "grounds": [
+    "ex:c-no-single-interface-ev0",
+    "ex:c-no-single-interface-ev1"
+   ]
+  },
+  {
+   "@id": "https://github.com/typst/typst/releases",
+   "@type": "SourceDocument",
+   "title": "Releases · typst/typst"
+  },
+  {
+   "@id": "https://arxiv.org/abs/2407.20666",
+   "@type": "SourceDocument",
+   "title": "Steps Towards an Infrastructure for Scholarly Synthesis"
+  },
+  {
+   "@id": "ex:c-forge-gates-enough",
+   "@type": "Claim",
+   "title": "Forge pull requests and labelled issues are sufficient as human-in-the-loop gates for research stages.",
+   "addresses": "ex:q-primary-interface",
+   "description": {
+    "@id": "ex:c-forge-gates-enough-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: research_os prototype P1, one team, a toy project."
+   }
+  },
+  {
+   "@id": "ex:c-litellm-mit",
+   "@type": "Claim",
+   "title": "The core of LiteLLM Proxy is MIT-licensed, so it can be the model gateway without licence restrictions.",
+   "description": {
+    "@id": "ex:c-litellm-mit-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: LiteLLM v1.106.x, open-source core only (enterprise features excluded)."
+   }
+  },
+  {
+   "@id": "ex:c-litellm-mit-ev0",
+   "@type": "Evidence",
+   "title": "MIT core; enterprise features vary",
+   "description": {
+    "@id": "ex:c-litellm-mit-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "MIT core; enterprise features vary"
+   },
+   "observationOriginActivity": "ex:r-gap-fill",
+   "observationBase": {
+    "@id": "ex:r-gap-fill/scan/08-gap-fill.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-litellm-mit-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-litellm-mit-ev0",
+   "destination": "ex:c-litellm-mit",
+   "title": "evidence 0 -supports-> c-litellm-mit",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-ai-science-storage",
+   "@type": "Claim",
+   "title": "None of the surveyed AI-for-science systems stores its research state as a portable graph of claims, evidence, decisions and events.",
+   "addresses": "ex:q-state-of-field",
+   "description": {
+    "@id": "ex:c-no-ai-science-storage-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Kosmos, AI co-scientist, AI Scientist v2 and Agent Laboratory, judged from public papers and repositories as of 2026-11."
+   }
+  },
+  {
+   "@id": "ex:c-no-ai-science-storage-ev0",
+   "@type": "Evidence",
+   "title": "Their state is still mostly workflow-specific files, reports, prompts and platform records, rather than a portable, immutable graph of typed claims, evidence, decisions and signed events.",
+   "description": {
+    "@id": "ex:c-no-ai-science-storage-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Their state is still mostly workflow-specific files, reports, prompts and platform records, rather than a portable, immutable graph of typed claims, evidence, decisions and signed events."
+   },
+   "observationOriginActivity": "ex:r-info-scan",
+   "observationBase": {
+    "@id": "ex:r-info-scan/scan/info/07-ai-science-practices.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-ai-science-storage-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-no-ai-science-storage-ev0",
+   "destination": "ex:c-no-ai-science-storage",
+   "title": "evidence 0 -supports-> c-no-ai-science-storage",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-single-interface",
+   "@type": "Claim",
+   "title": "No existing open product can serve as the single primary web interface for agent-driven research with human gates.",
+   "addresses": "ex:q-primary-interface",
+   "description": {
+    "@id": "ex:c-no-single-interface-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Forges, editors, chat UIs, research platforms and browser IDEs available in 2026-11."
+   }
+  },
+  {
+   "@id": "ex:c-no-single-interface-ev0",
+   "@type": "Evidence",
+   "title": "a forge alone is too code-centric for research direction, long-form writing, and asynchronous approvals",
+   "description": {
+    "@id": "ex:c-no-single-interface-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "a forge alone is too code-centric for research direction, long-form writing, and asynchronous approvals"
+   },
+   "observationOriginActivity": "ex:r-ui-scan",
+   "observationBase": {
+    "@id": "ex:r-ui-scan/scan/ui/d-forge-ide-custom.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-single-interface-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-no-single-interface-ev0",
+   "destination": "ex:c-no-single-interface",
+   "title": "evidence 0 -supports-> c-no-single-interface",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-single-interface-ev1",
+   "@type": "Evidence",
+   "title": "none is a complete primary interface for an AI directed, git tracked research lifecycle",
+   "description": {
+    "@id": "ex:c-no-single-interface-ev1-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "none is a complete primary interface for an AI directed, git tracked research lifecycle"
+   },
+   "observationOriginActivity": "ex:r-ui-scan",
+   "observationBase": {
+    "@id": "ex:r-ui-scan/scan/ui/c-research-platforms.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-no-single-interface-ev1-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-no-single-interface-ev1",
+   "destination": "ex:c-no-single-interface",
+   "title": "evidence 1 -supports-> c-no-single-interface",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-typst-active",
+   "@type": "Claim",
+   "title": "Typst has not had a release in over a year, so treat it as a slow-moving PDF target.",
+   "description": {
+    "@id": "ex:c-typst-active-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Assessment for research_os publishing on 2026-11-13."
+   }
+  },
+  {
+   "@id": "ex:c-typst-latest-supports-c-typst-active",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-typst-latest",
+   "destination": "ex:c-typst-active",
+   "title": "c-typst-latest -supports-> c-typst-active",
+   "creator": "ex:acct-human-lead"
+  },
+  {
+   "@id": "ex:c-typst-latest-2",
+   "@type": "Claim",
+   "title": "Typst's latest release is v0.15.1 (17 July 2026).",
+   "description": {
+    "@id": "ex:c-typst-latest-2-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Release status on 2026-11-13."
+   }
+  },
+  {
+   "@id": "ex:c-typst-latest-2-ev0",
+   "@type": "Evidence",
+   "title": "v0.15.1",
+   "description": {
+    "@id": "ex:c-typst-latest-2-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "v0.15.1"
+   },
+   "sourceDocument": "https://github.com/typst/typst/releases",
+   "creator": "ex:acct-human-lead"
+  },
+  {
+   "@id": "ex:c-typst-latest-2-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-typst-latest-2-ev0",
+   "destination": "ex:c-typst-latest-2",
+   "title": "evidence 0 -supports-> c-typst-latest-2",
+   "creator": "ex:acct-human-lead"
+  },
+  {
+   "@id": "ex:c-typst-latest",
+   "@type": "Claim",
+   "title": "Typst's latest release is v0.14 (October 2025).",
+   "description": {
+    "@id": "ex:c-typst-latest-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Release status on 2026-11-13."
+   }
+  },
+  {
+   "@id": "ex:c-typst-latest-ev0",
+   "@type": "Evidence",
+   "title": "v0.14 Oct 2025; ~30k",
+   "description": {
+    "@id": "ex:c-typst-latest-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "v0.14 Oct 2025; ~30k"
+   },
+   "observationOriginActivity": "ex:r-publishing-scan",
+   "observationBase": {
+    "@id": "ex:r-publishing-scan/scan/06-publishing-formats.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-typst-latest-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-typst-latest-ev0",
+   "destination": "ex:c-typst-latest",
+   "title": "evidence 0 -supports-> c-typst-latest",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-typst-latest-ev1",
+   "@type": "Evidence",
+   "title": "Latest is v0.15.1 (17 Jul 2026)",
+   "description": {
+    "@id": "ex:c-typst-latest-ev1-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Latest is v0.15.1 (17 Jul 2026)"
+   },
+   "observationOriginActivity": "ex:r-factcheck",
+   "observationBase": {
+    "@id": "ex:r-factcheck/scan/07-factcheck.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-typst-latest-ev1-rel",
+   "@type": [
+    "RelationInstance",
+    "opposes"
+   ],
+   "source": "ex:c-typst-latest-ev1",
+   "destination": "ex:c-typst-latest",
+   "title": "evidence 1 -opposes-> c-typst-latest",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-xtdb-bitemporal",
+   "@type": "Claim",
+   "title": "A bitemporal database such as XTDB could answer \"what did we believe on date X\" directly.",
+   "addresses": "ex:q-temporal-queries",
+   "description": {
+    "@id": "ex:c-xtdb-bitemporal-desc",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Scope: Query needs of a single research_os project."
+   }
+  },
+  {
+   "@id": "ex:c-xtdb-bitemporal-ev0",
+   "@type": "Evidence",
+   "title": "Bitemporal, immutable data model and SQL queries",
+   "description": {
+    "@id": "ex:c-xtdb-bitemporal-ev0-quote",
+    "@type": "Item",
+    "format": "text/plain",
+    "content": "Bitemporal, immutable data model and SQL queries"
+   },
+   "observationOriginActivity": "ex:r-info-scan",
+   "observationBase": {
+    "@id": "ex:r-info-scan/scan/info/02-versioned-stores.md",
+    "@type": "Entity"
+   },
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:c-xtdb-bitemporal-ev0-rel",
+   "@type": [
+    "RelationInstance",
+    "supports"
+   ],
+   "source": "ex:c-xtdb-bitemporal-ev0",
+   "destination": "ex:c-xtdb-bitemporal",
+   "title": "evidence 0 -supports-> c-xtdb-bitemporal",
+   "creator": "ex:acct-agent-codex-cli-gpt-6-luna"
+  },
+  {
+   "@id": "ex:d-interface-choice",
+   "@type": "Request",
+   "title": "Which primary interface do we prototype first?",
+   "request_target": [
+    "ex:c-no-single-interface",
+    "ex:c-forge-gates-enough"
+   ],
+   "creator": "ex:acct-agent-claude-opus-5-5"
+  }
+ ]
+}

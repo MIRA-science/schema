@@ -20,8 +20,13 @@ all: site/index.html $(svgfiles) $(linkml_ttl_files) $(mira_shacl)
 
 generate: $(generated_python) $(generated_typescript)
 
-validate_data: validate sampleData.json $(mira_shacl) $(ontology_ttl)
+validate_data: validate validate_examples sampleData.json $(mira_shacl) $(ontology_ttl)
 	uv run pyshacl -s mira.shacl -sf turtle -e $(ontology_ttl) sampleData.json
+
+# examples/ use the in-repo context (../mira.jsonld), so context changes are tested too
+# and these checks do not depend on the published context URL being reachable
+validate_examples: $(mira_shacl) $(ontology_ttl)
+	for f in examples/*.jsonld; do uv run pyshacl -s mira.shacl -sf turtle -e $(ontology_ttl) -df json-ld $$f || exit 1; done
 
 $(dg_base_ttl):
 	mkdir -p $(build_dir)
@@ -47,7 +52,7 @@ validate:
 clean:
 	rm -rf $(svgfiles) $(linkml_ttl_files) *.puml *.context.jsonld docs site $(generated_typescript) $(generated_python) $(build_dir)
 
-.PHONY: all generate validate validate_data clean refresh_dg_base
+.PHONY: all generate validate validate_data validate_examples clean refresh_dg_base
 
 docs/index.md: $(mira_yaml) $(dg_yaml) $(yaml_deps) README.md elements.md
 	mkdir -p docs/elements
