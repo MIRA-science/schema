@@ -5,6 +5,6 @@ repos:
         name: Regenerate MIRA types from schema
         language: system
         entry: make validate_data
-        files: ^([^/]+\.yaml|mira\.ttl|sampleData\.json)$
+        files: ^([^/]+\.yaml|mira\.ttl|mira\.jsonld|sampleData\.json|examples/.+\.jsonld)$
         pass_filenames: false
         stages: [pre-commit]
